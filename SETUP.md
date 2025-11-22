@@ -114,4 +114,4 @@ Verify `.env` contains the correct credentials. Restart the dev server after env
 **Project note:** Art Leo is decoupled from Lovable—local setup relies only on Supabase and standard Vite tooling.
 
 
-> Project decoupled from Lovable; no external builder dependencies.
+> Project decoupled from external builders; no proprietary site-builder dependencies.

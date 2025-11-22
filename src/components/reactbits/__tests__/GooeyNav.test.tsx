@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from "vitest";
-import { render } from "@testing-library/react";
+import { render, act, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { GooeyNav } from "../GooeyNav";
@@ -40,12 +40,13 @@ describe("GooeyNav mobile menu", () => {
 
     expect(toggle).toHaveAttribute("aria-expanded", "false");
 
-    await user.click(toggle);
+    await act(async () => {
+      await user.click(toggle);
+    });
 
-    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    await waitFor(() => expect(toggle).toHaveAttribute("aria-expanded", "true"));
 
-    const dialog = await getByRole("dialog", { name: /art leo navigation/i });
-    expect(dialog).toBeInTheDocument();
+    await waitFor(() => expect(getByRole("dialog", { name: /art leo navigation/i })).toBeInTheDocument());
 
     const firstItem = getByRole("menuitem", { name: /home/i });
     expect(firstItem).toHaveFocus();
@@ -63,8 +64,11 @@ describe("GooeyNav mobile menu", () => {
     const user = userEvent.setup();
     const { toggle, getByRole, queryByRole } = setup();
 
-    await user.click(toggle);
+    await act(async () => {
+      await user.click(toggle);
+    });
 
+    await waitFor(() => expect(getByRole("menuitem", { name: /home/i })).toBeInTheDocument());
     const firstItem = getByRole("menuitem", { name: /home/i });
     const secondItem = getByRole("menuitem", { name: /portfolio/i });
 
@@ -76,13 +80,13 @@ describe("GooeyNav mobile menu", () => {
     await user.keyboard("{ArrowUp}");
     expect(firstItem).toHaveFocus();
 
-    await user.keyboard("{Escape}");
+    await act(async () => {
+      await user.keyboard("{Escape}");
+    });
 
-    expect(toggle).toHaveFocus();
-    expect(toggle).toHaveAttribute("aria-expanded", "false");
-    
-    // Use a simple timeout instead of waitFor
-    await new Promise(resolve => setTimeout(resolve, 300));
-    expect(queryByRole("dialog", { name: /art leo navigation/i })).not.toBeInTheDocument();
+    await waitFor(() => expect(toggle).toHaveFocus());
+    await waitFor(() => expect(toggle).toHaveAttribute("aria-expanded", "false"));
+
+    await waitFor(() => expect(queryByRole("dialog", { name: /art leo navigation/i })).not.toBeInTheDocument());
   });
 });

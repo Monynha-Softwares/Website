@@ -101,7 +101,7 @@ const Dashboard = () => {
               Access your backend dashboard for advanced operations, database management, authentication settings, and more.
             </p>
             <p className="text-xs text-muted-foreground/60 mb-4">
-              This will open the Lovable Cloud backend interface where you can manage your database tables, authentication, storage, and edge functions.
+              This will open the backend dashboard where you can manage your database tables, authentication, storage, and edge functions (e.g. Supabase dashboard).
             </p>
           </CardContent>
         </Card>
