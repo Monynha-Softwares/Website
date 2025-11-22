@@ -81,9 +81,10 @@ export const ImageUpload = ({
 
       onUploadComplete(publicUrl);
       toast.success("Image uploaded successfully");
-    } catch (error: any) {
-      console.error("Upload error:", error);
-      toast.error(error.message || "Failed to upload image");
+    } catch (err: unknown) {
+      console.error("Upload error:", err);
+      const message = err instanceof Error ? err.message : String(err);
+      toast.error(message || "Failed to upload image");
       setPreview(currentImage || null);
     } finally {
       setUploading(false);
