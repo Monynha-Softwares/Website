@@ -209,4 +209,4 @@ WHERE user_id = '<user-id>' AND role = 'admin';
 **Project note:** Art Leo is now decoupled from third-party site builders—content changes flow entirely through Supabase tables or future in-house tooling.
 
 
-> Project decoupled from Lovable; no external builder dependencies.
+> Project decoupled from external builders; no proprietary site-builder dependencies.

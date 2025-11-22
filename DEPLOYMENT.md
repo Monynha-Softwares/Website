@@ -100,4 +100,4 @@ Vercel offers frictionless builds for Vite + React projects.
 **Project note:** Art Leo no longer depends on proprietary builder hosting. Deployments mirror standard Vite static site workflows across Vercel, Netlify, and other CDNs.
 
 
-> Project decoupled from Lovable; no external builder dependencies.
+> Project decoupled from external builders; no proprietary site-builder dependencies.

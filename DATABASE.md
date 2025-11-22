@@ -284,4 +284,4 @@ Current indexes:
 - Index on exhibitions.year for timeline sorting
 
 
-> Project decoupled from Lovable; no external builder dependencies.
+> Project decoupled from external builders; no proprietary site-builder dependencies.
