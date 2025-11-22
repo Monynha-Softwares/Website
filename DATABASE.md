@@ -31,11 +31,15 @@ Portfolio pieces displayed in the gallery.
 | updated_at | timestamptz | Yes | now() | Last update timestamp |
 
 **RLS Policies**:
+
 - Public can SELECT where `status = 'published'` OR user is admin
+
 - Only admins can INSERT, UPDATE, DELETE
 
 **Indexes**:
+
 - Primary key on `id`
+
 - Unique on `slug`
 
 ---
@@ -58,7 +62,9 @@ Timeline events for the About page.
 | updated_at | timestamptz | Yes | now() | Last update timestamp |
 
 **RLS Policies**:
+
 - Public can SELECT all
+
 - Only admins can INSERT, UPDATE, DELETE
 
 ---
@@ -81,10 +87,13 @@ CMS pages (home, about, etc.).
 | updated_at | timestamptz | Yes | now() | Last update timestamp |
 
 **RLS Policies**:
+
 - Public can SELECT where `status = 'published'` OR user is admin
+
 - Only admins can INSERT, UPDATE, DELETE
 
 **Indexes**:
+
 - Unique on `slug`
 
 ---
@@ -103,13 +112,17 @@ Global site configuration.
 | updated_at | timestamptz | Yes | now() | Last update timestamp |
 
 **RLS Policies**:
+
 - Public can SELECT where `is_public = true`
+
 - Admins can SELECT all
+
 - Only admins can INSERT, UPDATE, DELETE
 
 **Security Note**: Sensitive settings (API keys, private config) must have `is_public = false`.
 
 **Indexes**:
+
 - Unique on `key`
 
 ---
@@ -128,8 +141,11 @@ Form submissions from the Contact page.
 | created_at | timestamptz | Yes | now() | Submission timestamp |
 
 **RLS Policies**:
+
 - Public can INSERT (anonymous submissions)
+
 - Only admins can SELECT, UPDATE
+
 - No DELETE allowed (preserve records)
 
 **Security**: Email addresses are protected from public view.
@@ -150,9 +166,13 @@ Extended user information.
 | updated_at | timestamptz | Yes | now() | Last update |
 
 **RLS Policies**:
+
 - Users can SELECT own profile
+
 - Admins can SELECT all profiles
+
 - Users can UPDATE own profile
+
 - Users can INSERT own profile (via trigger)
 
 **Trigger**: `handle_new_user()` automatically creates profile when user signs up.
@@ -170,8 +190,11 @@ Role-based access control.
 | role | app_role | No | - | Enum: admin, editor, user |
 
 **RLS Policies**:
+
 - Users can SELECT own role
+
 - Admins can SELECT all roles
+
 - Only admins can INSERT, UPDATE, DELETE
 
 **Security**: Prevents privilege escalation. Roles can only be assigned via admin SQL access.
@@ -255,7 +278,7 @@ To create a new migration:
 
 ## Entity Relationship Diagram
 
-```
+```text
 auth.users (Supabase managed)
     ↓ (1:1)
 profiles (id FK to auth.users)
@@ -274,13 +297,19 @@ contact_messages (standalone)
 ## Indexes & Performance
 
 Current indexes:
+
 - All primary keys (automatic)
+
 - Unique constraints on slugs (artworks, pages)
+
 - Unique on settings.key
 
 **Future optimization opportunities**:
+
 - Full-text search on artworks.description
+
 - GIN index on artworks.tags for array searches
+
 - Index on exhibitions.year for timeline sorting
 
 

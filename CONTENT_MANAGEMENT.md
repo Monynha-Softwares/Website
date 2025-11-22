@@ -47,7 +47,8 @@ A custom admin panel UI is planned for easier content management. Until that shi
 5. Use the URL in the artwork's `cover_url` or `images` array
 
 **Image URL format**:
-```
+
+```text
 https://<project>.supabase.co/storage/v1/object/public/artwork-images/image-name.jpg
 ```
 
@@ -83,7 +84,9 @@ https://<project>.supabase.co/storage/v1/object/public/artwork-images/image-name
 ### Timeline Sorting
 
 Exhibitions are sorted by:
+
 1. `display_order` (ascending)
+
 2. `year` (descending)
 
 To reorder, adjust `display_order` values (0 = default auto-sort by year).
@@ -132,7 +135,9 @@ To reorder, adjust `display_order` values (0 = default auto-sort by year).
 ### SEO Metadata
 
 For each page:
+
 - **meta_title**: Browser tab title (max 60 chars)
+
 - **meta_description**: Search result snippet (max 160 chars)
 
 ---
