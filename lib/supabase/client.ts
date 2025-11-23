@@ -24,7 +24,7 @@
 // install `@supabase/supabase-js` if they plan to use the factory below.
 // import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
-type SupabaseClientPlaceholder = unknown
+type SupabaseClientPlaceholder = unknown;
 
 /**
  * getAdminClient
@@ -41,13 +41,13 @@ type SupabaseClientPlaceholder = unknown
  *   in a secure environment (CI secrets, server env, or local `.env` not
  *   committed to Git).
  * - Install `@supabase/supabase-js` and replace the placeholder implementation
- *   below with `createClient(supabaseUrl, serviceKey, { /* opts */ })`.
+ *   below with `createClient(supabaseUrl, serviceKey, { ...options })`.
  */
 export function getAdminClient(): SupabaseClientPlaceholder {
   // Read env vars but do not use them to make any call here.
-  const serviceKey = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY
-  const databaseUrl = process.env.DATABASE_URL
-  const projectId = process.env.VITE_SUPABASE_PROJECT_ID
+  const serviceKey = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const databaseUrl = process.env.DATABASE_URL;
+  const projectId = process.env.VITE_SUPABASE_PROJECT_ID;
 
   // Basic validation for the next agent's convenience. This does not contact
   // Supabase nor create any client at Agent 2 stage.
@@ -65,7 +65,7 @@ export function getAdminClient(): SupabaseClientPlaceholder {
       hasDatabaseUrl: Boolean(databaseUrl),
       projectId: projectId || null,
     },
-  }
+  };
 }
 
 /**
@@ -77,10 +77,10 @@ export function getConnectionCheckPayload() {
   return {
     requiredEnv: ['DATABASE_URL', 'SUPABASE_SERVICE_KEY', 'VITE_SUPABASE_PROJECT_ID'],
     forbiddenEnv: ['VITE_SUPABASE_PUBLISHABLE_KEY', 'VITE_SUPABASE_URL'],
-  }
+  };
 }
 
 export default {
   getAdminClient,
   getConnectionCheckPayload,
-}
+};
