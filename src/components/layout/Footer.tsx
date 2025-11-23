@@ -15,7 +15,7 @@ interface SiteLinks {
   legal: FooterLink[];
 }
 
-const Footer = () => {
+export const Footer = () => { // Added 'export' here
   const currentYear = new Date().getFullYear();
   const { data: blogPosts } = useBlogPosts();
   const showThoughtsLink = blogPosts && blogPosts.length > 0;
