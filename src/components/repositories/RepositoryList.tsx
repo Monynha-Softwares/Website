@@ -53,40 +53,40 @@ export const RepositoryList = ({ repositories, isLoading, error }: RepositoryLis
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
       {repositories.map((repo, index) => (
         <SectionReveal key={repo.id} delay={index * 0.05}>
-          <PixelCard
-            imageUrl={`https://opengraph.githubassets.com/1/${repo.owner_login}/${repo.name}`} // GitHub OpenGraph image
-            title={repo.name}
-            subtitle={repo.description || "No description provided."}
-            footer={
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  {repo.language && (
+          <Link to={`/repositories/${repo.owner_login}/${repo.name}`} className="block h-full">
+            <PixelCard
+              imageUrl={`https://opengraph.githubassets.com/1/${repo.owner_login}/${repo.name}`} // GitHub OpenGraph image
+              title={repo.name}
+              subtitle={repo.description || "No description provided."}
+              footer={
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    {repo.language && (
+                      <span className="flex items-center gap-1">
+                        <GitFork className="h-4 w-4 text-primary" />
+                        {repo.language}
+                      </span>
+                    )}
                     <span className="flex items-center gap-1">
-                      <GitFork className="h-4 w-4 text-primary" />
-                      {repo.language}
+                      <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                      {repo.stargazers_count}
                     </span>
-                  )}
-                  <span className="flex items-center gap-1">
-                    <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-                    {repo.stargazers_count}
-                  </span>
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Updated {formatDistanceToNow(new Date(repo.updated_at), { addSuffix: true })}
-                </p>
-                <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="mt-2">
-                  <Button variant="outline" size="sm" className="w-full">
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Updated {formatDistanceToNow(new Date(repo.updated_at), { addSuffix: true })}
+                  </p>
+                  <Button variant="outline" size="sm" className="w-full mt-2">
                     <LinkIcon className="h-4 w-4 mr-2" />
-                    View Repo
+                    View Details
                   </Button>
-                </a>
-              </div>
-            }
-            className="h-full flex flex-col"
-            noFocus // Disable PixelCard's internal hover as the whole card is a link
-          >
-            {/* Custom content for PixelCard children if needed, otherwise it will use title/subtitle/footer */}
-          </PixelCard>
+                </div>
+              }
+              className="h-full flex flex-col"
+              noFocus // Disable PixelCard's internal hover as the whole card is a link
+            >
+              {/* Custom content for PixelCard children if needed, otherwise it will use title/subtitle/footer */}
+            </PixelCard>
+          </Link>
         </SectionReveal>
       ))}
     </div>
