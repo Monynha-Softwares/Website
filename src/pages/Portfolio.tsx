@@ -9,6 +9,7 @@ import { RollingGallery } from "@/components/reactbits/RollingGallery";
 import { PixelCard } from "@/components/reactbits/PixelCard";
 import { useArtworks, useArtworkTags } from "@/hooks/useArtworks"; // Import useArtworkTags
 import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
+import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton component
 // Removed useCvData as it's no longer needed for tag generation
 
 const Portfolio = () => {
