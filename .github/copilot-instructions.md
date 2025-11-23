@@ -1,69 +1,81 @@
-# Copilot instructions — Art Leo (Portfolio-Dev)
+# Copilot Instructions — Monynha Softwares Corporate Website
 
-Purpose: give an AI coding agent immediate, actionable context to be productive in this repository.
+Purpose: Provide AI coding agents with immediate, actionable context to be productive in this repository.
 
 Keep the content concise and refer to concrete files/commands.
 
-1) Big picture (what this repo is)
-- Vite + React + TypeScript single-page app (entry: `src/main.tsx`, router in `src/App.tsx`).
-- UI: Tailwind + `shadcn/ui` primitives. Animated primitives live under `src/components/reactbits/` (e.g. `GooeyNav.tsx`, `LiquidEtherBackground.tsx`, `PixelCard.tsx`).
-- Data: Supabase-backed content (migrations in `supabase/migrations/`). Integrations live under `src/integrations/supabase` and hooks in `src/hooks/` (e.g. `useArtworks.tsx`, `useArtwork.tsx`).
+## 1. Big Picture (What This Repo Is)
+- **Architecture**: Vite + React + TypeScript single-page app (entry: `src/main.tsx`, router in `src/App.tsx`).
+- **UI**: Tailwind CSS + `shadcn/ui` primitives. Animated components live under `src/components/reactbits/` (e.g., `GooeyNav.tsx`, `LiquidEtherBackground.tsx`, `PixelCard.tsx`).
+- **Data**: Supabase-backed content (migrations in `supabase/migrations/`). Integrations live under `src/integrations/supabase` and hooks in `src/hooks/` (e.g., `useArtworks.tsx`, `useArtwork.tsx`).
+- **Purpose**: Corporate institutional website showcasing Monynha Softwares' services, values, and contact information.
 
-2) Developer workflows & commands
-- Local dev: `npm install` then `npm run dev` (dev server on `http://localhost:5173`).
-- Build / preview: `npm run build` and `npm run preview`.
-- Lint: `npm run lint` (ESLint configured in repo). Keep TypeScript types tidy.
-- Unit tests: `npm run test` (Vitest). There is a test setup at `vitest.setup.ts` that polyfills `matchMedia` for components.
-- Full test run: `npm run test:run` and E2E: `npm run test:e2e` (Playwright).
-- Database migrations (local dev): use Supabase CLI per `SETUP.md` — e.g. `supabase db reset` to recreate local DB and apply `supabase/migrations/`.
+## 2. Developer Workflows & Commands
+- **Local Development**:
+  ```bash
+  npm install
+  npm run dev
+  ```
+  (Dev server runs at `http://localhost:5173`.)
 
-3) Environment and deployment
-- Required env vars (create `.env` at repo root):
-  - `VITE_SUPABASE_URL`
-  - `VITE_SUPABASE_PUBLISHABLE_KEY`
-  - `VITE_SUPABASE_PROJECT_ID`
-- Storage buckets referenced in docs: `artwork-images`, `general-media` (public read expected for front-end images).
-- Deploy: standard Vite static-hosting workflows (Vercel, Netlify, Cloudflare Pages). See `DEPLOYMENT.md`.
+- **Build/Preview**:
+  ```bash
+  npm run build
+  npm run preview
+  ```
 
-4) Project-specific conventions and patterns
-- React Bits rule: limit heavy animated components to 2–3 per page to preserve performance — documented in `REACTBITS_INTEGRATION.md` and `src/components/reactbits/`.
-- Accessibility: every animated component must check `prefers-reduced-motion` and provide a static fallback (examples in `REACTBITS_INTEGRATION.md`). Use `window.matchMedia` guard; tests rely on the polyfill in `vitest.setup.ts`.
-- Lazy-load heavy components: import backgrounds/3D parts dynamically (e.g. `const Liquid = lazy(() => import('src/components/reactbits/LiquidEtherBackground'))`) and only mount when in viewport.
-- Component placement: keep UI primitives in `src/components/ui/`, animated primitives in `src/components/reactbits/`, and page routes in `src/pages/` (e.g. `Home.tsx`, `Portfolio.tsx`, `About.tsx`, `Contact.tsx`).
-- File naming: React components use PascalCase and Live in `src/components/**`.
+- **Linting**:
+  ```bash
+  npm run lint
+  ```
+  (ESLint configured in repo.)
 
-5) Integration & cross-cutting notes
-- Supabase: data models described in `DATABASE.md` (tables: `artworks`, `exhibitions`, `pages`, `settings`, `contact_messages`, `profiles`, `user_roles`). RLS is enabled — tests and local queries may require admin context when mutating or reading draft content.
-- Images: stored in Supabase Storage. Public URL format: `https://<project>.supabase.co/storage/v1/object/public/<bucket>/<path>` (see `SETUP.md`).
-- 3D / WebGL: `three`, `@react-three/fiber`, and `@react-three/drei` are present; heavy rendering should be isolated behind components in `src/components/reactbits/` or `src/components/Hero3D.tsx` (legacy reference).
+- **Unit Tests**:
+  ```bash
+  npm run test
+  ```
+  (Vitest setup includes `vitest.setup.ts` for polyfills.)
 
-6) Tests & CI hints
-- Unit tests: `vitest` is configured in `package.json`. Use `vitest` or `npm run test` locally.
-- Playwright E2E: see `playwright/` folder (e.g. `mobile-navigation.spec.ts`). Use `npm run test:e2e` to run them.
-- Use the matchMedia polyfill in `vitest.setup.ts` when adding tests that rely on `prefers-reduced-motion`.
+- **E2E Tests**:
+  ```bash
+  npm run test:e2e
+  ```
+  (Playwright tests in `playwright/`.)
 
-7) Where to look for examples (use these files as canonical references)
-- Hero & backgrounds: `src/components/reactbits/LiquidEtherBackground.tsx`, `SilkBackground.tsx`, `LiquidEther.tsx`.
-- Navigation: `src/components/Navigation.tsx` (wraps `src/components/reactbits/GooeyNav.tsx`).
-- Portfolio data flow: `src/hooks/useArtworks.tsx`, `src/pages/Portfolio.tsx`, `src/components/reactbits/PixelCard.tsx`.
-- About / Timeline: `src/components/reactbits/StepperTimeline.tsx` and `src/pages/About.tsx`.
-- Tests: `src/components/__tests__/Navigation.test.tsx` and `src/components/reactbits/__tests__/`.
+- **Database Migrations**:
+  ```bash
+  supabase db reset
+  ```
+  (Recreates local DB and applies migrations from `supabase/migrations/`.)
 
-8) Editing & migrations policy
-- When changing DB schema: add SQL migration into `supabase/migrations/` and update `DATABASE.md` if the shape of public tables changes. Run `supabase db reset` locally to test migrations.
+## 3. Environment and Deployment
+- **Environment Variables** (create `.env` at repo root):
+  ```env
+  VITE_SUPABASE_URL=<your-supabase-url>
+  VITE_SUPABASE_PUBLISHABLE_KEY=<your-anon-key>
+  VITE_SUPABASE_PROJECT_ID=<your-project-id>
+  ```
 
-9) Practical examples for common tasks
-- Add a new animated background component:
-  - Create `src/components/reactbits/MyBackground.tsx` following `LiquidEtherBackground.tsx` conventions.
-  - Add `prefers-reduced-motion` fallback and lazy-load usage in `src/pages/Home.tsx`.
-  - Update `REACTBITS_INTEGRATION.md` with a one-paragraph summary of behaviour and where it's used.
-- Update artwork data flow:
-  - Add migration SQL to `supabase/migrations/`.
-  - Update `src/integrations/supabase` and `src/hooks/useArtworks.tsx`.
-  - Run `supabase db reset` and `npm run dev` to verify.
+- **Storage Buckets**: `artwork-images`, `general-media` (public read expected for front-end images).
 
-10) Questions for the maintainer (when you need clarification)
-- Preferred package manager? (repo contains `bun.lockb` but docs reference `npm`.)
-- CI configuration and branch protection rules (if any) — none found in repo; confirm preferred CI.
+- **Deployment**: Standard Vite static-hosting workflows (e.g., Vercel, Netlify, Cloudflare Pages). See `docs/DEPLOYMENT.md`.
 
-If anything here is missing or unclear, tell me which areas to expand (CI, commit hooks, preferred package manager, internal admin APIs). Ready to update the file or iterate.
+## 4. Project-Specific Conventions and Patterns
+- **React Bits Rule**: Limit heavy animated components to 2–3 per page to preserve performance (see `docs/REACTBITS_INTEGRATION.md`).
+- **Accessibility**: Animated components must check `prefers-reduced-motion` and provide static fallbacks (examples in `docs/REACTBITS_INTEGRATION.md`).
+- **Lazy Loading**: Dynamically import heavy components (e.g., `const Liquid = lazy(() => import('src/components/reactbits/LiquidEtherBackground'))`).
+- **Component Placement**:
+  - UI primitives: `src/components/ui/`
+  - Animated primitives: `src/components/reactbits/`
+  - Page routes: `src/pages/` (e.g., `Home.tsx`, `Portfolio.tsx`, `About.tsx`, `Contact.tsx`).
+- **File Naming**: React components use PascalCase and live in `src/components/**`.
+
+## 5. Integration & Cross-Cutting Notes
+- **Supabase**: Data models described in `docs/DATABASE.md` (tables: `artworks`, `exhibitions`, `pages`, `settings`, `contact_messages`, `profiles`, `user_roles`). RLS is enabled—tests and local queries may require admin context for draft content.
+- **Images**: Stored in Supabase Storage. Public URL format: `https://<project>.supabase.co/storage/v1/object/public/<bucket>/<path>` (see `docs/SETUP.md`).
+- **3D/WebGL**: `three`, `@react-three/fiber`, and `@react-three/drei` are used. Heavy rendering is isolated in `src/components/reactbits/` or `src/components/Hero3D.tsx`.
+
+## 6. Tests & CI Hints
+- Unit tests: `vitest` configured in `package.json`. Use `npm run test` locally.
+- Playwright E2E: See `playwright/` folder (e.g., `mobile-navigation.spec.ts`). Use `npm run test:e2e` to run them.
+- Use the `matchMedia` polyfill in `vitest.setup.ts` for tests relying on `prefers-reduced-motion`.
