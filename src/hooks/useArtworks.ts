@@ -22,8 +22,9 @@ export const useArtworks = (options: UseArtworksOptions = {}) => {
         query = query.eq("featured", true);
       }
 
+      // New filtering logic: filter by tags array
       if (options.category && options.category !== "all") {
-        query = query.eq("category", options.category);
+        query = query.contains("tags", [options.category.toLowerCase()]); // Use .contains for array matching
       }
 
       const { data, error } = await query;

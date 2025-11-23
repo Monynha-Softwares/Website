@@ -69,7 +69,7 @@ const Contact = () => {
               Get in <span className="bg-gradient-primary bg-clip-text text-transparent">Touch</span>
             </h1>
             <p className="mx-auto max-w-2xl text-[clamp(1rem,3.4vw,1.15rem)] text-white/90 leading-relaxed text-balance drop-shadow-[0_10px_24px_rgba(5,6,20,0.55)]">
-              Have a project in mind or need a partner for inclusive software delivery? Our team is ready to help.
+              Monynha Softwares is dedicated to democratizing technology and fostering an inclusive digital culture. Whether you're planning a new platform, seeking product discovery, or want to improve accessibility, our team is ready to help.
             </p>
           </div>
         </SectionReveal>
@@ -87,8 +87,7 @@ const Contact = () => {
                         Let's Connect
                       </h2>
                       <p className="mb-6 text-[clamp(1rem,3.3vw,1.1rem)] text-white/85 leading-relaxed">
-                        Whether you're planning a new platform, seeking product discovery, or want to improve accessibility,
-                        reach out through the form or our direct channels. We respond within one business day.
+                        Reach out through the form or our direct channels. We respond within one business day.
                       </p>
                     </div>
 

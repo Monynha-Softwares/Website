@@ -21,9 +21,14 @@ const links = [
     accent: "linear-gradient(135deg, rgba(14, 165, 233, 0.7), rgba(236, 72, 153, 0.7))",
   },
   {
-    href: "/repositories", // New Repositories Link
+    href: "/repositories",
     label: "Repositories",
-    accent: "linear-gradient(135deg, rgba(251, 191, 36, 0.7), rgba(249, 115, 22, 0.7))", // Orange/Yellow accent
+    accent: "linear-gradient(135deg, rgba(251, 191, 36, 0.7), rgba(249, 115, 22, 0.7))",
+  },
+  {
+    href: "/thoughts", // New Thoughts Link
+    label: "Thoughts",
+    accent: "linear-gradient(135deg, rgba(255, 100, 100, 0.7), rgba(255, 180, 0, 0.7))", // Example accent color
   },
   {
     href: "/about",

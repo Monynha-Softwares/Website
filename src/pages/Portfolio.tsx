@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { SectionReveal } from "@/components/SectionReveal";
@@ -9,13 +9,20 @@ import { RollingGallery } from "@/components/reactbits/RollingGallery";
 import { PixelCard } from "@/components/reactbits/PixelCard";
 import { useArtworks } from "@/hooks/useArtworks";
 import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
-
-const categories = ["all", "motion-design", "3d-art", "interactive", "generative"] as const;
-type CategoryFilter = (typeof categories)[number];
+import { useCvData } from "@/hooks/useCvData"; // Import useCvData
 
 const Portfolio = () => {
-  const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>("all");
+  const { data: cvData } = useCvData(); // Fetch CV data
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Dynamically generate categories based on cvData projects
+  const categories = useMemo(() => {
+    const projectNames = cvData?.projects
+      .filter(project => project.status === "Production" || project.status === "MVP" || project.status === "Development") // Only show active projects
+      .map(project => project.name) || [];
+    return ["all", "art", ...projectNames];
+  }, [cvData]);
 
   const { data: artworks = [], isLoading, error } = useArtworks({
     category: selectedCategory,
@@ -23,6 +30,10 @@ const Portfolio = () => {
   });
 
   const featured = useMemo(() => artworks.slice(0, 4), [artworks]);
+
+  useEffect(() => {
+    document.title = "Portfolio • Monynha Softwares";
+  }, []);
 
   if (error) {
     return (
@@ -45,7 +56,7 @@ const Portfolio = () => {
               <span className="bg-gradient-primary bg-clip-text text-transparent">Portfolio</span>
             </h1>
             <p className="mx-auto max-w-2xl text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed text-balance">
-              A collection of explorations in digital art, motion, and 3D design
+              A collection of explorations in digital art, motion, and software development
             </p>
           </div>
         </SectionReveal>
@@ -56,7 +67,7 @@ const Portfolio = () => {
               items={featured.map((item) => ({
                 id: item.id,
                 title: item.title,
-                subtitle: item.category,
+                subtitle: item.category, // Keep original category for display
                 imageUrl: item.cover_url,
                 href: `/art/${item.slug}`,
                 footer: <span className="text-sm">{item.year}</span>,
@@ -74,7 +85,7 @@ const Portfolio = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Search artworks..."
+                placeholder="Search artworks and projects..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="h-12 rounded-full border-border bg-surface-1 shadow-sm pl-10"
@@ -92,7 +103,7 @@ const Portfolio = () => {
                   onClick={() => setSelectedCategory(category)}
                   className="transition-all motion-reduce:transition-none"
                 >
-                  {category}
+                  {category.replace(/-/g, ' ')} {/* Format category for display */}
                 </Button>
               ))}
             </div>
@@ -134,7 +145,7 @@ const Portfolio = () => {
           <SectionReveal>
             <div className="text-center py-16">
               <p className="text-fluid-lg text-muted-foreground">
-                No artworks found matching your criteria.
+                No artworks or projects found matching your criteria.
               </p>
             </div>
           </SectionReveal>

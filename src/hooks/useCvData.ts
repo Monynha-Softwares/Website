@@ -1,5 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 
+interface Project {
+  slug: string;
+  name: string;
+  summary: string;
+  fullDescription: string;
+  stack: string[];
+  url: string | null;
+  domain: string | null;
+  repoUrl: string | null;
+  thumbnail: string;
+  category: string;
+  status: string;
+  visibility: string;
+  year: number;
+}
+
 interface CvData {
   profile: {
     name: string;
@@ -14,7 +30,9 @@ interface CvData {
     site: string;
     linkedin: string;
     email: string;
+    instagram: string;
   };
+  projects: Project[];
   experience: Array<{
     role: string;
     org: string;
@@ -28,6 +46,37 @@ interface CvData {
     category: string;
     level: string;
   }>;
+  series: Array<{
+    slug: string;
+    title: string;
+    description: string;
+    year: number;
+    works: string[];
+  }>;
+  artworks: Array<{
+    slug: string;
+    title: string;
+    media: string[];
+    year: number;
+    materials: string[];
+    description: string;
+    url3d: string;
+  }>;
+  thoughts: Array<{
+    slug: string;
+    date: string;
+    tags: string[];
+    title: string;
+    excerpt: string;
+    body: string;
+  }>;
+  contact: {
+    email: string;
+    availability: string;
+    note: string;
+    successMessage: string;
+    errorMessage: string;
+  };
 }
 
 export const useCvData = () => {

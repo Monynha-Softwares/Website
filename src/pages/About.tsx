@@ -1,13 +1,14 @@
 import { SectionReveal } from "@/components/SectionReveal";
 import { Button } from "@/components/ui/button";
-import { Instagram, Mail } from "lucide-react";
+import { Instagram, Mail, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { TextType } from "@/components/reactbits/TextType";
 import { StepperTimeline } from "@/components/reactbits/StepperTimeline";
 import { useExhibitions } from "@/hooks/useExhibitions";
 import { TimelineSkeleton } from "@/components/TimelineSkeleton";
-import { useCvData } from "@/hooks/useCvData"; // Import the new hook
-import { Badge } from "@/components/ui/badge"; // Import Badge for skills
+import { useCvData } from "@/hooks/useCvData";
+import { Badge } from "@/components/ui/badge";
+import { PixelCard } from "@/components/reactbits/PixelCard";
 
 const About = () => {
   const { data: exhibitions = [], isLoading: exhibitionsLoading, error: exhibitionsError } = useExhibitions();
@@ -16,18 +17,11 @@ const About = () => {
   const isLoading = exhibitionsLoading || cvLoading;
   const error = exhibitionsError || cvError;
 
-  const timeline = exhibitions.map((exhibition) => ({
-    title: exhibition.title,
-    subtitle: `${exhibition.year} · ${exhibition.location || ""}`,
-    description: exhibition.description || "",
-    indicator: exhibition.year.toString(),
-  }));
-
   const experienceTimeline = cvData?.experience.map((exp) => ({
     title: exp.role,
     subtitle: `${exp.org} · ${exp.location} (${exp.start} - ${exp.end || "Present"})`,
     description: exp.highlights.join(" • "),
-    indicator: exp.start.split('-')[0], // Use start year as indicator
+    indicator: exp.start.split('-')[0],
   })) || [];
 
   if (isLoading) {
@@ -59,10 +53,10 @@ const About = () => {
         <SectionReveal>
           <div className="mb-14 text-center">
             <h1 className="mb-4 text-[clamp(2rem,7vw,3.5rem)] font-bold leading-tight text-balance">
-              About <span className="bg-gradient-primary bg-clip-text text-transparent">Monynha</span>
+              Our <span className="bg-gradient-primary bg-clip-text text-transparent">Story</span>
             </h1>
             <p className="mx-auto max-w-2xl text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed text-balance">
-              We build inclusive, reliable software so every person can access technology with confidence.
+              Monynha Softwares was born from a collective dream: to prove that technology and affection can coexist, that innovation also comes from the margins, and that the web can be a space of welcoming, creation, and resistance.
             </p>
           </div>
         </SectionReveal>
@@ -150,23 +144,60 @@ const About = () => {
           </SectionReveal>
         )}
 
-        {/* Exhibitions Timeline */}
-        <SectionReveal delay={0.5}>
-          <div className="mx-auto max-w-3xl">
-            <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-              Milestones & <span className="bg-gradient-primary bg-clip-text text-transparent">Timeline</span>
-            </h2>
-            {exhibitionsLoading ? (
-              <TimelineSkeleton />
-            ) : exhibitionsError ? (
-              <p className="text-center text-muted-foreground">Error loading exhibitions</p>
-            ) : timeline.length > 0 ? (
-              <StepperTimeline steps={timeline} />
-            ) : (
-              <p className="text-center text-muted-foreground">No exhibitions to display yet.</p>
-            )}
-          </div>
-        </SectionReveal>
+        {/* Company Projects Section */}
+        {cvData?.projects && cvData.projects.length > 0 && (
+          <SectionReveal delay={0.5}>
+            <div className="mx-auto max-w-6xl">
+              <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
+                Our <span className="bg-gradient-primary bg-clip-text text-transparent">Projects</span>
+              </h2>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {cvData.projects.slice(0, 6).map((project, index) => ( // Display up to 6 projects
+                  <SectionReveal key={project.slug} delay={index * 0.05}>
+                    <Link to={project.url || project.repoUrl || "#"} target="_blank" rel="noopener noreferrer" className="block h-full">
+                      <PixelCard
+                        imageUrl={project.thumbnail}
+                        title={project.name}
+                        subtitle={project.summary}
+                        footer={
+                          <div className="flex flex-col gap-2">
+                            <div className="flex flex-wrap gap-2">
+                              {project.stack.map((tech, techIndex) => (
+                                <Badge key={techIndex} variant="secondary" className="text-xs">
+                                  {tech}
+                                </Badge>
+                              ))}
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              {project.status} • {project.year}
+                            </p>
+                            {project.url && (
+                              <Button variant="outline" size="sm" className="w-full mt-2">
+                                View Live <ArrowRight className="h-4 w-4 ml-2" />
+                              </Button>
+                            )}
+                          </div>
+                        }
+                        className="h-full flex flex-col"
+                        noFocus
+                      />
+                    </Link>
+                  </SectionReveal>
+                ))}
+              </div>
+              {cvData.projects.length > 6 && (
+                <div className="mt-12 text-center">
+                  <Link to="/repositories"> {/* Assuming /repositories lists all projects */}
+                    <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                      View All Projects
+                      <ArrowRight className="h-5 w-5 ml-2" />
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </div>
+          </SectionReveal>
+        )}
       </div>
     </div>
   );

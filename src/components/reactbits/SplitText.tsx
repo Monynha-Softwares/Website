@@ -37,20 +37,22 @@ export const SplitText = ({
     <Tag className={cn("flex flex-col", className)}>
       {segments.map((line, lineIndex) => (
         <span key={lineIndex} className="overflow-hidden">
-          {line.split("").map((character, index) => (
-            <motion.span
-              key={`${lineIndex}-${index}-${character}`}
-              initial={{ y: "100%", opacity: 0 }}
-              animate={{ y: "0%", opacity: 1 }}
-              transition={{
-                delay: delay + lineIndex * 0.25 + index * stagger,
-                ease: [0.33, 1, 0.68, 1],
-                duration: 0.6,
-              }}
-              className="inline-block will-change-transform"
-            >
-              {character === " " ? "\u00A0" : character}
-            </motion.span>
+          {line.split(" ").map((word, wordIndex) => ( // Split by words
+            <span key={`${lineIndex}-${wordIndex}-${word}`} className="inline-block overflow-hidden">
+              <motion.span
+                initial={{ y: "100%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                transition={{
+                  delay: delay + lineIndex * 0.25 + wordIndex * stagger, // Adjust delay for words
+                  ease: [0.33, 1, 0.68, 1],
+                  duration: 0.6,
+                }}
+                className="inline-block will-change-transform"
+              >
+                {word}
+              </motion.span>
+              {wordIndex < line.split(" ").length - 1 && "\u00A0"} {/* Add non-breaking space between words */}
+            </span>
           ))}
           {lineIndex < segments.length - 1 && <br />}
         </span>

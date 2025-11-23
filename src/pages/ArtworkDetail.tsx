@@ -5,6 +5,8 @@ import { ArrowLeft, Calendar, Tag, Layers } from "lucide-react";
 import { useArtwork } from "@/hooks/useArtwork";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GlassIcon } from "@/components/reactbits/GlassIcon";
+import { SpotlightCard } from "@/components/reactbits/SpotlightCard"; // Import SpotlightCard
+import { Badge } from "@/components/ui/badge"; // Import Badge component
 
 const ArtworkDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -81,9 +83,13 @@ const ArtworkDetail = () => {
                 <h1 className="mb-4 text-[clamp(1.85rem,6vw,3.25rem)] font-bold leading-tight text-balance">
                   {artwork.title}
                 </h1>
-                <p className="text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed">
-                  {artwork.description}
-                </p>
+                {artwork.description && (
+                  <SpotlightCard className="bg-surface-3/90 p-6 sm:p-8 mt-4">
+                    <p className="text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed">
+                      {artwork.description}
+                    </p>
+                  </SpotlightCard>
+                )}
               </div>
             </SectionReveal>
 
@@ -117,19 +123,18 @@ const ArtworkDetail = () => {
 
             {artwork.tags && artwork.tags.length > 0 && (
               <SectionReveal delay={0.3}>
-                <div>
-                  <h3 className="mb-3 text-[clamp(1.2rem,4vw,1.6rem)] font-bold leading-tight">Tags</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {artwork.tags.map((tag: string) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 text-sm rounded-full bg-muted text-muted-foreground border border-border"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                <SpotlightCard className="bg-surface-3/90 p-6 sm:p-8">
+                  <div>
+                    <h3 className="mb-3 text-[clamp(1.2rem,4vw,1.6rem)] font-bold leading-tight">Tags</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {artwork.tags.map((tag: string) => (
+                        <Badge key={tag} variant="secondary" className="text-sm">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                </SpotlightCard>
               </SectionReveal>
             )}
 
