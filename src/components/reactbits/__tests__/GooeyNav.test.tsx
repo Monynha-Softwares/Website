@@ -46,7 +46,9 @@ describe("GooeyNav mobile menu", () => {
 
     await waitFor(() => expect(toggle).toHaveAttribute("aria-expanded", "true"));
 
-    await waitFor(() => expect(getByRole("dialog", { name: /art leo navigation/i })).toBeInTheDocument());
+    await waitFor(() =>
+      expect(getByRole("dialog", { name: /monynha softwares navigation/i })).toBeInTheDocument(),
+    );
 
     const firstItem = getByRole("menuitem", { name: /home/i });
     expect(firstItem).toHaveFocus();
@@ -87,6 +89,8 @@ describe("GooeyNav mobile menu", () => {
     await waitFor(() => expect(toggle).toHaveFocus());
     await waitFor(() => expect(toggle).toHaveAttribute("aria-expanded", "false"));
 
-    await waitFor(() => expect(queryByRole("dialog", { name: /art leo navigation/i })).not.toBeInTheDocument());
+    await waitFor(() =>
+      expect(queryByRole("dialog", { name: /monynha softwares navigation/i })).not.toBeInTheDocument(),
+    );
   });
 });

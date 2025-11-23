@@ -178,11 +178,11 @@ export const GooeyNav = () => {
             <Link
               to="/"
               className="flex min-w-0 items-center gap-2 py-2"
-              aria-label="Art Leo home"
+              aria-label="Monynha Softwares home"
             >
               <BrandMark className="h-10 w-10 text-foreground md:hidden" />
               <BrandLogo className="hidden h-8 text-foreground md:block" />
-              <span className="sr-only">Art Leo</span>
+              <span className="sr-only">Monynha Softwares</span>
             </Link>
             <div className="ml-auto flex items-center gap-3">
               <div className="hidden items-center gap-3 md:flex">
@@ -264,7 +264,7 @@ export const GooeyNav = () => {
                 aria-labelledby={menuLabelId}
               >
                 <div className="sr-only" id={menuLabelId}>
-                  Art Leo navigation
+                  Monynha Softwares navigation
                 </div>
                 <FlowingMenu
                   items={[

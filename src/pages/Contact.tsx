@@ -69,7 +69,7 @@ const Contact = () => {
               Get in <span className="bg-gradient-primary bg-clip-text text-transparent">Touch</span>
             </h1>
             <p className="mx-auto max-w-2xl text-[clamp(1rem,3.4vw,1.15rem)] text-white/90 leading-relaxed text-balance drop-shadow-[0_10px_24px_rgba(5,6,20,0.55)]">
-              Have a project in mind or just want to say hello? I'd love to hear from you.
+              Have a project in mind or need a partner for inclusive software delivery? Our team is ready to help.
             </p>
           </div>
         </SectionReveal>
@@ -87,9 +87,8 @@ const Contact = () => {
                         Let's Connect
                       </h2>
                       <p className="mb-6 text-[clamp(1rem,3.3vw,1.1rem)] text-white/85 leading-relaxed">
-                        Whether you're interested in collaborating, commissioning work, or just
-                        want to chat about art and technology, feel free to reach out through
-                        the form or my social channels.
+                        Whether you're planning a new platform, seeking product discovery, or want to improve accessibility,
+                        reach out through the form or our direct channels. We respond within one business day.
                       </p>
                     </div>
 
@@ -97,14 +96,14 @@ const Contact = () => {
                       <GlassIcon
                         icon={<Mail className="h-6 w-6" />}
                         title="Email"
-                        description="contact@artleo.com"
-                        href="mailto:contact@artleo.com"
+                        description="hello@monynha.com"
+                        href="mailto:hello@monynha.com"
                       />
                       <GlassIcon
                         icon={<Instagram className="h-6 w-6" />}
                         title="Instagram"
-                        description="@leonardossil"
-                        href="https://www.instagram.com/leonardossil/"
+                        description="@monynhasoftwares"
+                        href="https://www.instagram.com/monynhasoftwares/"
                       />
                     </div>
                   </div>

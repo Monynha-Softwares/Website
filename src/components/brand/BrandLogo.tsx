@@ -7,7 +7,7 @@ interface BrandLogoProps {
   title?: string;
 }
 
-export const BrandLogo = ({ className, title = "Art Leo" }: BrandLogoProps) => {
+export const BrandLogo = ({ className, title = "Monynha Softwares" }: BrandLogoProps) => {
   const gradientId = useId();
   const glowId = useId();
   const accentId = useId();
@@ -49,7 +49,7 @@ export const BrandLogo = ({ className, title = "Art Leo" }: BrandLogoProps) => {
           fontSize="20"
           letterSpacing="0.04em"
         >
-          Art Leo
+          Monynha Softwares
         </text>
         <text
           x="0"
@@ -61,7 +61,7 @@ export const BrandLogo = ({ className, title = "Art Leo" }: BrandLogoProps) => {
           letterSpacing="0.32em"
           textLength="128"
         >
-          CREATIVE SPACES
+          INCLUSIVE SOFTWARE
         </text>
         <rect x="0" y="30" width="120" height="2" rx="1" fill={`url(#${accentId}-underline)`} opacity="0.8" />
       </g>

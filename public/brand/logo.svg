@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48" role="img" aria-labelledby="brand-logo-title">
-  <title id="brand-logo-title">Art Leo logo</title>
+  <title id="brand-logo-title">Monynha Softwares logo</title>
   <defs>
     <linearGradient id="brand-logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="var(--brand-accent, #a855f7)" />
@@ -40,10 +40,10 @@
   </g>
   <g transform="translate(64 8)">
     <text x="0" y="23" fill="currentColor" font-family="var(--brand-font, 'Poppins', 'Inter', 'Segoe UI', sans-serif)" font-size="20" font-weight="600" letter-spacing="0.04em">
-      Art Leo
+      Monynha Softwares
     </text>
     <text x="0" y="40" fill="currentColor" font-family="var(--brand-font-secondary, 'Poppins', 'Inter', 'Segoe UI', sans-serif)" font-size="12" font-weight="400" letter-spacing="0.32em" textLength="128">
-      CREATIVE SPACES
+      INCLUSIVE SOFTWARE
     </text>
     <rect x="0" y="30" width="120" height="2" rx="1" fill="url(#brand-logo-underline)" opacity="0.8" />
   </g>
