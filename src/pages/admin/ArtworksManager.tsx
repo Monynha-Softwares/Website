@@ -17,17 +17,6 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Artwork, ContentStatus } from "@/integrations/supabase/supabase.types"; // Import centralized type
 
-const ARTWORK_CATEGORIES = [
-  "3D Art",
-  "Motion Design",
-  "Interactive",
-  "Digital Art",
-  "Generative",
-  "Illustration",
-  "Photography",
-  "Mixed Media",
-];
-
 const ArtworksManager = () => {
   const { isAdmin, isLoading } = useAuth();
   const queryClient = useQueryClient();
@@ -258,7 +247,7 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
   const [formData, setFormData] = useState({
     title: artwork?.title || "",
     description: artwork?.description || "",
-    category: artwork?.category || ARTWORK_CATEGORIES[0], // Default to first category
+    category: artwork?.category || "painting",
     technique: artwork?.technique || "",
     year: artwork?.year?.toString() || "",
     cover_url: artwork?.cover_url || "",
@@ -345,18 +334,12 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="category">Category</Label>
-          <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select a category" />
-            </SelectTrigger>
-            <SelectContent>
-              {ARTWORK_CATEGORIES.map((category) => (
-                <SelectItem key={category} value={category}>
-                  {category}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Input
+            id="category"
+            value={formData.category}
+            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+            required
+          />
         </div>
 
         <div>
@@ -395,7 +378,7 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
           id="tags"
           value={formData.tags}
           onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-          placeholder="e.g., abstract, generative, digital"
+          placeholder="e.g., digital, abstract, 3d"
         />
       </div>
 
