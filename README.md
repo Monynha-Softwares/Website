@@ -1,5 +1,4 @@
 # Art Leo · Creative Spaces
-
 > **Note:** Project decoupled from external builders; no proprietary site-builder dependencies.
 
 Art Leo is a Vite + React portfolio that pairs cinematic motion design with interactive UI patterns. The project showcases background shaders, animated typography, and Supabase-ready data flows that can be extended to power a full digital art showcase.
