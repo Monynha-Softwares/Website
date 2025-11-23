@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SectionReveal } from "@/components/SectionReveal";
-import { ArrowLeft, Star, GitFork, Bug, CalendarDays, Code, User } from "lucide-react";
+import { ArrowLeft, Star, GitFork, Bug, CalendarDays, Code, User, Globe } from "lucide-react"; // Added Globe icon
 import { useRepository } from "@/hooks/useRepository";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GlassIcon } from "@/components/reactbits/GlassIcon";
@@ -78,13 +78,21 @@ const RepositoryDetail = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="mt-6 text-center">
+              <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
                 <a href={repository.htmlUrl} target="_blank" rel="noopener noreferrer">
                   <Button variant="hero" size="lg" className="w-full sm:w-auto">
                     View on GitHub
                     <ArrowLeft className="w-5 h-5 ml-2 rotate-180" />
                   </Button>
                 </a>
+                {repository.homepageUrl && (
+                  <a href={repository.homepageUrl} target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                      View Live Demo
+                      <Globe className="w-5 h-5 ml-2" />
+                    </Button>
+                  </a>
+                )}
               </div>
             </div>
           </SectionReveal>
