@@ -16,7 +16,6 @@ export type LegalPage = Tables<'legal_pages'>;
 export type Page = Tables<'pages'>;
 export type Profile = Tables<'profiles'>;
 export type Project = Tables<'projects'>;
-export type Series = Tables<'series'>;
 export type Setting = Tables<'settings'>;
 export type Skill = Tables<'skills'>;
 export type UserRole = Tables<'user_roles'>;
