@@ -37,8 +37,10 @@ Vercel offers frictionless builds for Vite + React projects.
    - Install Command: `npm install`
 
 4. **Add environment variables**
+
    Navigate to **Settings → Environment Variables** and add:
-   ```
+
+   ```env
    VITE_SUPABASE_URL=<your-supabase-url>
    VITE_SUPABASE_PUBLISHABLE_KEY=<your-anon-key>
    VITE_SUPABASE_PROJECT_ID=<your-project-id>

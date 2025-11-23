@@ -75,7 +75,7 @@ Linting ensures TypeScript, React, and accessibility conventions stay consistent
 
 ## Project structure
 
-```
+```text
 ├── public/                # Static assets served as-is
 ├── src/
 │   ├── components/
