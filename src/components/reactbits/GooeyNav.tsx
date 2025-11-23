@@ -21,6 +21,11 @@ const links = [
     accent: "linear-gradient(135deg, rgba(14, 165, 233, 0.7), rgba(236, 72, 153, 0.7))",
   },
   {
+    href: "/repositories", // New Repositories Link
+    label: "Repositories",
+    accent: "linear-gradient(135deg, rgba(251, 191, 36, 0.7), rgba(249, 115, 22, 0.7))", // Orange/Yellow accent
+  },
+  {
     href: "/about",
     label: "About",
     accent: "linear-gradient(135deg, rgba(34, 197, 94, 0.7), rgba(147, 51, 234, 0.7))",

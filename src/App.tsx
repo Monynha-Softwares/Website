@@ -12,6 +12,7 @@ import ArtworkDetail from "./pages/ArtworkDetail";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Auth from "./pages/Auth";
+import Repositories from "./pages/Repositories"; // Import the new Repositories page
 import Dashboard from "./pages/admin/Dashboard";
 import ArtworksManager from "./pages/admin/ArtworksManager";
 import ExhibitionsManager from "./pages/admin/ExhibitionsManager";
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/art/:slug" element={<ArtworkDetail />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/repositories" element={<Repositories />} /> {/* New Repositories Route */}
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/artworks" element={<ArtworksManager />} />
