@@ -1,85 +1,89 @@
-# Copilot Instructions — Monynha Softwares Corporate Website
+# Copilot Instructions — Monynha Softwares Website
 
-Purpose: Provide AI coding agents with immediate, actionable context to be productive in this repository.
+Purpose: quick, concrete guidance to get an AI coding agent productive here.
 
-Keep the content concise and refer to concrete files/commands.
+## Big Picture
+- Architecture: Vite + React + TypeScript SPA. Entry: `src/main.tsx`. Routes & pages live in `src/pages/`.
+- UI: Tailwind + `shadcn/ui`. Visual/animated primitives in `src/components/reactbits/` (e.g., `GooeyNav.tsx`, `LiquidEtherBackground.tsx`).
+- Data: Supabase-backed content. Client: `lib/supabase/client.ts` (or `src/integrations/supabase/client.ts`), types in `src/integrations/supabase/supabase.types.ts`, migrations in `supabase/migrations/`.
 
-## 1. Big Picture (What This Repo Is)
-- **Architecture**: Vite + React + TypeScript single-page app (entry: `src/main.tsx`, router in `src/App.tsx`).
-- **UI**: Tailwind CSS + `shadcn/ui` primitives. Animated components live under `src/components/reactbits/` (e.g., `GooeyNav.tsx`, `LiquidEtherBackground.tsx`, `PixelCard.tsx`).
-- **Data**: Supabase-backed content (migrations in `supabase/migrations/`). Integrations live under `src/integrations/supabase` and hooks in `src/hooks/` (e.g., `useArtworks.tsx`, `useArtwork.tsx`). Data types are centralized in `src/integrations/supabase/supabase.types.ts`.
-- **Purpose**: Corporate institutional website showcasing Monynha Softwares' services, values, and contact information, including a portfolio, open-source repositories, and a blog.
+## Quick Commands
+- Install & dev: `npm install` then `npm run dev` (dev server: `http://localhost:5173`).
+- Build / preview: `npm run build` / `npm run preview`.
+- Lint: `npm run lint`.
+- Unit tests: `npm run test` (Vitest; uses `vitest.setup.ts`).
+- E2E: `npm run test:e2e` (Playwright, `playwright/`).
+- Supabase reset (local): `supabase db reset`.
+- Regenerate types after schema change:
+  `npx supabase gen types typescript --schema public > src/integrations/supabase/types_db.ts`
 
-## 2. Developer Workflows & Commands
-- **Local Development**:
-  ```bash
-  npm install
-  npm run dev
-  ```
-  (Dev server runs at `http://localhost:5173`.)
+## Important Files to Read First
+- `src/main.tsx`, `src/App.tsx` — boot & routing.
+- `src/components/reactbits/` — heavy visuals; respect `prefers-reduced-motion`.
+- `src/integrations/supabase/` and `lib/supabase/client.ts` — DB client & types.
+- `supabase/migrations/` and `supabase/seed.sql` — canonical schema & seed data.
+- `docs/` — deployment, DB, and ReactBits integration notes.
 
-- **Build/Preview**:
-  ```bash
-  npm run build
-  npm run preview
-  ```
+## Project Conventions (concrete)
+- Limit heavy animations to 2–3 per page; provide static fallbacks (see `docs/REACTBITS_INTEGRATION.md`).
+- Lazy-load heavy components using `React.lazy` + `Suspense`.
+- Hooks live in `src/hooks/` (e.g., `useArtworks.tsx`, `useRepository.ts`); prefer them for data access.
+- Component naming: PascalCase, files next to component in `src/components/**`.
+- Supabase types: centralized in `src/integrations/supabase/supabase.types.ts` (regenerate after migrations).
 
-- **Linting**:
-  ```bash
-  npm run lint
-  ```
-  (ESLint configured in repo.)
+## Integrations & Runtime Notes
+- Supabase: RLS enabled — admin context may be required for drafts. Buckets: `artwork-images`, `general-media`.
+- 3D/WebGL: `three`, `@react-three/fiber`, `@react-three/drei` used; keep rendering isolated and lazy-loaded.
 
-- **Unit Tests**:
-  ```bash
-  npm run test
-  ```
-  (Vitest setup includes `vitest.setup.ts` for polyfills.)
+## Guidance For AI Agents (how to work here)
+- Read the files listed above + `docs/` before making changes.
+- Make small, focused edits. Run `npm run test` and `npm run lint` after edits.
+- Use the repo tools to apply changes (I will use `apply_patch`/workspace editing) and track work with a TODO list.
+- Avoid large refactors without an explicit plan — propose a small design/PR note first.
+- If modifying DB schema, add a `supabase/migrations/` SQL migration and regenerate types.
 
-- **E2E Tests**:
-  ```bash
-  npm run test:e2e
-  ```
-  (Playwright tests in `playwright/`.)
+If this looks good, I will apply it to `.github/copilot-instructions.md` now. Or tell me which sections to change/expand (e.g., add a PR checklist, example "first-tasks", or more file references).# Copilot Instructions — Monynha Softwares Website
 
-- **Database Migrations**:
-  ```bash
-  supabase db reset
-  ```
-  (Recreates local DB and applies migrations from `supabase/migrations/`.)
-- **Generate Supabase Types**:
-  ```bash
-  npx supabase gen types typescript --schema public > src/integrations/supabase/types.ts
-  ```
+Purpose: quick, concrete guidance to get an AI coding agent productive here.
 
-## 3. Environment and Deployment
-- **Environment Variables** (create `.env` at repo root):
-  ```env
-  VITE_SUPABASE_URL=<your-supabase-url>
-  VITE_SUPABASE_PUBLISHABLE_KEY=<your-anon-key>
-  VITE_SUPABASE_PROJECT_ID=<your-project-id>
-  ```
+## Big Picture
+- Architecture: Vite + React + TypeScript SPA. Entry: `src/main.tsx`. Routes & pages live in `src/pages/`.
+- UI: Tailwind + `shadcn/ui`. Visual/animated primitives in `src/components/reactbits/` (e.g., `GooeyNav.tsx`, `LiquidEtherBackground.tsx`).
+- Data: Supabase-backed content. Client: `lib/supabase/client.ts` (or `src/integrations/supabase/client.ts`), types in `src/integrations/supabase/supabase.types.ts`, migrations in `supabase/migrations/`.
 
-- **Storage Buckets**: `artwork-images`, `general-media` (public read expected for front-end images).
+## Quick Commands
+- Install & dev: `npm install` then `npm run dev` (dev server: `http://localhost:5173`).
+- Build / preview: `npm run build` / `npm run preview`.
+- Lint: `npm run lint`.
+- Unit tests: `npm run test` (Vitest; uses `vitest.setup.ts`).
+- E2E: `npm run test:e2e` (Playwright, `playwright/`).
+- Supabase reset (local): `supabase db reset`.
+- Regenerate types after schema change:
+  `npx supabase gen types typescript --schema public > src/integrations/supabase/types_db.ts`
 
-- **Deployment**: Standard Vite static-hosting workflows (e.g., Vercel, Netlify, Cloudflare Pages). See `docs/DEPLOYMENT.md`.
+## Important Files to Read First
+- `src/main.tsx`, `src/App.tsx` — boot & routing.
+- `src/components/reactbits/` — heavy visuals; respect `prefers-reduced-motion`.
+- `src/integrations/supabase/` and `lib/supabase/client.ts` — DB client & types.
+- `supabase/migrations/` and `supabase/seed.sql` — canonical schema & seed data.
+- `docs/` — deployment, DB, and ReactBits integration notes.
 
-## 4. Project-Specific Conventions and Patterns
-- **React Bits Rule**: Limit heavy animated components to 2–3 per page to preserve performance (see `docs/REACTBITS_INTEGRATION.md`).
-- **Accessibility**: Animated components must check `prefers-reduced-motion` and provide static fallbacks (examples in `docs/REACTBITS_INTEGRATION.md`).
-- **Lazy Loading**: Dynamically import heavy components (e.g., `const Liquid = lazy(() => import('src/components/reactbits/LiquidEtherBackground'))`).
-- **Component Placement**:
-  - UI primitives: `src/components/ui/`
-  - Animated primitives: `src/components/reactbits/`
-  - Page routes: `src/pages/` (e.g., `Home.tsx`, `Portfolio.tsx`, `About.tsx`, `Contact.tsx`).
-- **File Naming**: React components use PascalCase and live in `src/components/**`.
+## Project Conventions (concrete)
+- Limit heavy animations to 2–3 per page; provide static fallbacks (see `docs/REACTBITS_INTEGRATION.md`).
+- Lazy-load heavy components using `React.lazy` + `Suspense`.
+- Hooks live in `src/hooks/` (e.g., `useArtworks.tsx`, `useRepository.ts`); prefer them for data access.
+- Component naming: PascalCase, files next to component in `src/components/**`.
+- Supabase types: centralized in `src/integrations/supabase/supabase.types.ts` (regenerate after migrations).
 
-## 5. Integration & Cross-Cutting Notes
-- **Supabase**: Data models described in `docs/DATABASE.md` (tables: `artworks`, `exhibitions`, `pages`, `settings`, `contact_messages`, `profiles`, `user_roles`). RLS is enabled—tests and local queries may require admin context for draft content. Types are centralized in `src/integrations/supabase/supabase.types.ts`.
-- **Images**: Stored in Supabase Storage. Public URL format: `https://<project>.supabase.co/storage/v1/object/public/<bucket>/<path>` (see `docs/SETUP.md`).
-- **3D/WebGL**: `three`, `@react-three/fiber`, and `@react-three/drei` are used. Heavy rendering is isolated in `src/components/reactbits/` or `src/components/Hero3D.tsx`.
+## Integrations & Runtime Notes
+- Supabase: RLS enabled — admin context may be required for drafts. Buckets: `artwork-images`, `general-media`.
+- 3D/WebGL: `three`, `@react-three/fiber`, `@react-three/drei` used; keep rendering isolated and lazy-loaded.
 
-## 6. Tests & CI Hints
-- Unit tests: `vitest` configured in `package.json`. Use `npm run test` locally.
-- Playwright E2E: See `playwright/` folder (e.g., `mobile-navigation.spec.ts`). Use `npm run test:e2e` to run them.
-- Use the `matchMedia` polyfill in `vitest.setup.ts` for tests relying on `prefers-reduced-motion`.
+## Guidance For AI Agents (how to work here)
+- Read the files listed above + `docs/` before making changes.
+- Make small, focused edits. Run `npm run test` and `npm run lint` after edits.
+- Use the repo tools to apply changes (I will use `apply_patch`/workspace editing) and track work with a TODO list.
+- Avoid large refactors without an explicit plan — propose a small design/PR note first.
+- If modifying DB schema, add a `supabase/migrations/` SQL migration and regenerate types.
+
+If this looks good, I will apply it to `.github/copilot-instructions.md` now. Or tell me which sections to change/expand (e.g., add a PR checklist, example "first-tasks", or more file references).
