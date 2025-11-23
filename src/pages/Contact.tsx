@@ -27,7 +27,7 @@ const Contact = () => {
   const contactEmail = useSiteSetting<string>('contact_email', 'contact@monynha.com');
   const contactAvailability = useSiteSetting<string>('contact_availability', 'Available for collaborations and creative opportunities.');
   const contactNote = useSiteSetting<string>('contact_note', 'Get in touch for projects, partnerships, or out-of-the-box ideas!');
-  const successMessage = useSiteSetting<string>('contact_success_message', 'Message sent successfully! I''ll get back to you soon 🌈');
+  const successMessage = useSiteSetting<string>('contact_success_message', 'Message sent successfully! I\'ll get back to you soon 🌈');
   const errorMessage = useSiteSetting<string>('contact_error_message', 'Oops! Something went wrong. Please try again later 💜');
   const socialLinks = useSiteSetting<{ instagram?: string }>('social_links', {});
 
