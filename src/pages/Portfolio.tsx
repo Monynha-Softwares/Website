@@ -2,24 +2,20 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { SectionReveal } from "@/components/SectionReveal";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Filter } from "lucide-react";
+import { Search } from "lucide-react"; // Removed Filter icon
 import { RollingGallery } from "@/components/reactbits/RollingGallery";
 import { PixelCard } from "@/components/reactbits/PixelCard";
-import { useArtworks, useArtworkTags } from "@/hooks/useArtworks"; // Import useArtworkTags
+import { useArtworks } from "@/hooks/useArtworks"; // Removed useArtworkTags
 import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
-import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton component
-// Removed useCvData as it's no longer needed for tag generation
+// Removed Skeleton import as it was only used for tag loading state
 
 const Portfolio = () => {
-  const [selectedTag, setSelectedTag] = useState<string>("all"); // Renamed from selectedCategory to selectedTag
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: availableTags = [], isLoading: tagsLoading } = useArtworkTags(); // Fetch available tags
-
+  // The useArtworks hook already handles searching across title, description, and tags.
+  // We no longer need a separate 'tag' filter state or the useArtworkTags hook.
   const { data: artworks = [], isLoading: artworksLoading, error } = useArtworks({
-    tag: selectedTag, // Pass selectedTag to useArtworks
     search: searchQuery,
   });
 
@@ -28,8 +24,6 @@ const Portfolio = () => {
   useEffect(() => {
     document.title = "Portfolio • Monynha Softwares";
   }, []);
-
-  const isLoading = tagsLoading || artworksLoading;
 
   if (error) {
     return (
@@ -57,13 +51,13 @@ const Portfolio = () => {
           </div>
         </SectionReveal>
 
-        {!isLoading && featured.length > 0 && (
+        {!artworksLoading && featured.length > 0 && (
           <SectionReveal delay={0.05}>
             <RollingGallery
               items={featured.map((item) => ({
                 id: item.id,
                 title: item.title,
-                subtitle: item.category, // Keep original category for display
+                subtitle: item.category,
                 imageUrl: item.cover_url,
                 href: `/art/${item.slug}`,
                 footer: <span className="text-sm">{item.year}</span>,
@@ -73,43 +67,18 @@ const Portfolio = () => {
           </SectionReveal>
         )}
 
-        {/* Filters */}
+        {/* Search Input (now handles all filtering) */}
         <SectionReveal delay={0.1}>
           <div className="mb-10 space-y-6">
-            {/* Search */}
             <div className="relative max-w-md mx-auto">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Search artworks and projects..."
+                placeholder="Search artworks, projects, and tags..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="h-12 rounded-full border-border bg-surface-1 shadow-sm pl-10"
               />
-            </div>
-
-            {/* Tags */}
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Filter className="h-5 w-5 text-muted-foreground" />
-              {isLoading ? (
-                <>
-                  <Skeleton className="h-8 w-20 rounded-full" />
-                  <Skeleton className="h-8 w-24 rounded-full" />
-                  <Skeleton className="h-8 w-20 rounded-full" />
-                </>
-              ) : (
-                availableTags.map((tag) => (
-                  <Button
-                    key={tag}
-                    variant={selectedTag === tag ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setSelectedTag(tag)}
-                    className="transition-all motion-reduce:transition-none"
-                  >
-                    {tag.replace(/-/g, ' ')} {/* Format tag for display */}
-                  </Button>
-                ))
-              )}
             </div>
           </div>
         </SectionReveal>

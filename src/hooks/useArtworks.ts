@@ -3,7 +3,6 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Artwork } from "@/integrations/supabase/supabase.types"; // Import centralized type
 
 interface UseArtworksOptions {
-  tag?: string; // Renamed from category to tag
   search?: string;
   featured?: boolean;
 }
@@ -23,16 +22,11 @@ export const useArtworks = (options: UseArtworksOptions = {}) => {
         query = query.eq("featured", true);
       }
 
-      // Filtering logic: filter by tags array
-      if (options.tag && options.tag !== "all") {
-        query = query.contains("tags", [options.tag.toLowerCase()]); // Use .contains for array matching
-      }
-
       const { data, error } = await query;
 
       if (error) throw error;
 
-      // Client-side search filtering
+      // Client-side search filtering across title, description, and tags
       let filteredData = data || [];
       if (options.search) {
         const searchLower = options.search.toLowerCase();
@@ -46,26 +40,5 @@ export const useArtworks = (options: UseArtworksOptions = {}) => {
 
       return filteredData;
     },
-  });
-};
-
-// New hook to fetch all unique tags from artworks
-export const useArtworkTags = () => {
-  return useQuery<string[], Error>({
-    queryKey: ["artworkTags"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("artworks")
-        .select("tags")
-        .eq("status", "published");
-
-      if (error) throw error;
-
-      const allTags = data?.flatMap(artwork => artwork.tags || []) || [];
-      const uniqueTags = Array.from(new Set(allTags.map(tag => tag.toLowerCase())));
-      return ["all", ...uniqueTags]; // Add 'all' as a default filter option
-    },
-    staleTime: Infinity, // Tags are relatively static, cache indefinitely
-    gcTime: Infinity,
   });
 };
