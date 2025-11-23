@@ -37,9 +37,17 @@ ARG SUPABASE_SERVICE_ROLE_KEY
 ENV SUPABASE_URL=${SUPABASE_URL}
 ENV SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
 
-# Try to generate Supabase TypeScript types. If the command fails (no CLI or no creds), continue.
-# The generated file will be: `src/integrations/supabase/types_db.ts`
-RUN npx supabase gen types typescript --schema public > src/integrations/supabase/types_db.ts || echo "Supabase type generation skipped"
+# Install pnpm in this stage so `pnpm build` is available; if typegen creds are provided
+# install the supabase CLI and run generation.
+RUN npm install -g pnpm \
+ && if [ -n "$SUPABASE_SERVICE_ROLE_KEY" ]; then npm install -g supabase; fi
+
+# Conditionally generate Supabase TypeScript types only when the CLI and creds are available
+RUN if command -v supabase >/dev/null 2>&1 && [ -n "$SUPABASE_SERVICE_ROLE_KEY" ]; then \
+			supabase gen types typescript --schema public > src/integrations/supabase/types_db.ts; \
+		else \
+			echo "Supabase type generation skipped"; \
+		fi
 
 # Build the Vite app
 RUN pnpm build
