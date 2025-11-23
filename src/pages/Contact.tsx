@@ -96,14 +96,14 @@ const Contact = () => {
                       <GlassIcon
                         icon={<Mail className="h-6 w-6" />}
                         title="Email"
-                        description="hello@monynha.com"
-                        href="mailto:hello@monynha.com"
+                        description="marcelo@monynha.com"
+                        href="mailto:marcelo@monynha.com"
                       />
                       <GlassIcon
                         icon={<Instagram className="h-6 w-6" />}
                         title="Instagram"
-                        description="@monynhasoftwares"
-                        href="https://www.instagram.com/monynhasoftwares/"
+                        description="@marcelo.santos.027"
+                        href="https://www.instagram.com/marcelo.santos.027/"
                       />
                     </div>
                   </div>
