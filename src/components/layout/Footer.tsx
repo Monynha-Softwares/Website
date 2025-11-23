@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { BrandLogo } from "@/components/brand/BrandLogo";
-import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { useBlogPosts } from "@/hooks/useBlogPosts"; // Updated hook
 
 const MONYNHA_ECOSYSTEM_LINKS = [
   { name: "Main Portal", href: "https://monynha.com" },
@@ -24,7 +24,7 @@ const LEGAL_LINKS = [
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const { data: blogPosts } = useBlogPosts();
+  const { data: blogPosts } = useBlogPosts(); // Use updated hook
   const showThoughtsLink = blogPosts && blogPosts.length > 0;
 
   return (

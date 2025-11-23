@@ -9,6 +9,7 @@ import { Mail, Instagram, Send } from "lucide-react";
 import { GlassIcon } from "@/components/reactbits/GlassIcon";
 import { RippleGridBackground } from "@/components/reactbits/RippleGridBackground";
 import { useContactForm } from "@/hooks/useContactForm";
+import { useSiteSetting } from "@/hooks/useSettings"; // Import useSiteSetting
 
 const initialFormState = {
   name: "",
@@ -23,6 +24,14 @@ const Contact = () => {
   const [formData, setFormData] = useState<ContactFormState>(initialFormState);
   const { mutate: submitContact, isPending } = useContactForm();
 
+  const contactEmail = useSiteSetting<string>('contact_email', 'contact@monynha.com');
+  const contactAvailability = useSiteSetting<string>('contact_availability', 'Available for collaborations and creative opportunities.');
+  const contactNote = useSiteSetting<string>('contact_note', 'Get in touch for projects, partnerships, or out-of-the-box ideas!');
+  const successMessage = useSiteSetting<string>('contact_success_message', 'Message sent successfully! I''ll get back to you soon 🌈');
+  const errorMessage = useSiteSetting<string>('contact_error_message', 'Oops! Something went wrong. Please try again later 💜');
+  const socialLinks = useSiteSetting<{ instagram?: string }>('social_links', {});
+
+
   const resetForm = useCallback(() => {
     setFormData(() => ({ ...initialFormState }));
   }, []);
@@ -34,14 +43,14 @@ const Contact = () => {
       onSuccess: () => {
         toast({
           title: "Message sent!",
-          description: "Thank you for reaching out. I'll get back to you soon.",
+          description: successMessage,
         });
         resetForm();
       },
       onError: (error) => {
         toast({
           title: "Error sending message",
-          description: error.message,
+          description: errorMessage,
           variant: "destructive",
         });
       },
@@ -87,23 +96,27 @@ const Contact = () => {
                         Let's Connect
                       </h2>
                       <p className="mb-6 text-[clamp(1rem,3.3vw,1.1rem)] text-white/85 leading-relaxed">
-                        Reach out through the form or our direct channels. We respond within one business day.
+                        {contactAvailability} {contactNote}
                       </p>
                     </div>
 
                     <div className="space-y-4">
-                      <GlassIcon
-                        icon={<Mail className="h-6 w-6" />}
-                        title="Email"
-                        description="marcelo@monynha.com"
-                        href="mailto:marcelo@monynha.com"
-                      />
-                      <GlassIcon
-                        icon={<Instagram className="h-6 w-6" />}
-                        title="Instagram"
-                        description="@marcelo.santos.027"
-                        href="https://www.instagram.com/marcelo.santos.027/"
-                      />
+                      {contactEmail && (
+                        <GlassIcon
+                          icon={<Mail className="h-6 w-6" />}
+                          title="Email"
+                          description={contactEmail}
+                          href={`mailto:${contactEmail}`}
+                        />
+                      )}
+                      {socialLinks?.instagram && (
+                        <GlassIcon
+                          icon={<Instagram className="h-6 w-6" />}
+                          title="Instagram"
+                          description="@marcelo.santos.027" // Hardcoded for now, could be dynamic
+                          href={socialLinks.instagram}
+                        />
+                      )}
                     </div>
                   </div>
                 </SectionReveal>

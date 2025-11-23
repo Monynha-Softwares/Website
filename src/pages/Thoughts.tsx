@@ -1,11 +1,11 @@
 import { SectionReveal } from "@/components/SectionReveal";
-import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { useBlogPosts } from "@/hooks/useBlogPosts"; // Updated hook
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect } from "react";
 
 const Thoughts = () => {
-  const { data: blogPosts = [], isLoading, error } = useBlogPosts();
+  const { data: blogPosts = [], isLoading, error } = useBlogPosts(); // Use updated hook
 
   useEffect(() => {
     document.title = "Thoughts • Monynha Softwares";

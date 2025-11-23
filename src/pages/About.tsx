@@ -6,22 +6,30 @@ import { TextType } from "@/components/reactbits/TextType";
 import { StepperTimeline } from "@/components/reactbits/StepperTimeline";
 import { useExhibitions } from "@/hooks/useExhibitions";
 import { TimelineSkeleton } from "@/components/TimelineSkeleton";
-import { useCvData } from "@/hooks/useCvData";
 import { Badge } from "@/components/ui/badge";
 import { PixelCard } from "@/components/reactbits/PixelCard";
+import { useProfile } from "@/hooks/useProfile"; // New hook
+import { useExperience } from "@/hooks/useExperience"; // New hook
+import { useSkills } from "@/hooks/useSkills"; // New hook
+import { useProjects } from "@/hooks/useProjects"; // New hook
+import { useSiteSetting } from "@/hooks/useSettings"; // For social links
 
 const About = () => {
   const { data: exhibitions = [], isLoading: exhibitionsLoading, error: exhibitionsError } = useExhibitions();
-  const { data: cvData, isLoading: cvLoading, error: cvError } = useCvData();
+  const { data: profile, isLoading: profileLoading, error: profileError } = useProfile();
+  const { data: experience = [], isLoading: experienceLoading, error: experienceError } = useExperience();
+  const { data: skills = [], isLoading: skillsLoading, error: skillsError } = useSkills();
+  const { data: projects = [], isLoading: projectsLoading, error: projectsError } = useProjects({ limit: 6 });
+  const socialLinks = useSiteSetting<{ instagram?: string; email?: string }>('social_links', {});
 
-  const isLoading = exhibitionsLoading || cvLoading;
-  const error = exhibitionsError || cvError;
+  const isLoading = exhibitionsLoading || profileLoading || experienceLoading || skillsLoading || projectsLoading;
+  const error = exhibitionsError || profileError || experienceError || skillsError || projectsError;
 
-  const experienceTimeline = cvData?.experience.map((exp) => ({
+  const experienceTimeline = experience.map((exp) => ({
     title: exp.role,
-    subtitle: `${exp.org} · ${exp.location} (${exp.start} - ${exp.end || "Present"})`,
+    subtitle: `${exp.org} · ${exp.location} (${exp.start_date} - ${exp.end_date || "Present"})`,
     description: exp.highlights.join(" • "),
-    indicator: exp.start.split('-')[0],
+    indicator: exp.start_date.split('-')[0],
   })) || [];
 
   if (isLoading) {
@@ -65,15 +73,15 @@ const About = () => {
           {/* Bio */}
           <SectionReveal delay={0.1}>
             <div className="space-y-6">
-              <h2 className="text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">Meet {cvData?.profile.name}</h2>
+              <h2 className="text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">Meet {profile?.full_name || "Our Founder"}</h2>
               <TextType
                 className="text-[clamp(1rem,3.3vw,1.1rem)] leading-relaxed"
-                text={cvData?.profile.bio || "Loading biography..."}
+                text={profile?.bio || "Loading biography..."}
               />
               <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:flex-wrap">
-                {cvData?.links.instagram && (
+                {socialLinks?.instagram && (
                   <a
-                    href={cvData.links.instagram}
+                    href={socialLinks.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -83,8 +91,8 @@ const About = () => {
                     </Button>
                   </a>
                 )}
-                {cvData?.links.email && (
-                  <a href={cvData.links.email}>
+                {socialLinks?.email && (
+                  <a href={socialLinks.email}>
                     <Button variant="hero" size="lg" className="w-full sm:w-auto">
                       <Mail className="mr-2 h-5 w-5" />
                       Email Marcelo
@@ -100,8 +108,8 @@ const About = () => {
             <div className="relative">
               <div className="aspect-square overflow-hidden rounded-2xl border border-border bg-gradient-mesh shadow-lg">
                 <img
-                  src={cvData?.profile.avatar || "/avatar.jpg"}
-                  alt={`${cvData?.profile.name}, Founder of Monynha Softwares`}
+                  src={profile?.avatar_url || "/avatar.jpg"}
+                  alt={`${profile?.full_name || "Founder"}, Founder of Monynha Softwares`}
                   className="h-full w-full object-cover"
                 />
               </div>
@@ -123,14 +131,14 @@ const About = () => {
         )}
 
         {/* Skills Section */}
-        {cvData?.skills && cvData.skills.length > 0 && (
+        {skills && skills.length > 0 && (
           <SectionReveal delay={0.4}>
             <div className="mx-auto max-w-4xl mb-20">
               <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
                 Technical <span className="bg-gradient-primary bg-clip-text text-transparent">Skills</span>
               </h2>
               <div className="flex flex-wrap justify-center gap-3">
-                {cvData.skills.map((skill, index) => (
+                {skills.map((skill, index) => (
                   <Badge
                     key={index}
                     variant="secondary"
@@ -145,20 +153,20 @@ const About = () => {
         )}
 
         {/* Company Projects Section */}
-        {cvData?.projects && cvData.projects.length > 0 && (
+        {projects && projects.length > 0 && (
           <SectionReveal delay={0.5}>
             <div className="mx-auto max-w-6xl">
               <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
                 Our <span className="bg-gradient-primary bg-clip-text text-transparent">Projects</span>
               </h2>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {cvData.projects.slice(0, 6).map((project, index) => ( // Display up to 6 projects
+                {projects.map((project, index) => ( // Display up to 6 projects
                   <SectionReveal key={project.slug} delay={index * 0.05}>
-                    <Link to={project.url || project.repoUrl || "#"} target="_blank" rel="noopener noreferrer" className="block h-full">
+                    <Link to={project.url || project.repo_url || "#"} target="_blank" rel="noopener noreferrer" className="block h-full">
                       <PixelCard
-                        imageUrl={project.thumbnail}
+                        imageUrl={project.thumbnail || "/brand/placeholder.svg"}
                         title={project.name}
-                        subtitle={project.summary}
+                        subtitle={project.summary || "No summary provided."}
                         footer={
                           <div className="flex flex-col gap-2">
                             <div className="flex flex-wrap gap-2">
@@ -185,7 +193,7 @@ const About = () => {
                   </SectionReveal>
                 ))}
               </div>
-              {cvData.projects.length > 6 && (
+              {projects.length > 6 && ( // Only show "View All Projects" if there are more than 6 projects
                 <div className="mt-12 text-center">
                   <Link to="/repositories"> {/* Assuming /repositories lists all projects */}
                     <Button variant="outline" size="lg" className="w-full sm:w-auto">

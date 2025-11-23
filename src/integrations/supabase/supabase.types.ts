@@ -8,10 +8,12 @@ export type Enums<T extends keyof Database['public']['Enums']> =
 
 // Application-specific types derived from Supabase schema
 export type Artwork = Tables<'artworks'>;
+export type BlogPost = Tables<'blog_posts'>; // New type for blog posts
 export type ContactMessage = Tables<'contact_messages'>;
 export type Exhibition = Tables<'exhibitions'>;
 export type Page = Tables<'pages'>;
 export type Profile = Tables<'profiles'>;
+export type Project = Tables<'projects'>; // New type for projects
 export type Setting = Tables<'settings'>;
 export type UserRole = Tables<'user_roles'>;
 

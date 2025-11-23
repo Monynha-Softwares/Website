@@ -12,6 +12,7 @@ import { useSiteSetting } from "@/hooks/useSettings";
 import { useArtworks } from "@/hooks/useArtworks";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
+import { useProfile } from "@/hooks/useProfile"; // Import useProfile
 
 const FEATURED_DISCIPLINES = [
   { icon: Palette, title: "Motion Design", desc: "Dynamic visual narratives" },
@@ -23,6 +24,8 @@ const Home = () => {
   const { data: homePage } = usePages("home");
   const tagline = useSiteSetting("site_tagline", "Inclusive technology for everyone");
   const { data: featuredArtworks, isLoading: artworksLoading } = useArtworks({ featured: true });
+  const { data: profile } = useProfile(); // Fetch profile data
+
   return (
     <div className="min-h-screen overflow-x-hidden">
       {/* Hero Section */}
@@ -52,12 +55,12 @@ const Home = () => {
 
             <SplitText
               as="h1"
-              text={["Monynha Softwares", "Inclusive tech that empowers"].join("\n")}
+              text={profile?.headline ? [profile.full_name || "Monynha Softwares", profile.headline].join("\n") : ["Monynha Softwares", "Inclusive tech that empowers"].join("\n")}
               className="mb-6 text-[clamp(2.25rem,8vw,3.75rem)] font-bold leading-[1.1] break-words text-balance items-center"
             />
 
             <p className="mx-auto mb-8 max-w-2xl text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed text-balance text-center">
-              We build accessible, human-centered digital experiences so every person can participate, create, and thrive.
+              {profile?.bio || "We build accessible, human-centered digital experiences so every person can participate, create, and thrive."}
             </p>
 
             <div className="flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center">
