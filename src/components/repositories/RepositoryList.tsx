@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Star, GitFork, Link as LinkIcon } from "lucide-react";
+import { Star, GitFork, Link as LinkIcon, Code } from "lucide-react"; // Added Code icon
 import { formatDistanceToNow } from "date-fns";
 import { PixelCard } from "@/components/reactbits/PixelCard";
 import { SectionReveal } from "@/components/SectionReveal";
@@ -63,14 +63,14 @@ export const RepositoryList = ({ repositories, isLoading, error }: RepositoryLis
                   <div className="flex items-center gap-4 text-sm text-muted-foreground">
                     {repo.language && (
                       <span className="flex items-center gap-1">
-                        <GitFork className="h-4 w-4 text-primary" />
+                        <Code className="h-4 w-4 text-primary" /> {/* Changed from GitFork to Code */}
                         {repo.language}
                       </span>
                     )}
-                    <span className="flex items-center gap-1">
-                      <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-                      {repo.stargazers_count}
-                    </span>
+                    <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:text-foreground">
+                      <LinkIcon className="h-4 w-4 text-muted-foreground" />
+                      GitHub
+                    </a>
                   </div>
                   <p className="text-xs text-muted-foreground">
                     Updated {formatDistanceToNow(new Date(repo.updated_at), { addSuffix: true })}
