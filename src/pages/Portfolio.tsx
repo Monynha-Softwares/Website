@@ -7,25 +7,18 @@ import { Input } from "@/components/ui/input";
 import { Search, Filter } from "lucide-react";
 import { RollingGallery } from "@/components/reactbits/RollingGallery";
 import { PixelCard } from "@/components/reactbits/PixelCard";
-import { useArtworks } from "@/hooks/useArtworks";
+import { useArtworks, useArtworkTags } from "@/hooks/useArtworks"; // Import useArtworkTags
 import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
-import { useCvData } from "@/hooks/useCvData"; // Import useCvData
+// Removed useCvData as it's no longer needed for tag generation
 
 const Portfolio = () => {
-  const { data: cvData } = useCvData(); // Fetch CV data
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedTag, setSelectedTag] = useState<string>("all"); // Renamed from selectedCategory to selectedTag
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Dynamically generate categories based on cvData projects
-  const categories = useMemo(() => {
-    const projectNames = cvData?.projects
-      .filter(project => project.status === "Production" || project.status === "MVP" || project.status === "Development") // Only show active projects
-      .map(project => project.name) || [];
-    return ["all", "art", ...projectNames];
-  }, [cvData]);
+  const { data: availableTags = [], isLoading: tagsLoading } = useArtworkTags(); // Fetch available tags
 
-  const { data: artworks = [], isLoading, error } = useArtworks({
-    category: selectedCategory,
+  const { data: artworks = [], isLoading: artworksLoading, error } = useArtworks({
+    tag: selectedTag, // Pass selectedTag to useArtworks
     search: searchQuery,
   });
 
@@ -34,6 +27,8 @@ const Portfolio = () => {
   useEffect(() => {
     document.title = "Portfolio • Monynha Softwares";
   }, []);
+
+  const isLoading = tagsLoading || artworksLoading;
 
   if (error) {
     return (
@@ -92,26 +87,34 @@ const Portfolio = () => {
               />
             </div>
 
-            {/* Categories */}
+            {/* Tags */}
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Filter className="h-5 w-5 text-muted-foreground" />
-              {categories.map((category) => (
-                <Button
-                  key={category}
-                  variant={selectedCategory === category ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedCategory(category)}
-                  className="transition-all motion-reduce:transition-none"
-                >
-                  {category.replace(/-/g, ' ')} {/* Format category for display */}
-                </Button>
-              ))}
+              {isLoading ? (
+                <>
+                  <Skeleton className="h-8 w-20 rounded-full" />
+                  <Skeleton className="h-8 w-24 rounded-full" />
+                  <Skeleton className="h-8 w-20 rounded-full" />
+                </>
+              ) : (
+                availableTags.map((tag) => (
+                  <Button
+                    key={tag}
+                    variant={selectedTag === tag ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSelectedTag(tag)}
+                    className="transition-all motion-reduce:transition-none"
+                  >
+                    {tag.replace(/-/g, ' ')} {/* Format tag for display */}
+                  </Button>
+                ))
+              )}
             </div>
           </div>
         </SectionReveal>
 
         {/* Gallery Grid */}
-        {isLoading ? (
+        {artworksLoading ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <ArtworkSkeleton key={i} />
