@@ -9,11 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import { format } from "date-fns";
 import type { BlogPost, ContentStatus } from "@/integrations/supabase/supabase.types";
+import { AdminFormDialog } from "@/components/admin/AdminFormDialog"; // Import AdminFormDialog
 
 const BlogPostsManager = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -68,28 +68,24 @@ const BlogPostsManager = () => {
             </Link>
             <h1 className="text-4xl font-bold">Manage Blog Posts</h1>
           </div>
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={() => setEditingBlogPost(null)}>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Blog Post
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>{editingBlogPost ? "Edit" : "Add"} Blog Post</DialogTitle>
-              </DialogHeader>
-              <BlogPostForm
-                blogPost={editingBlogPost}
-                onSuccess={() => {
-                  setIsDialogOpen(false);
-                  setEditingBlogPost(null);
-                  queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });
-                  queryClient.invalidateQueries({ queryKey: ["blogPosts"] });
-                }}
-              />
-            </DialogContent>
-          </Dialog>
+          <AdminFormDialog
+            title="Blog Post"
+            triggerLabel="Add Blog Post"
+            isOpen={isDialogOpen}
+            onOpenChange={setIsDialogOpen}
+            onTriggerClick={() => setEditingBlogPost(null)}
+            isEditing={!!editingBlogPost}
+          >
+            <BlogPostForm
+              blogPost={editingBlogPost}
+              onSuccess={() => {
+                setIsDialogOpen(false);
+                setEditingBlogPost(null);
+                queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });
+                queryClient.invalidateQueries({ queryKey: ["blogPosts"] });
+              }}
+            />
+          </AdminFormDialog>
         </div>
 
         <div className="grid gap-4">
