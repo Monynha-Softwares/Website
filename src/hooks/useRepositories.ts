@@ -32,18 +32,19 @@ const fetchGitHubRepos = async (org: string): Promise<GitHubRepo[]> => {
   return response.json();
 };
 
-export const useRepositories = () => {
-  return useQuery<Repository[], Error>({
-    queryKey: ["githubRepositories"],
-    queryFn: async () => {
-      const [monynhaRepos, marceloRepos] = await Promise.all([
-        fetchGitHubRepos("Monynha-Softwares"),
-        fetchGitHubRepos("marcelo-m7"),
-      ]);
+interface UseRepositoriesOptions {
+  owner?: "marcelo-m7" | "Monynha-Softwares" | "all";
+}
 
-      const allRepos: Repository[] = [...monynhaRepos, ...marceloRepos]
-        .filter(repo => repo.name && repo.html_url) // Ensure essential fields exist
-        .map(repo => ({
+export const useRepositories = (options?: UseRepositoriesOptions) => {
+  return useQuery<Repository[], Error>({
+    queryKey: ["githubRepositories", options?.owner],
+    queryFn: async () => {
+      let allRepos: Repository[] = [];
+
+      if (!options?.owner || options.owner === "Monynha-Softwares" || options.owner === "all") {
+        const monynhaRepos = await fetchGitHubRepos("Monynha-Softwares");
+        allRepos.push(...monynhaRepos.map(repo => ({
           id: repo.id,
           name: repo.name,
           html_url: repo.html_url,
@@ -52,7 +53,25 @@ export const useRepositories = () => {
           stargazers_count: repo.stargazers_count,
           updated_at: repo.updated_at,
           owner_login: repo.owner.login,
-        }));
+        })));
+      }
+
+      if (!options?.owner || options.owner === "marcelo-m7" || options.owner === "all") {
+        const marceloRepos = await fetchGitHubRepos("marcelo-m7");
+        allRepos.push(...marceloRepos.map(repo => ({
+          id: repo.id,
+          name: repo.name,
+          html_url: repo.html_url,
+          description: repo.description,
+          language: repo.language,
+          stargazers_count: repo.stargazers_count,
+          updated_at: repo.updated_at,
+          owner_login: repo.owner.login,
+        })));
+      }
+
+      // Filter out any repos that might not have essential fields (though GitHub API usually provides them)
+      allRepos = allRepos.filter(repo => repo.name && repo.html_url);
 
       // Sort by updated_at descending
       allRepos.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
