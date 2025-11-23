@@ -36,7 +36,7 @@ Logged environment variables (record only — DO NOT USE YET):
 - `SUPABASE_SERVICE_KEY`
 - `VITE_SUPABASE_PROJECT_ID`
 
-Project identifier recorded: `hkkgfebdhevcdurpcdgu`
+Project identifier recorded: `monynha-corp-website`
 
 Keys that MUST NOT be used by future agents (prohibited at this stage):
 - `VITE_SUPABASE_PUBLISHABLE_KEY`

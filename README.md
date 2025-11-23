@@ -1,61 +1,72 @@
-# Art Leo · Creative Spaces
-> **Note:** Project decoupled from external builders; no proprietary site-builder dependencies.
+# Monynha Softwares · Corporate Website
 
-Art Leo is a Vite + React portfolio that pairs cinematic motion design with interactive UI patterns. The project showcases background shaders, animated typography, and Supabase-ready data flows that can be extended to power a full digital art showcase.
+> **Note:** This project is fully self-managed and does not rely on external site-builder dependencies.
+
+Monynha Softwares' corporate website is a Vite + React application designed to showcase the company's services, values, and contact information. The project emphasizes accessibility, performance, and a modern user experience.
 
 ## Features
 
-- ✨ Immersive hero with animated silk background and split text reveal
-- 🧭 Responsive gooey navigation with Flowing Menu hand-off on mobile (Infinite Menu has been removed)
-- 🖼️ Animated portfolio gallery with search, filtering, and rolling highlight carousel
-- 🧱 Stepper-based timeline and typewriter biography for the About page
-- 📬 Contact form with toast feedback and safety guards against state updates after unmount
-- ♿ Motion-reduced fallbacks across custom React Bits components
+- 🌟 Professional design with responsive layouts and animations
+- 🧭 Intuitive navigation with mobile-friendly menus
+- 📊 Dynamic content powered by Supabase
+- 🛠️ Modular components for scalability and maintainability
+- ♿ Accessibility-first approach with motion-reduced fallbacks
 
-## Branding assets
+## Branding Assets
 
-- `/public/brand/logo.svg` – full wordmark with adaptive gradient mark
-- `/public/brand/mark.svg` – square monomark for avatars and compact UI
-- `/public/favicon.svg` – favicon sourced from the monomark
-- `/public/brand/og-image.svg` – share image for social previews
+- `/public/brand/logo.svg` – Full logo with adaptive gradient
+- `/public/brand/mark.svg` – Compact logo for avatars and small UI elements
+- `/public/favicon.svg` – Favicon derived from the logo
+- `/public/brand/og-image.svg` – Social media preview image
 
 Example usage with Tailwind:
 
 ```html
-<img src="/brand/logo.svg" class="h-6 md:h-8 text-white" alt="Art Leo" />
+<img src="/brand/logo.svg" class="h-6 md:h-8 text-white" alt="Monynha Softwares" />
 ```
 
-## Tech stack
+## Tech Stack
 
 - [Vite](https://vitejs.dev/) + [TypeScript](https://www.typescriptlang.org/)
 - [React Router](https://reactrouter.com/)
-- [Tailwind CSS](https://tailwindcss.com/) with custom fluid token scales
+- [Tailwind CSS](https://tailwindcss.com/) with custom token scales
 - [shadcn/ui](https://ui.shadcn.com/) component primitives
 - Animation libraries: [Framer Motion](https://www.framer.com/motion/) and [GSAP](https://gsap.com/)
-- React Bits-inspired bespoke components (`SilkBackground`, `FlowingMenu`, `SpotlightCard`, etc.)
 
-## Getting started
+## Getting Started
 
 ### Prerequisites
 
-- Node.js 18.18 or newer (Node 20 LTS recommended)
-- npm 9+ (bundled with recent Node.js releases)
+- Node.js 18+ and npm
+- Supabase project (database + auth already provisioned)
 
 ### Installation
 
-```bash
-npm install
-```
+1. Clone the repository:
 
-### Local development
+   ```bash
+   git clone <repository-url>
+   cd monynha-softwares-website
+   npm install
+   ```
 
-```bash
-npm run dev
-```
+2. Set up environment variables:
+
+   ```env
+   VITE_SUPABASE_URL=<your-supabase-url>
+   VITE_SUPABASE_PUBLISHABLE_KEY=<your-anon-key>
+   VITE_SUPABASE_PROJECT_ID=<your-project-id>
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
 
 The app boots on `http://localhost:5173` by default. Hot Module Reloading (HMR) is enabled out of the box.
 
-### Production build
+### Production Build
 
 ```bash
 npm run build
@@ -65,7 +76,7 @@ npm run preview
 - `npm run build` compiles the project for production.
 - `npm run preview` serves the production build locally for smoke testing.
 
-### Quality checks
+### Quality Checks
 
 ```bash
 npm run lint
@@ -73,7 +84,7 @@ npm run lint
 
 Linting ensures TypeScript, React, and accessibility conventions stay consistent.
 
-## Project structure
+## Project Structure
 
 ```text
 ├── public/                # Static assets served as-is
@@ -94,14 +105,14 @@ Linting ensures TypeScript, React, and accessibility conventions stay consistent
 └── vite.config.ts
 ```
 
-## Key implementation notes
+## Key Implementation Notes
 
 - **Navigation:** The Infinite Menu experiment has been removed. Mobile navigation now uses `FlowingMenu`, providing consistent hover/touch behaviour with reduced-motion awareness.
-- **Motion safeguards:** All animated components check `prefers-reduced-motion`, fall back gracefully, and avoid excessive GPU load.
-- **State safety:** The contact form clears pending timeouts during unmount to prevent memory leaks when navigating away mid-submit.
-- **Typed data models:** Portfolio listings declare explicit TypeScript types, improving maintainability as the data source evolves.
+- **Motion Safeguards:** All animated components check `prefers-reduced-motion`, fall back gracefully, and avoid excessive GPU load.
+- **State Safety:** The contact form clears pending timeouts during unmount to prevent memory leaks when navigating away mid-submit.
+- **Typed Data Models:** Portfolio listings declare explicit TypeScript types, improving maintainability as the data source evolves.
 
-## Extending the project
+## Extending The Project
 
 - Replace the mock data in `src/pages/Portfolio.tsx` with Supabase queries located in `src/integrations`.
 - Update the imagery and copywriting in `src/pages/Home.tsx`, `About.tsx`, and `Contact.tsx` to match your brand voice.

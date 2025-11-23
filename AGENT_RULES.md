@@ -3,7 +3,7 @@
 1. Do not change the folder architecture unless absolutely necessary.
 2. Do not refactor without a documented technical justification (record the justification in `AGENT_LOG.md`).
 3. Do not rewrite or replace essential code blocks without clear evidence of necessity and human approval.
-4. Preserve existing visual style and logic except for small, justified fixes.
+4. Preserve the corporate branding and design guidelines of Monynha Softwares.
 5. Log all activity in `AGENT_LOG.md` before and after any significant change.
 6. Always leave concrete guidance for the next agent (steps, commands, context).
 7. If in doubt, prefer not to modify and record the question in the log for human review.

@@ -1,18 +1,18 @@
-### Analysis of the existing codebase
+### Analysis of the Existing Codebase
 
-The current version of **Art Leo** is built with React, React Router, Tailwind (including "fluid" tokens), animations from Framer Motion, and a 3D field implemented with `@react-three/fiber` and `@react-three/drei`. The hero shows a particle field slowly rotating around X and Y, overlaid by a gradient and the main heading. Subsequent sections use a `SectionReveal` component to reveal cards and text on scroll and include static cards highlighting “Motion Design”, “3D Art” and “Interactive”. The portfolio and other pages use simple cards with hover transitions.
+The current version of the **Monynha Softwares Corporate Website** is built with React, React Router, Tailwind (including "fluid" tokens), animations from Framer Motion, and a 3D field implemented with `@react-three/fiber` and `@react-three/drei`. The hero section features a dynamic background, overlaid by a gradient and the main heading. Subsequent sections use a `SectionReveal` component to reveal cards and text on scroll, highlighting the company's services and values. The contact page includes a form with validation and feedback.
 
-### React Bits — overview
+### React Bits — Overview
 
-React Bits is a library of animated components offering 3D backgrounds (Aurora, Silk, Plasma, Particles, etc.), interactive cards (Pixel Card, Spotlight Card, Decay Card), animated menus (Flowing Menu, Gooey Nav) and text effects (Split Text, Gradient Text, Text Type). Components are imported individually and can be copied into the project or installed via a CLI (for example `npx shadcn@latest add https://reactbits.dev/r/Silk-JS-CSS`). The library recommends using at most 2–3 React Bits components per page to preserve performance and to provide static alternatives for mobile or users with `prefers-reduced-motion`.
+React Bits is a library of animated components offering 3D backgrounds, interactive cards, animated menus, and text effects. This project uses a curated selection of React Bits components to create an engaging user experience while maintaining excellent performance and accessibility.
 
-### Proposed redesign using React Bits
+### Proposed Enhancements
 
-Below is a step-by-step plan (as a prompt) to adapt the Art Leo site using React Bits components, focusing on 3D backgrounds, animated text and interactive cards. Suggestions preserve the visual identity (dark background with purple/blue gradient) and integrate Supabase for dynamic data.
+Below is a step-by-step plan to enhance the Monynha Softwares website using React Bits components, focusing on 3D backgrounds, animated text, and interactive cards. Suggestions preserve the corporate identity and integrate Supabase for dynamic data.
 
 ---
 
-#### 1. Preparation and installation
+#### 1. Preparation and Installation
 
 1. Choose the React Bits components to use.
 2. Install 3D dependencies:
@@ -23,25 +23,25 @@ npm install three @react-three/fiber @react-three/drei
 3. For each selected component, copy the source or use the React Bits CLI, for example:
 
 ```bash
-# install the Silk component (JS + CSS)
+# Install the Silk component (JS + CSS)
 npx shadcn@latest add https://reactbits.dev/r/Silk-JS-CSS
 ```
 
-Files will be added to the `components` folder (e.g. `Silk.tsx`) with accompanying CSS.
+Files will be added to the `components` folder (e.g., `Silk.tsx`) with accompanying CSS.
 4. Keep accessibility strategy in place: check `prefers-reduced-motion` and provide static fallbacks (gradients or images) for heavy backgrounds and effects.
 
 ---
 
 #### 2. Home / Hero
 
-- Background: replace `Hero3D` with a React Bits background such as **Aurora** or **Silk**. Tune props (`speed`, `scale`, `color`, `noiseIntensity`) to match the purple/blue aesthetic. Provide a static gradient fallback for `prefers-reduced-motion`.
-- Animated text: use **Split Text** or **Gradient Text** for the main title with staggered character reveal.
-- Highlight cards: replace the three-discipline grid with **Spotlight Card** or **Pixel Card** components that react to cursor movement.
-- Scroll indicator: use a lightweight **Scroll Float** or a minimal animated arrow.
+- Background: Replace `Hero3D` with a React Bits background such as **Aurora** or **Silk**. Tune props (`speed`, `scale`, `color`, `noiseIntensity`) to match the corporate aesthetic. Provide a static gradient fallback for `prefers-reduced-motion`.
+- Animated text: Use **Split Text** or **Gradient Text** for the main title with staggered character reveal.
+- Highlight cards: Replace the service grid with **Spotlight Card** or **Pixel Card** components that react to cursor movement.
+- Scroll indicator: Use a lightweight **Scroll Float** or a minimal animated arrow.
 
 ---
 
-#### 3. Featured works section
+#### 3. Featured Works Section
 
 - Use **Rolling Gallery** or a **Carousel** for a horizontal showcase of the 6 most recent works; use Tilted or Pixel cards for slides.
 - Replace category buttons with a horizontal **Flowing Menu** or similar component.
@@ -49,14 +49,14 @@ Files will be added to the `components` folder (e.g. `Silk.tsx`) with accompanyi
 
 ---
 
-#### 4. Portfolio page
+#### 4. Portfolio Page
 
 - Use `PixelCard` or `SpotlightCard` in the artwork grid, tune `variant`, `gap`, and `speed`. On mobile, use `noFocus={true}` to avoid touch-triggered animations.
 - Consider subtle vertical entrance animation for the grid, or retain Framer Motion `motion.div` reveals.
 
 ---
 
-#### 5. Artwork detail page
+#### 5. Artwork Detail Page
 
 - Use a glass-effect header for metadata and `GlassIcon` for year, category and technique.
 - Put description and tags in a `Decay Card` or `Spotlight Card`.
@@ -64,14 +64,14 @@ Files will be added to the `components` folder (e.g. `Silk.tsx`) with accompanyi
 
 ---
 
-#### 6. About page
+#### 6. About Page
 
 - Show the biography using `TextType` (typewriter) and the timeline as a `Stepper` component.
 - Use a subtle background (Prism or Liquid Ether) behind biography/timeline sections.
 
 ---
 
-#### 7. Contact page
+#### 7. Contact Page
 
 - Use `GlassIcon` components for contact methods and a subtle `RippleGrid` background behind the form.
 
@@ -83,7 +83,7 @@ Files will be added to the `components` folder (e.g. `Silk.tsx`) with accompanyi
 
 ---
 
-#### 9. Performance & accessibility
+#### 9. Performance & Accessibility
 
 - Limit components to 2–3 per page.
 - Respect `prefers-reduced-motion` and provide static fallbacks.
