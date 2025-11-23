@@ -6,6 +6,7 @@ import { useArtwork } from "@/hooks/useArtwork";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GlassIcon } from "@/components/reactbits/GlassIcon";
 import { SpotlightCard } from "@/components/reactbits/SpotlightCard"; // Import SpotlightCard
+import { Badge } from "@/components/ui/badge"; // Import Badge component
 
 const ArtworkDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -127,12 +128,9 @@ const ArtworkDetail = () => {
                     <h3 className="mb-3 text-[clamp(1.2rem,4vw,1.6rem)] font-bold leading-tight">Tags</h3>
                     <div className="flex flex-wrap gap-2">
                       {artwork.tags.map((tag: string) => (
-                        <span
-                          key={tag}
-                          className="px-3 py-1 text-sm rounded-full bg-muted text-muted-foreground border border-border"
-                        >
+                        <Badge key={tag} variant="secondary" className="text-sm">
                           {tag}
-                        </span>
+                        </Badge>
                       ))}
                     </div>
                   </div>
