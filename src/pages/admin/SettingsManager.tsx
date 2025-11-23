@@ -11,20 +11,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { ArrowLeft, Save } from "lucide-react";
-
-interface Setting {
-  id: string;
-  key: string;
-  value: unknown;
-  description: string | null;
-  is_public: boolean;
-}
+import type { Setting } from "@/integrations/supabase/supabase.types"; // Import centralized type
 
 const SettingsManager = () => {
   const { isAdmin, isLoading } = useAuth();
   const queryClient = useQueryClient();
 
-  const { data: settings, isLoading: settingsLoading } = useQuery({
+  const { data: settings, isLoading: settingsLoading } = useQuery<Setting[], Error>({ // Specify return type
     queryKey: ["admin-settings"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -33,11 +26,11 @@ const SettingsManager = () => {
         .order("key", { ascending: true });
       
       if (error) throw error;
-      return data as Setting[];
+      return data || [];
     },
   });
 
-  const updateMutation = useMutation({
+  const updateMutation = useMutation<void, Error, { id: string; value: unknown; is_public: boolean }>({ // Specify generic types
     mutationFn: async ({ id, value, is_public }: { id: string; value: unknown; is_public: boolean }) => {
       const { error } = await supabase
         .from("settings")

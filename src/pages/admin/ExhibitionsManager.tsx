@@ -11,17 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
-
-interface Exhibition {
-  id: string;
-  title: string;
-  description: string | null;
-  location: string | null;
-  date: string | null;
-  year: number;
-  type: string;
-  display_order: number;
-}
+import type { Exhibition } from "@/integrations/supabase/supabase.types"; // Import centralized type
 
 const ExhibitionsManager = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -29,7 +19,7 @@ const ExhibitionsManager = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingExhibition, setEditingExhibition] = useState<Exhibition | null>(null);
 
-  const { data: exhibitions, isLoading: exhibitionsLoading } = useQuery({
+  const { data: exhibitions, isLoading: exhibitionsLoading } = useQuery<Exhibition[], Error>({ // Specify return type
     queryKey: ["admin-exhibitions"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -39,11 +29,11 @@ const ExhibitionsManager = () => {
         .order("display_order", { ascending: true });
       
       if (error) throw error;
-      return data as Exhibition[];
+      return data || [];
     },
   });
 
-  const deleteMutation = useMutation({
+  const deleteMutation = useMutation<void, Error, string>({ // Specify generic types
     mutationFn: async (id: string) => {
       const { error } = await supabase.from("exhibitions").delete().eq("id", id);
       if (error) throw error;
@@ -157,11 +147,16 @@ const ExhibitionForm = ({ exhibition, onSuccess }: ExhibitionFormProps) => {
     display_order: exhibition?.display_order || 0,
   });
 
-  const mutation = useMutation({
+  const mutation = useMutation<void, Error, typeof formData>({ // Specify generic types
     mutationFn: async (data: typeof formData) => {
-      const payload = {
-        ...data,
+      const payload: Omit<Exhibition, "id" | "created_at" | "updated_at"> = { // Omit auto-generated fields
+        title: data.title,
+        description: data.description || null,
+        location: data.location || null,
+        date: data.date || null,
         year: parseInt(data.year),
+        type: data.type,
+        display_order: data.display_order,
       };
 
       if (exhibition) {
@@ -171,7 +166,7 @@ const ExhibitionForm = ({ exhibition, onSuccess }: ExhibitionFormProps) => {
           .eq("id", exhibition.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase.from("exhibitions").insert(payload);
+        const { error } = await supabase.from("exhibitions").insert([payload]);
         if (error) throw error;
       }
     },

@@ -8,21 +8,13 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { ArrowLeft, Mail, Check } from "lucide-react";
 import { format } from "date-fns";
-
-interface ContactMessage {
-  id: string;
-  name: string;
-  email: string;
-  message: string;
-  status: string;
-  created_at: string;
-}
+import type { ContactMessage } from "@/integrations/supabase/supabase.types"; // Import centralized type
 
 const MessagesManager = () => {
   const { isAdmin, isLoading } = useAuth();
   const queryClient = useQueryClient();
 
-  const { data: messages, isLoading: messagesLoading } = useQuery({
+  const { data: messages, isLoading: messagesLoading } = useQuery<ContactMessage[], Error>({ // Specify return type
     queryKey: ["admin-messages"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -31,11 +23,11 @@ const MessagesManager = () => {
         .order("created_at", { ascending: false });
       
       if (error) throw error;
-      return data as ContactMessage[];
+      return data || [];
     },
   });
 
-  const markReadMutation = useMutation({
+  const markReadMutation = useMutation<void, Error, string>({ // Specify generic types
     mutationFn: async (id: string) => {
       const { error } = await supabase
         .from("contact_messages")

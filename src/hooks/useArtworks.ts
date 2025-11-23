@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import type { Artwork } from "@/integrations/supabase/supabase.types"; // Import centralized type
 
 interface UseArtworksOptions {
   category?: string;
@@ -8,7 +9,7 @@ interface UseArtworksOptions {
 }
 
 export const useArtworks = (options: UseArtworksOptions = {}) => {
-  return useQuery({
+  return useQuery<Artwork[], Error>({ // Specify return type
     queryKey: ["artworks", options],
     queryFn: async () => {
       let query = supabase

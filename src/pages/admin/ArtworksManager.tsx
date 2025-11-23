@@ -11,22 +11,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
+import { Plus, Pencil, Trash2, ArrowLeft, Star } from "lucide-react";
 import { Link } from "react-router-dom";
-
-interface Artwork {
-  id: string;
-  title: string;
-  description: string | null;
-  category: string;
-  technique: string | null;
-  year: number | null;
-  cover_url: string;
-  slug: string;
-  status: string;
-  featured: boolean;
-  display_order: number;
-}
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import type { Artwork, ContentStatus } from "@/integrations/supabase/supabase.types"; // Import centralized type
 
 const ArtworksManager = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -34,9 +23,9 @@ const ArtworksManager = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingArtwork, setEditingArtwork] = useState<Artwork | null>(null);
   const [selectedArtworks, setSelectedArtworks] = useState<string[]>([]);
-  const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [filterStatus, setFilterStatus] = useState<string>("all"); // This state is not currently used for filtering the query, but kept for potential future use.
 
-  const { data: artworks, isLoading: artworksLoading } = useQuery({
+  const { data: artworks, isLoading: artworksLoading } = useQuery<Artwork[], Error>({ // Specify return type
     queryKey: ["admin-artworks"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -45,11 +34,11 @@ const ArtworksManager = () => {
         .order("display_order", { ascending: true });
       
       if (error) throw error;
-      return data as Artwork[];
+      return data || [];
     },
   });
 
-  const deleteMutation = useMutation({
+  const deleteMutation = useMutation<void, Error, string>({ // Specify generic types
     mutationFn: async (id: string) => {
       const { error } = await supabase.from("artworks").delete().eq("id", id);
       if (error) throw error;
@@ -64,7 +53,7 @@ const ArtworksManager = () => {
     },
   });
 
-  const bulkDeleteMutation = useMutation({
+  const bulkDeleteMutation = useMutation<void, Error, string[]>({ // Specify generic types
     mutationFn: async (ids: string[]) => {
       const { error } = await supabase.from("artworks").delete().in("id", ids);
       if (error) throw error;
@@ -79,8 +68,8 @@ const ArtworksManager = () => {
     },
   });
 
-  const bulkUpdateStatusMutation = useMutation({
-    mutationFn: async ({ ids, status }: { ids: string[]; status: string }) => {
+  const bulkUpdateStatusMutation = useMutation<void, Error, { ids: string[]; status: ContentStatus }>({ // Specify generic types
+    mutationFn: async ({ ids, status }: { ids: string[]; status: ContentStatus }) => {
       const { error } = await supabase
         .from("artworks")
         .update({ status })
@@ -266,11 +255,12 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
     status: artwork?.status || "draft",
     featured: artwork?.featured || false,
     display_order: artwork?.display_order || 0,
+    tags: artwork?.tags?.join(", ") || "", // Handle tags as comma-separated string
   });
 
-  const mutation = useMutation({
+  const mutation = useMutation<void, Error, typeof formData>({ // Specify generic types
     mutationFn: async (data: typeof formData) => {
-      const payload = {
+      const payload: Omit<Artwork, "id" | "created_at" | "updated_at" | "images"> = { // Omit auto-generated fields
         title: data.title,
         description: data.description || null,
         category: data.category,
@@ -278,9 +268,10 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
         year: data.year ? parseInt(data.year) : null,
         cover_url: data.cover_url,
         slug: data.slug,
-        status: data.status as "draft" | "published" | "archived",
+        status: data.status as ContentStatus, // Cast to ContentStatus enum
         featured: data.featured,
         display_order: data.display_order,
+        tags: data.tags.split(",").map(tag => tag.trim()).filter(tag => tag.length > 0), // Convert string to array
       };
 
       if (artwork) {
@@ -381,6 +372,16 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
         />
       </div>
 
+      <div>
+        <Label htmlFor="tags">Tags (comma-separated)</Label>
+        <Input
+          id="tags"
+          value={formData.tags}
+          onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+          placeholder="e.g., digital, abstract, 3d"
+        />
+      </div>
+
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="status">Status</Label>
@@ -391,6 +392,7 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
             <SelectContent>
               <SelectItem value="draft">Draft</SelectItem>
               <SelectItem value="published">Published</SelectItem>
+              <SelectItem value="archived">Archived</SelectItem>
             </SelectContent>
           </Select>
         </div>
