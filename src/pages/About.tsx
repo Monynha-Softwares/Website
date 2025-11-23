@@ -25,7 +25,7 @@ const About = () => {
 
   const experienceTimeline = cvData?.experience.map((exp) => ({
     title: exp.role,
-    subtitle: `${exp.org} · ${exp.location} (${exp.start} - ${exp.end || "Presente"})`,
+    subtitle: `${exp.org} · ${exp.location} (${exp.start} - ${exp.end || "Present"})`,
     description: exp.highlights.join(" • "),
     indicator: exp.start.split('-')[0], // Use start year as indicator
   })) || [];

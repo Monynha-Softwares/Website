@@ -1,10 +1,10 @@
 {
-  "langDefault": "pt",
+  "langDefault": "en",
   "profile": {
     "name": "Marcelo Santos",
     "headline": "Software Engineer & Founder @ Monynha Softwares",
     "location": "Faro, Portugal",
-    "bio": "Engenheiro de software com foco em produtos digitais, automação e DevOps. Apaixonado por acessibilidade, open-source e design inclusivo. Fundador da Monynha Softwares — um laboratório criativo que une tecnologia, diversidade e arte digital.",
+    "bio": "Software engineer focused on digital products, automation, and DevOps. Passionate about accessibility, open-source, and inclusive design. Founder of Monynha Softwares — a creative laboratory that unites technology, diversity, and digital art.",
     "avatar": "/avatar.jpg"
   },
   "links": {
@@ -18,8 +18,8 @@
     {
       "slug": "botecopro",
       "name": "BotecoPro",
-      "summary": "Sistema de gestão para bares e restaurantes com IA integrada para otimizar operações e melhorar a eficiência do negócio.",
-      "fullDescription": "BotecoPro centraliza operações de bares e restaurantes com automação de pedidos, gestão de estoque e dashboards em tempo real. A camada de IA recomenda ações preventivas, reduz desperdícios e empodera equipas a oferecer experiências consistentes em cada serviço.",
+      "summary": "Management system for bars and restaurants with integrated AI to optimize operations and improve business efficiency.",
+      "fullDescription": "BotecoPro centralizes bar and restaurant operations with order automation, inventory management, and real-time dashboards. The AI layer recommends preventive actions, reduces waste, and empowers teams to deliver consistent experiences in every service.",
       "stack": [
         "Reflex (Django)",
         "Python",
@@ -31,16 +31,16 @@
       "domain": "app.boteco.pt",
       "repoUrl": "https://github.com/Monynha-Softwares/BotecoPro",
       "thumbnail": "/images/botecopro.svg",
-      "category": "Soluções Empresariais",
-      "status": "Desenvolvimento",
-      "visibility": "Pública",
+      "category": "Business Solutions",
+      "status": "Development",
+      "visibility": "Public",
       "year": 2023
     },
     {
       "slug": "boteco-pt",
       "name": "Boteco.pt",
-      "summary": "Site institucional multilíngue (pt/en/es/fr) do BotecoPro com foco em performance, acessibilidade e experiência do usuário.",
-      "fullDescription": "Boteco.pt é a vitrine digital do BotecoPro, apresentando soluções de gestão para bares e restaurantes. O site combina design responsivo, lazy loading progressivo, testes visuais automatizados e suporte a 4 idiomas. A arquitetura prioriza Core Web Vitals, SEO e acessibilidade WCAG, com bundle otimizado (75% de redução) e sistema de design customizado com shadcn/ui.",
+      "summary": "Multilingual institutional website (pt/en/es/fr) for BotecoPro, focused on performance, accessibility, and user experience.",
+      "fullDescription": "Boteco.pt is the digital showcase for BotecoPro, presenting management solutions for bars and restaurants. The site combines responsive design, progressive lazy loading, automated visual tests, and support for 4 languages. The architecture prioritizes Core Web Vitals, SEO, and WCAG accessibility, with an optimized bundle (75% reduction) and a customized design system with shadcn/ui.",
       "stack": [
         "React",
         "TypeScript",
@@ -53,16 +53,16 @@
       "domain": "boteco.pt",
       "repoUrl": "https://github.com/marcelo-m7/boteco.pt",
       "thumbnail": "/images/boteco-pt.svg",
-      "category": "Institucional",
-      "status": "Desenvolvimento",
-      "visibility": "Pública",
+      "category": "Institutional",
+      "status": "Development",
+      "visibility": "Public",
       "year": 2025
     },
     {
       "slug": "facodi",
       "name": "FACODI",
-      "summary": "Faculdade Comunitária Digital — plataforma de educação comunitária aberta e gratuita, com foco em inclusão social.",
-      "fullDescription": "FACODI democratiza o acesso a cursos superiores por meio de trilhas interativas, conteúdos revisados por especialistas e ferramentas de apoio comunitário. A plataforma prioriza acessibilidade, conectividade de baixa largura de banda e governança colaborativa.",
+      "summary": "Digital Community College — an open and free community education platform, focused on social inclusion.",
+      "fullDescription": "FACODI democratizes access to higher education through interactive pathways, expert-reviewed content, and community support tools. The platform prioritizes accessibility, low-bandwidth connectivity, and collaborative governance.",
       "stack": [
         "Pute Markdonwn",
         "Hugo Framework",
@@ -73,16 +73,16 @@
       "domain": "facodi.pt",
       "repoUrl": "https://github.com/Monynha-Softwares/facodi.pt",
       "thumbnail": "/images/facodi.svg",
-      "category": "Educação",
-      "status": "Desenvolvimento",
-      "visibility": "Pública",
+      "category": "Education",
+      "status": "Development",
+      "visibility": "Public",
       "year": 2025
     },
     {
       "slug": "monynha-tech",
       "name": "MonynhaTech",
-      "summary": "Blog técnico e centro de documentação multilíngue da empresa.",
-      "fullDescription": "MonynhaTech concentra notas técnicas, tutoriais e a visão de arquitetura dos produtos Monynha. A curadoria em múltiplos idiomas garante que equipas globais acompanhem decisões, padrões de design e integrações com a stack oficial.",
+      "summary": "Technical blog and multilingual documentation center for the company.",
+      "fullDescription": "MonynhaTech centralizes technical notes, tutorials, and the architectural vision of Monynha products. Multilingual curation ensures global teams keep up with decisions, design patterns, and integrations with the official stack.",
       "stack": [
         "Next.js",
         "Payload CMS",
@@ -100,8 +100,8 @@
     {
       "slug": "artleo",
       "name": "Art Leo",
-      "summary": "Portfólio artístico e espaço de demonstrações criativas.",
-      "fullDescription": "Art Leo apresenta narrativas digitais, esculturas 3D e experiências interativas desenvolvidas com React Three Fiber. O projeto celebra artistas LGBTQIAP+ e mantém performance otimizada para dispositivos móveis e realidade aumentada.",
+      "summary": "Artistic portfolio and creative demonstration space.",
+      "fullDescription": "Art Leo presents digital narratives, 3D sculptures, and interactive experiences developed with React Three Fiber. The project celebrates LGBTQIAP+ artists and maintains optimized performance for mobile devices and augmented reality.",
       "stack": [
         "Next.js",
         "React Three Fiber",
@@ -111,16 +111,16 @@
       "domain": "artleo.monynha.com",
       "repoUrl": "https://github.com/Monynha-Softwares/artleo-creative-spaces",
       "thumbnail": "/images/artleo.svg",
-      "category": "Arte Digital",
+      "category": "Digital Art",
       "status": "MVP",
-      "visibility": "Pública",
+      "visibility": "Public",
       "year": 2025
     },
     {
       "slug": "Kobu Assistent",
       "name": "Kobu Assistent",
-      "summary": "Assistente virtual por IA para atendimento e automação de processos.",
-      "fullDescription": "Kobu Assistent combina modelos de linguagem, fluxos de automação e integrações omnicanal para responder clientes com rapidez e empatia. A solução aprende com feedback humano e mantém trilhas auditáveis para governança responsável de IA.",
+      "summary": "AI virtual assistant for customer service and intelligent process automation.",
+      "fullDescription": "Kobu Assistent combines language models, automation flows, and omnichannel integrations to respond to clients quickly and empathetically. The solution learns from human feedback and maintains auditable trails for responsible AI governance.",
       "stack": [
         "LangChain",
         "Flask",
@@ -133,16 +133,16 @@
       "domain": null,
       "repoUrl": "https://github.com/Monynha-Softwares/Kobu-Assistent",
       "thumbnail": "/images/kobu-assistent.svg",
-      "category": "IA Conversacional",
-      "status": "Desenvolvimento",
-      "visibility": "Interna",
+      "category": "Conversational AI",
+      "status": "Development",
+      "visibility": "Internal",
       "year": 2025
     },
     {
       "slug": "monadocs",
       "name": "MonaDocs",
-      "summary": "Template de documentação técnica para portais e produtos Monynha.",
-      "fullDescription": "MonaDocs oferece uma base estática elegante para portais de documentação com suporte a Markdown avançado, componentes shadcn/ui e integração contínua com o design system Monynha.",
+      "summary": "Technical documentation template for Monynha portals and products.",
+      "fullDescription": "MonaDocs offers an elegant static base for documentation portals with advanced Markdown support, shadcn/ui components, and continuous integration with the Monynha design system.",
       "stack": [
         "Static Site",
         "Markdown",
@@ -152,16 +152,16 @@
       "domain": "docs.monynha.com",
       "repoUrl": "https://github.com/Monynha-Softwares/MonaDocs",
       "thumbnail": "/images/monadocs.svg",
-      "category": "Documentação",
-      "status": "Produção",
-      "visibility": "Pública",
+      "category": "Documentation",
+      "status": "Production",
+      "visibility": "Public",
       "year": 2024
     },
     {
       "slug": "monynha-com",
-      "name": "Monynha.com (Institucional)",
-      "summary": "Site institucional da Monynha Softwares com branding e informações corporativas.",
-      "fullDescription": "O site institucional consolida manifesto, propostas de valor e canais de contacto da Monynha Softwares. A arquitetura prioriza performance, acessibilidade AA e narrativa alinhada ao dossiê institucional.",
+      "name": "Monynha.com (Institutional)",
+      "summary": "Monynha Softwares institutional website with corporate branding and information.",
+      "fullDescription": "The institutional website consolidates Monynha Softwares' manifesto, value propositions, and contact channels. The architecture prioritizes performance, AA accessibility, and narrative aligned with the institutional dossier.",
       "stack": [
         "Next.js",
         "Tailwind CSS",
@@ -171,16 +171,16 @@
       "domain": "monynha.com",
       "repoUrl": "https://github.com/Monynha-Softwares/Monynha-com",
       "thumbnail": "/images/monynha-com.svg",
-      "category": "Institucional",
-      "status": "Produção",
-      "visibility": "Pública",
+      "category": "Institutional",
+      "status": "Production",
+      "visibility": "Public",
       "year": 2024
     },
     {
       "slug": "infra-hub",
       "name": "Monynha Online",
-      "summary": "Hub central da infraestrutura Monynha, baseado em Coolify.",
-      "fullDescription": "Monynha Online orquestra pipelines, monitorização e deploys automatizados com Coolify e contêineres isolados. A camada de observabilidade garante estabilidade para experiências públicas e privadas do ecossistema Monynha.",
+      "summary": "Central hub for Monynha infrastructure, based on Coolify.",
+      "fullDescription": "Monynha Online orchestrates pipelines, monitoring, and automated deployments with Coolify and isolated containers. The observability layer ensures stability for public and private experiences within the Monynha ecosystem.",
       "stack": [
         "Coolify",
         "Containers",
@@ -190,16 +190,16 @@
       "domain": "monynha.online",
       "repoUrl": "https://github.com/Monynha-Softwares/MonynhaOnline-Default-Page",
       "thumbnail": "/images/infra-hub.svg",
-      "category": "Infraestrutura",
+      "category": "Infrastructure",
       "status": "MVP",
-      "visibility": "Interna",
+      "visibility": "Internal",
       "year": 2024
     },
     {
       "slug": "open-webui",
       "name": "Open WebUI",
-      "summary": "Instância Open WebUI para IA local e web.",
-      "fullDescription": "A instância Open WebUI da Monynha facilita experimentação segura com modelos locais e serviços hospedados. O ambiente é integrado ao Monynha Online e segue políticas de privacidade para treino e teste de agentes.",
+      "summary": "Open WebUI instance for local and web AI.",
+      "fullDescription": "Monynha's Open WebUI instance facilitates safe experimentation with local models and hosted services. The environment is integrated with Monynha Online and follows privacy policies for agent training and testing.",
       "stack": [
         "Open WebUI",
         "LLMs",
@@ -209,16 +209,16 @@
       "domain": "ai.monynha.com",
       "repoUrl": "https://github.com/open-webui/open-webui",
       "thumbnail": "/images/open-webui.svg",
-      "category": "IA",
-      "status": "Desenvolvimento",
-      "visibility": "Pública",
+      "category": "AI",
+      "status": "Development",
+      "visibility": "Public",
       "year": 2025
     },
     {
       "slug": "marcelo-portfolio",
       "name": "Marcelo Portfolio",
-      "summary": "Portfólio pessoal e site profissional de Marcelo M7.",
-      "fullDescription": "O portfólio de Marcelo apresenta projetos, manifestos e estudos autorais dentro da linguagem visual Monynha. É construído como laboratório vivo para novas interações, acessibilidade avançada e componentes do design system interno.",
+      "summary": "Marcelo M7's personal portfolio and professional website.",
+      "fullDescription": "Marcelo's portfolio showcases projects, manifestos, and authorial studies within the Monynha visual language. It is built as a living laboratory for new interactions, advanced accessibility, and internal design system components.",
       "stack": [
         "Vite",
         "React",
@@ -228,16 +228,16 @@
       "domain": "marcelo.monynha.com",
       "repoUrl": "https://github.com/marcelo-m7/MS-Portfolio",
       "thumbnail": "/images/marcelo-portfolio.svg",
-      "category": "Portfólio",
-      "status": "Produção",
-      "visibility": "Pública",
+      "category": "Portfolio",
+      "status": "Production",
+      "visibility": "Public",
       "year": 2025
     },
     {
       "slug": "monagent",
       "name": "MonAgent",
-      "summary": "Sistema de agentes AI para automação e processamento inteligente de tarefas.",
-      "fullDescription": "MonAgent é uma plataforma experimental de agentes autônomos baseada em LLMs. O sistema permite orquestração de múltiplos agentes especializados, processamento paralelo de contextos e integração com ferramentas externas através de Model Context Protocol (MCP).",
+      "summary": "AI agent system for automation and intelligent task processing.",
+      "fullDescription": "MonAgent is an experimental platform for autonomous agents based on LLMs. The system allows orchestration of multiple specialized agents, parallel processing of contexts, and integration with external tools via Model Context Protocol (MCP).",
       "stack": [
         "Python",
         "LangChain",
@@ -247,9 +247,9 @@
       "domain": null,
       "repoUrl": "https://github.com/Monynha-Softwares/MonAgent",
       "thumbnail": "/images/monagent.svg",
-      "category": "IA",
-      "status": "Desenvolvimento",
-      "visibility": "Interna",
+      "category": "AI",
+      "status": "Development",
+      "visibility": "Internal",
       "year": 2024
     }
   ],
@@ -261,10 +261,10 @@
       "end": null,
       "location": "Faro, Portugal",
       "highlights": [
-        "Criação e manutenção do ecossistema Monynha (sites, apps e automações).",
-        "Desenvolvimento full-stack com Next.js, Supabase, Flutter e Payload CMS.",
-        "Gestão de pipelines CI/CD (Coolify, GitHub Actions) e infraestrutura Docker.",
-        "Integração entre arte, tecnologia e IA aplicada a produtos digitais."
+        "Creation and maintenance of the Monynha ecosystem (websites, apps, and automations).",
+        "Full-stack development with Next.js, Supabase, Flutter, and Payload CMS.",
+        "Management of CI/CD pipelines (Coolify, GitHub Actions) and Docker infrastructure.",
+        "Integration between art, technology, and AI applied to digital products."
       ]
     },
     {
@@ -274,9 +274,9 @@
       "end": "2024-06",
       "location": "Faro, Portugal",
       "highlights": [
-        "Desenvolvi um assistente virtual para geração de leads usando Python (FAISS, LangChain, Flask, OpenAI, Pickle).",
-        "Construí frontend responsivo com JavaScript, CSS/SCSS, PHP e Node.js.",
-        "Melhorei a recuperação de dados e a interação com clientes orientada por IA."
+        "Developed a virtual assistant for lead generation using Python (FAISS, LangChain, Flask, OpenAI, Pickle).",
+        "Built responsive frontend with JavaScript, CSS/SCSS, PHP, and Node.js.",
+        "Improved data retrieval and AI-driven client interaction."
       ]
     },
     {
@@ -284,10 +284,10 @@
       "org": "Outlier.ai",
       "start": "2024-07",
       "end": "2024-12",
-      "location": "Remoto",
+      "location": "Remote",
       "highlights": [
-        "Avaliei e classifiquei respostas geradas por IA para melhorar performance e alinhamento de LLMs.",
-        "Contribuí para o fine-tuning de sistemas avançados de linguagem natural."
+        "Evaluated and classified AI-generated responses to improve LLM performance and alignment.",
+        "Contributed to the fine-tuning of advanced natural language systems."
       ]
     },
     {
@@ -297,8 +297,8 @@
       "end": "2022-10",
       "location": "Lisboa, Portugal",
       "highlights": [
-        "Gestão de parcerias comerciais e de marketing, catálogo de produtos e relacionamento com fornecedores.",
-        "Suporte às operações de loja e atendimento de tickets e reclamações."
+        "Management of commercial and marketing partnerships, product catalog, and supplier relationships.",
+        "Support for store operations and handling tickets and complaints."
       ]
     },
     {
@@ -306,117 +306,117 @@
       "org": "Bar do Jonas e Comida Caseira",
       "start": "2019-05",
       "end": "2020-10",
-      "location": "Vitória, Brasil",
+      "location": "Vitória, Brazil",
       "highlights": [
-        "Gestão de operações, fornecedores, controlo de inventário e processos administrativos.",
-        "Continuidade remota como Gestor Administrativo após mudança para Portugal."
+        "Management of operations, suppliers, inventory control, and administrative processes.",
+        "Remote continuity as Administrative Manager after moving to Portugal."
       ]
     },
     {
-      "role": "Estudante de Engenharia de Software",
+      "role": "Software Engineering Student",
       "org": "Universidade do Algarve (LESTI)",
       "start": "2021-09",
       "end": "2025-07",
       "location": "Faro, Portugal",
       "highlights": [
-        "Licenciatura em Engenharia de Software e Tecnologias de Informação.",
-        "Projetos práticos em IA, desenvolvimento web e visualização de informação.",
-        "Participação em iniciativas open-source e pesquisa aplicada."
+        "Bachelor's degree in Software Engineering and Information Technologies.",
+        "Practical projects in AI, web development, and information visualization.",
+        "Participation in open-source initiatives and applied research."
       ]
     }
   ],
   "skills": [
     {
       "name": "Python",
-      "category": "Backend / IA",
-      "level": "Avançado"
+      "category": "Backend / AI",
+      "level": "Advanced"
     },
     {
       "name": "LangChain",
-      "category": "IA / LLMs",
-      "level": "Intermédio"
+      "category": "AI / LLMs",
+      "level": "Intermediate"
     },
     {
       "name": "FAISS",
-      "category": "IA / Vector DB",
-      "level": "Intermédio"
+      "category": "AI / Vector DB",
+      "level": "Intermediate"
     },
     {
       "name": "Flask / FastAPI",
       "category": "Backend",
-      "level": "Intermédio"
+      "level": "Intermediate"
     },
     {
       "name": "SQL Server",
-      "category": "Base de Dados",
-      "level": "Intermédio"
+      "category": "Database",
+      "level": "Intermediate"
     },
     {
       "name": "Node.js / TypeScript",
       "category": "Backend",
-      "level": "Avançado"
+      "level": "Advanced"
     },
     {
       "name": "React / Vite / Tailwind",
       "category": "Frontend",
-      "level": "Avançado"
+      "level": "Advanced"
     },
     {
       "name": "GitHub Actions",
       "category": "DevOps",
-      "level": "Intermédio"
+      "level": "Intermediate"
     },
     {
       "name": "Docker",
       "category": "DevOps",
-      "level": "Avançado"
+      "level": "Advanced"
     },
     {
       "name": "Next.js",
       "category": "Frontend",
-      "level": "Avançado"
+      "level": "Advanced"
     },
     {
       "name": "Supabase",
       "category": "Backend / DB",
-      "level": "Avançado"
+      "level": "Advanced"
     },
     {
       "name": "Flutter",
       "category": "Mobile",
-      "level": "Intermédio"
+      "level": "Intermediate"
     },
     {
       "name": "Docker",
       "category": "DevOps",
-      "level": "Avançado"
+      "level": "Advanced"
     },
     {
       "name": "Payload CMS",
       "category": "CMS",
-      "level": "Intermédio"
+      "level": "Intermediate"
     },
     {
       "name": "CI/CD (Coolify + GitHub Actions)",
       "category": "DevOps",
-      "level": "Avançado"
+      "level": "Advanced"
     },
     {
       "name": "Framer Motion",
-      "category": "Animações / UI",
-      "level": "Intermédio"
+      "category": "Animations / UI",
+      "level": "Intermediate"
     },
     {
       "name": "React Three Fiber",
       "category": "3D / WebGL",
-      "level": "Intermédio"
+      "level": "Intermediate"
     }
   ],
   "series": [
     {
       "slug": "creative-systems",
       "title": "Creative Systems",
-      "description": "Coleção de projetos experimentais que exploram a intersecção entre arte generativa, UX e automação inteligente.",
+      "description": "Collection of experimental projects that explore the intersection between generative art, UX, and intelligent automation.",
       "year": 2024,
       "works": [
         "artleo",
@@ -438,7 +438,7 @@
         "3D Animation",
         "Digital Sculpture"
       ],
-      "description": "Experiência imersiva criada em Next.js e React Three Fiber para o artista Leonardo Silva, destacando arte interativa e ambiente 3D.",
+      "description": "Immersive experience created in Next.js and React Three Fiber for artist Leonardo Silva, highlighting interactive art and 3D environment.",
       "url3d": "https://artleo.monynha.com"
     }
   ],
@@ -447,36 +447,36 @@
       "slug": "design-tecnologia-inclusiva",
       "date": "2025-01-17",
       "tags": [
-        "Acessibilidade",
+        "Accessibility",
         "Design",
-        "Experiência do Utilizador",
-        "Inclusão",
+        "User Experience",
+        "Inclusion",
         "UX/UI"
       ],
-      "title": "Design e Tecnologia Inclusiva",
-      "excerpt": "A tecnologia é mais humana quando é feita para todas as pessoas — não apenas para quem tem acesso fácil a ela.",
-      "body": "Sempre acreditei que design e acessibilidade não são pontos opostos num espectro, mas duas linguagens que, quando dialogam, traduzem o verdadeiro sentido da inovação. A estética só é completa quando é compreensível. O belo só é belo quando é acessível.\n\nNa Monynha Softwares, cada interface nasce de um princípio simples: **empatia como arquitetura**. Criar não é só desenhar pixels; é entender contextos, reconhecer diferenças e garantir que ninguém fique de fora da experiência digital.\n\nImplementamos contrastes adequados, hierarquias visuais claras e navegação por teclado desde o primeiro protótipo. Evitamos animações que possam causar desconforto a pessoas sensíveis ao movimento, respeitando o `prefers-reduced-motion`. Cada componente é pensado para ser útil, não apenas bonito.\n\nMais do que cumprir normas da WCAG, tratamos acessibilidade como expressão de respeito. Cada *alt-text* é um convite à inclusão; cada *aria-label* é um gesto de empatia codificado.\n\nO design inclusivo não é um diferencial competitivo — é um ato político e ético. Porque se a tecnologia é feita por pessoas, para pessoas, então ela deve abraçar todas as formas de existir. 💜"
+      "title": "Inclusive Design and Technology",
+      "excerpt": "Technology is more human when it's made for everyone — not just for those who have easy access to it.",
+      "body": "I have always believed that design and accessibility are not opposite points on a spectrum, but two languages that, when they converse, translate the true meaning of innovation. Aesthetics are only complete when they are understandable. Beauty is only beautiful when it is accessible.\n\nAt Monynha Softwares, every interface is born from a simple principle: **empathy as architecture**. Creating is not just drawing pixels; it's understanding contexts, recognizing differences, and ensuring that no one is left out of the digital experience.\n\nWe implement adequate contrasts, clear visual hierarchies, and keyboard navigation from the first prototype. We avoid animations that may cause discomfort to motion-sensitive individuals, respecting `prefers-reduced-motion`. Every component is designed to be useful, not just beautiful.\n\nMore than just complying with WCAG standards, we treat accessibility as an expression of respect. Every *alt-text* is an invitation to inclusion; every *aria-label* is a coded gesture of empathy.\n\nInclusive design is not a competitive differentiator — it is a political and ethical act. Because if technology is made by people, for people, then it must embrace all forms of existence. 💜"
     },
     {
       "slug": "por-tras-da-monynha",
       "date": "2025-02-02",
       "tags": [
-        "Cultura",
-        "Comunidade",
-        "Empreendedorismo",
-        "Orgulho",
-        "Diversidade"
+        "Culture",
+        "Community",
+        "Entrepreneurship",
+        "Pride",
+        "Diversity"
       ],
-      "title": "Por trás da Monynha",
-      "excerpt": "Mais do que software — um movimento de orgulho, diversidade e resistência digital.",
-      "body": "A **Monynha Softwares** nasceu de um sonho coletivo: provar que tecnologia e afeto podem coexistir. Que inovação também vem da margem. Que a web pode ser um espaço de acolhimento, criação e resistência.\n\nO nome carrega essa essência. *\"Mona\"*, palavra de resistência do Pajubá, e o sufixo *\"-nynha\"*, expressão carinhosa e periférica, simbolizam a mistura de ternura, humor e coragem que definem quem somos. Criamos com amor, mas também com propósito — cada projeto é uma forma de dizer: **estamos aqui e não vamos voltar pro armário da tecnologia.** 🏳️‍🌈\n\nNosso manifesto é simples: **democratizar o digital, celebrar a diferença e hackear o sistema com orgulho.** Através de software livre, design acessível e comunidades diversas, buscamos transformar o que antes era privilégio em possibilidade.\n\nDe apps e plataformas open source a iniciativas culturais e educacionais, cada linha de código escrita pela Monynha é um gesto de resistência criativa. Nossos produtos — como o BotecoPro, o FACODI e a AssisTina — não são apenas soluções tecnológicas; são manifestações vivas de empatia, inclusão e representatividade.\n\nSer Monynha é entender que tecnologia é linguagem, e linguagem é poder. Que cada pessoa que se vê num produto é mais do que usuária — é protagonista. E é por isso que seguimos criando, dia após dia, com a certeza de que **diversidade também é performance.** 💅✨"
+      "title": "Behind Monynha",
+      "excerpt": "More than software — a movement of pride, diversity, and digital resistance.",
+      "body": "Monynha Softwares was born from a collective dream: to prove that technology and affection can coexist. That innovation also comes from the margins. That the web can be a space of welcome, creation, and resistance.\n\nThe name carries this essence. *\"Mona\"*, a word of resistance from Pajubá, and the suffix *\"-nynha\"*, a loving and peripheral expression, symbolize the mix of tenderness, humor, and courage that define who we are. We create with love, but also with purpose — every project is a way of saying: **we are here and we are not going back into the technology closet.** 🏳️‍🌈\n\nOur manifesto is simple: **democratize the digital, celebrate difference, and hack the system with pride.** Through free software, accessible design, and diverse communities, we seek to transform what was once privilege into possibility.\n\nFrom open-source apps and platforms to cultural and educational initiatives, every line of code written by Monynha is a gesture of creative resistance. Our products — like BotecoPro, FACODI, and AssisTina — are not just technological solutions; they are living manifestations of empathy, inclusion, and representation.\n\nBeing Monynha means understanding that technology is language, and language is power. That every person who sees themselves in a product is more than a user — they are a protagonist. And that's why we continue to create, day after day, with the certainty that **diversity is also performance.** 💅✨"
     }
   ],
   "contact": {
     "email": "marcelo@monynha.com",
-    "availability": "Disponível para colaborações e oportunidades criativas.",
-    "note": "Entre em contato para projetos, parcerias ou ideias fora da caixa!",
-    "successMessage": "Mensagem enviada com sucesso! Entrarei em contato em breve 🌈",
-    "errorMessage": "Ops! Algo deu errado. Tenta novamente mais tarde 💜"
+    "availability": "Available for collaborations and creative opportunities.",
+    "note": "Get in touch for projects, partnerships, or out-of-the-box ideas!",
+    "successMessage": "Message sent successfully! I'll get back to you soon 🌈",
+    "errorMessage": "Oops! Something went wrong. Please try again later 💜"
   }
 }
