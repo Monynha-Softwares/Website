@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="og-title">
-  <title id="og-title">Art Leo – Creative Spaces</title>
+  <title id="og-title">Monynha Softwares – Inclusive Software</title>
   <defs>
     <linearGradient id="og-bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#1f2937" />
@@ -42,13 +42,13 @@
   </g>
   <g transform="translate(420 200)">
     <text x="0" y="0" fill="#f8fafc" font-family="'Poppins', 'Inter', 'Segoe UI', sans-serif" font-size="72" font-weight="600" letter-spacing="0.08em">
-      ART LEO
+      MONYNHA SOFTWARES
     </text>
     <text x="0" y="90" fill="#c7d2fe" font-family="'Poppins', 'Inter', 'Segoe UI', sans-serif" font-size="36" font-weight="400" letter-spacing="0.42em">
-      CREATIVE SPACES
+      INCLUSIVE SOFTWARE
     </text>
     <text x="0" y="170" fill="#e0e7ff" font-family="'Inter', 'Segoe UI', sans-serif" font-size="28" font-weight="400" opacity="0.9">
-      Immersive digital art, motion design, and interactive experiences.
+      Accessible digital products and immersive experiences crafted for everyone.
     </text>
   </g>
 </svg>

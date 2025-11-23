@@ -30,7 +30,7 @@ export const BrandGlyph = ({ gradientId, glowId }: { gradientId: string; glowId:
   </g>
 );
 
-export const BrandMark = ({ className, title = "Art Leo mark" }: BrandMarkProps) => {
+export const BrandMark = ({ className, title = "Monynha Softwares mark" }: BrandMarkProps) => {
   const gradientId = useId();
   const glowId = useId();
 

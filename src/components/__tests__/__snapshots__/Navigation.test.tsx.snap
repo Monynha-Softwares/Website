@@ -15,7 +15,7 @@ exports[`Navigation > renders the custom brand SVG 1`] = `
         class="flex items-center gap-2 rounded-full border border-border/70 bg-background/70 px-4 py-2 backdrop-blur-xl motion-reduce:transition-none min-h-[3.5rem] shadow-[0_12px_45px_rgba(15,23,42,0.45)]"
       >
         <a
-          aria-label="Art Leo home"
+          aria-label="Monynha Softwares home"
           class="flex min-w-0 items-center gap-2 py-2"
           href="/"
         >
@@ -28,7 +28,7 @@ exports[`Navigation > renders the custom brand SVG 1`] = `
             <title
               id="test-id-0-title"
             >
-              Art Leo mark
+              Monynha Softwares mark
             </title>
             <defs>
               <lineargradient
@@ -115,7 +115,7 @@ exports[`Navigation > renders the custom brand SVG 1`] = `
             <title
               id="test-id-5"
             >
-              Art Leo
+              Monynha Softwares
             </title>
             <defs>
               <lineargradient
@@ -220,7 +220,7 @@ exports[`Navigation > renders the custom brand SVG 1`] = `
                 x="0"
                 y="23"
               >
-                Art Leo
+                Monynha Softwares
               </text>
               <text
                 fill="currentColor"
@@ -232,7 +232,7 @@ exports[`Navigation > renders the custom brand SVG 1`] = `
                 x="0"
                 y="40"
               >
-                CREATIVE SPACES
+                INCLUSIVE SOFTWARE
               </text>
               <rect
                 fill="url(#test-id-4-underline)"
@@ -248,7 +248,7 @@ exports[`Navigation > renders the custom brand SVG 1`] = `
           <span
             class="sr-only"
           >
-            Art Leo
+            Monynha Softwares
           </span>
         </a>
         <div

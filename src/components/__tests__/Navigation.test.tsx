@@ -37,9 +37,9 @@ describe("Navigation", () => {
       </MemoryRouter>,
     );
 
-    expect(getByLabelText(/art leo home/i)).toBeInTheDocument();
-    expect(getByTitle("Art Leo mark")).toBeInTheDocument();
-    expect(getByTitle("Art Leo")).toBeInTheDocument();
+    expect(getByLabelText(/monynha softwares home/i)).toBeInTheDocument();
+    expect(getByTitle("Monynha Softwares mark")).toBeInTheDocument();
+    expect(getByTitle("Monynha Softwares")).toBeInTheDocument();
     expect(container.firstChild).toMatchSnapshot();
   });
 });

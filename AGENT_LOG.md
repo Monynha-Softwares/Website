@@ -10,6 +10,50 @@ This document is shared between all agents. Each agent MUST record:
 
 ---
 
+## Agent 4 (Brand refresh & Supabase sanity)
+
+Agent name: ChatGPT (OpenAI) — GPT-5.1-Codex-Max
+
+Date: 2025-11-23
+
+Tasks planned:
+- Replace remaining "Art Leo"/"Leonardo" branding in UI assets (meta tags, brand components, navigation a11y labels, About/Contact copy) with Monynha Softwares language while preserving layouts/animations.
+- Refresh public brand SVG titles/text to match Monynha Softwares and keep accessibility intact.
+- Harden Supabase client initialization by validating required VITE env vars and documenting expected configuration in `.env.example` without secrets.
+- Update related unit tests/snapshots after brand text changes; run lint and test suites.
+
+Files to modify:
+- `index.html`, `src/components/brand/*`, `src/components/reactbits/GooeyNav.tsx`, `src/pages/About.tsx`, `src/pages/Contact.tsx`
+- `public/brand/*`, `.env.example`, `src/integrations/supabase/client.ts`
+- `src/components/__tests__/Navigation.test.tsx` and snapshot
+
+Justification:
+- The site still presents Leonardo Silva/Art Leo branding; needs alignment to Monynha Softwares as per product direction.
+- Supabase client should fail fast when env vars are missing to prevent misconfigured builds; `.env.example` currently incomplete.
+
+Notes before changes:
+- No new dependencies or folder changes planned. Will run `npm run lint` and `npm run test:run` after edits.
+
+Tasks performed:
+- Rebranded UI copy and metadata from Art Leo/Leonardo to Monynha Softwares across hero metadata, About, Contact, navigation labels, and brand components while preserving layouts and animations.
+- Updated public SVG assets (logo/mark/OG) titles and text for accessible Monynha branding.
+- Tightened Supabase client initialization with env validation and safe test-mode defaults; expanded `.env.example` with required vars.
+- Synced unit tests and snapshots with new branding (Navigation, GooeyNav) and reran lint/tests.
+
+Files modified:
+- `.env.example`, `index.html`, `public/brand/*`
+- `src/components/brand/BrandLogo.tsx`, `src/components/brand/BrandMark.tsx`, `src/components/reactbits/GooeyNav.tsx`
+- `src/pages/About.tsx`, `src/pages/Contact.tsx`
+- `src/integrations/supabase/client.ts`
+- `src/components/__tests__/Navigation.test.tsx`, `src/components/reactbits/__tests__/GooeyNav.test.tsx`, `src/components/__tests__/__snapshots__/Navigation.test.tsx.snap`
+
+Tests executed:
+- `npm run lint`
+- `npm run test:run -- --update`
+
+Notes after changes:
+- No new dependencies added; folder structure unchanged. Supabase client now fails fast when env vars are missing (with test-only fallbacks to avoid breaking CI). Branding references to Art Leo/Leonardo removed from UI assets and tests.
+
 ## Agent 3 (Home hero copy refresh)
 
 Agent name: ChatGPT (OpenAI) — GPT-5.1-Codex-Max
