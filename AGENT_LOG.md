@@ -63,3 +63,68 @@ Status atual do repositório (resumo sintetizado):
 
 Se precisar que eu (ou outro agente) faça verificações adicionais (por exemplo, validar `package.json` ou rodar testes), registre a tarefa aqui e eu procedo conforme instruções.
 
+---
+
+## Agente 2 (Supabase Setup)
+
+Nome do agente: Agente 2 — GitHub Copilot
+
+Data: 2025-11-23
+
+Tarefas realizadas:
+- Criação do arquivo `lib/supabase/client.ts` como scaffold/placeholder para inicialização do cliente Supabase usando apenas `SUPABASE_SERVICE_KEY`.
+- Validação documental das variáveis de ambiente necessárias e proíbidas (registro abaixo).
+- Documento blueprint dos schemas `public` e `protected` adicionado neste log.
+
+Arquivos adicionados:
+- `lib/supabase/client.ts`
+
+Arquivos modificados: nenhum (somente adições de documentação e scaffold).
+
+Validação de variáveis de ambiente (registro):
+- Variáveis permitidas e necessárias (devem ser usadas apenas pelo backend/serviços):
+	- `DATABASE_URL`
+	- `SUPABASE_SERVICE_KEY` (ou `SUPABASE_SERVICE_ROLE_KEY` opcional)
+	- `VITE_SUPABASE_PROJECT_ID`
+
+- Variáveis explicitamente proibidas neste estágio (não usar):
+	- `VITE_SUPABASE_PUBLISHABLE_KEY`
+	- `VITE_SUPABASE_URL`
+
+Obs: Nenhuma dessas variáveis foi lida ou executada pelo Agente 2 — foram apenas registradas. Nunca colocar chaves em arquivos no repositório.
+
+Blueprint de schemas (documental — sem criação/alteração de DB):
+
+- `public` (padrão):
+	- Finalidade: conteúdos públicos da aplicação (artworks, pages públicos, settings públicos).
+	- Acesso esperado: leitura pública via URL de storage e políticas RLS que permitam leituras públicas quando aplicável.
+	- Exemplo de tabelas (declarativo): `artworks`, `pages`, `settings`, `exhibitions` (descrições em `DATABASE.md`).
+
+- `protected` (novo namespace lógico — NÃO CRIADO):
+	- Finalidade: armazenar dados que exigem controles adicionais (rascunhos, dados administrativos, registros sensíveis).
+	- Acesso esperado: acesso restrito via service role key e políticas RLS que permitam somente operações autenticadas/administrativas.
+	- Notas: O uso do schema `protected` deve ser acompanhado de migrações e de políticas RLS detalhadas executadas por um operador humano.
+
+Como os schemas serão acessados (proposta):
+- Operações públicas (frontend): usar endpoints REST/JS client com chaves publicáveis **apenas** para leituras públicas (quando aplicável) — mas neste projeto inicial evitamos usar `VITE_SUPABASE_PUBLISHABLE_KEY` até que regras estejam definidas.
+- Operações administrativas/privilegiadas: usar `SUPABASE_SERVICE_KEY` em código server-side (lambdas, edge functions, backend) com atenção à segurança.
+- Políticas RLS: definir políticas no `protected` para permitir apenas roles administrativos; `public` deve expor apenas campos não sensíveis.
+
+Riscos e mitigações:
+- Risco: vazamento de chaves no repositório. Mitigação: registrar explicitamente que NÃO devemos commitar chaves; usar secret manager.
+- Risco: alterações de schema não autorizadas. Mitigação: não executar migrações sem revisão humana (pré-requisito: abrir issue/PR).
+
+Instruções claras para o Agente 3 (próximo):
+- O projeto agora tem um scaffold de cliente Supabase em `lib/supabase/client.ts` que descreve as variáveis de ambiente e o fluxo esperado. O Agente 3 pode:
+	1. Instalar `@supabase/supabase-js` se necessário.
+	2. Implementar as conexões e queries reais em um módulo separado (por exemplo `lib/supabase/queries.ts`).
+	3. Garantir que `SUPABASE_SERVICE_KEY` seja provisionado em ambiente seguro antes de executar o código.
+	4. Criar migrações somente após abertura de issue/PR e aprovação humana — não rodar migrações automaticamente.
+
+- Mensagem curta para o time:
+	O projeto está preparado para integração com Supabase (scaffold pronto). O próximo agente pode começar a implementar queries e transformar o conteúdo do portfólio em conteúdo institucional preservando rotas e estilos. Não altere arquitetura sem registrar a justificativa no `AGENT_LOG.md`.
+
+---
+
+Status final do Agente 2: todas as tarefas solicitadas foram completadas sem tocar código de frontend, sem criar tabelas e sem rodar chamadas na instância Supabase.
+
