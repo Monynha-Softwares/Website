@@ -21,7 +21,7 @@ const FEATURED_DISCIPLINES = [
 
 const Home = () => {
   const { data: homePage } = usePages("home");
-  const tagline = useSiteSetting("site_tagline", "Digital Artist & Creative Developer");
+  const tagline = useSiteSetting("site_tagline", "Inclusive technology for everyone");
   const { data: featuredArtworks, isLoading: artworksLoading } = useArtworks({ featured: true });
   return (
     <div className="min-h-screen overflow-x-hidden">
@@ -52,24 +52,24 @@ const Home = () => {
 
             <SplitText
               as="h1"
-              text={["Leonardo Silva", "Crafting Visual Stories"].join("\n")}
+              text={["Monynha Softwares", "Inclusive tech that empowers"].join("\n")}
               className="mb-6 text-[clamp(2.25rem,8vw,3.75rem)] font-bold leading-[1.1] break-words text-balance"
             />
 
             <p className="mx-auto mb-8 max-w-2xl text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed text-balance">
-              Exploring the intersection of art, technology, and emotion through immersive 3D experiences and motion design.
+              We build accessible, human-centered digital experiences so every person can participate, create, and thrive.
             </p>
 
             <div className="flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center">
               <Link to="/portfolio" className="w-full sm:w-auto">
                 <Button variant="hero" size="lg" className="group w-full">
-                  Explore Portfolio
+                  Projects
                   <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Button>
               </Link>
               <Link to="/contact" className="w-full sm:w-auto">
                 <Button variant="glass" size="lg" className="w-full">
-                  Get in Touch
+                  Contact Us
                 </Button>
               </Link>
             </div>

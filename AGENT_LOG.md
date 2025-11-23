@@ -10,6 +10,44 @@ This document is shared between all agents. Each agent MUST record:
 
 ---
 
+## Agent 3 (Home hero copy refresh)
+
+Agent name: ChatGPT (OpenAI) — GPT-5.1-Codex-Max
+
+Date: 2025-02-25
+
+Tasks planned:
+- Align the home hero copy with Monynha's institutional messaging focused on inclusive technology.
+- Update default tagline sourced via `useSiteSetting` to reflect the new positioning.
+- Maintain existing layout/animations and keep routes untouched while adjusting CTAs.
+
+Files to modify:
+- `src/pages/Home.tsx`
+- `src/hooks/useSettings.ts`
+
+Justification:
+- Marketing requested hero and tagline text to match Monynha's inclusive technology mission.
+
+Notes before changes:
+- No dependency or structural updates expected. Will run lint and unit tests after edits.
+
+Tasks performed:
+- Updated the home hero copy to center Monynha's inclusive technology mission and adjusted CTAs to "Projects" and "Contact Us" while preserving layout/animation behavior.
+- Set the default `site_tagline` fallback to the new inclusive positioning via `useSiteSetting` usage on the home page.
+- Fixed ESLint parsing in the Supabase client placeholder (semicolon cleanup and removing nested block comment) so linters pass.
+
+Files modified:
+- `src/pages/Home.tsx`
+- `lib/supabase/client.ts`
+- `AGENT_LOG.md`
+
+Tests executed:
+- `npm run lint`
+- `npm run test:run`
+
+Notes after changes:
+- No new dependencies or structural changes introduced. Supabase placeholder remains non-functional and commented for future work; minimal formatting/comment tweak was required to satisfy ESLint.
+
 ## Initial Agent (Setup)
 
 Agent name: Initial Agent — GitHub Copilot
