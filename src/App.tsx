@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { Navigation } from "./components/Navigation";
 import { ScrollToTop } from "./components/ScrollToTop";
-import { Footer } from "./components/layout/Footer"; // Import the new Footer component
+import { Footer } from "./components/layout/Footer";
 import Home from "./pages/Home";
 import Portfolio from "./pages/Portfolio";
 import ArtworkDetail from "./pages/ArtworkDetail";
@@ -16,13 +16,14 @@ import Repositories from "./pages/Repositories";
 import RepositoryDetail from "./pages/RepositoryDetail";
 import Thoughts from "./pages/Thoughts";
 import ThoughtDetail from "./pages/ThoughtDetail";
-import LegalPageDetail from "./pages/LegalPageDetail"; // Import LegalPageDetail
+import LegalPageDetail from "./pages/LegalPageDetail";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/admin/Dashboard";
 import ArtworksManager from "./pages/admin/ArtworksManager";
 import ExhibitionsManager from "./pages/admin/ExhibitionsManager";
 import MessagesManager from "./pages/admin/MessagesManager";
 import SettingsManager from "./pages/admin/SettingsManager";
+import ProjectsManager from "./pages/admin/ProjectsManager"; // Import ProjectsManager
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,16 +47,17 @@ const App = () => (
             <Route path="/repositories/:owner/:repoName" element={<RepositoryDetail />} />
             <Route path="/thoughts" element={<Thoughts />} />
             <Route path="/thoughts/:slug" element={<ThoughtDetail />} />
-            <Route path="/legal/:slug" element={<LegalPageDetail />} /> {/* New Legal Page Route */}
+            <Route path="/legal/:slug" element={<LegalPageDetail />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/artworks" element={<ArtworksManager />} />
             <Route path="/admin/exhibitions" element={<ExhibitionsManager />} />
             <Route path="/admin/messages" element={<MessagesManager />} />
             <Route path="/admin/settings" element={<SettingsManager />} />
+            <Route path="/admin/projects" element={<ProjectsManager />} /> {/* New Projects Manager Route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-          <Footer /> {/* Integrate the Footer here */}
+          <Footer />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
