@@ -9,7 +9,7 @@ import { SpotlightCard } from "@/components/reactbits/SpotlightCard";
 import { PixelCard } from "@/components/reactbits/PixelCard";
 import { usePages } from "@/hooks/usePages";
 import { useSiteSetting } from "@/hooks/useSettings";
-import { useArtworks } from "@/hooks/useArtworks";
+import { useProjects } from "@/hooks/useProjects";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
 
@@ -22,7 +22,7 @@ const FEATURED_DISCIPLINES = [
 const Home = () => {
   const { data: homePage } = usePages("home");
   const tagline = useSiteSetting("site_tagline", "Inclusive technology for everyone");
-  const { data: featuredArtworks, isLoading: artworksLoading } = useArtworks({ featured: true });
+  const { data: featuredProjects, isLoading: projectsLoading } = useProjects({ featured: true });
   return (
     <div className="min-h-screen overflow-x-hidden">
       {/* Hero Section */}
@@ -108,20 +108,20 @@ const Home = () => {
           </SectionReveal>
 
           <ErrorBoundary>
-            {artworksLoading ? (
+            {projectsLoading ? (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
                 {[1, 2, 3].map((i) => (
                   <ArtworkSkeleton key={i} />
                 ))}
               </div>
-            ) : featuredArtworks && featuredArtworks.length > 0 ? (
+            ) : featuredProjects && featuredProjects.length > 0 ? (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                {featuredArtworks.slice(0, 3).map((artwork, index) => (
-                  <SectionReveal key={artwork.id} delay={index * 0.1}>
-                    <Link to={`/art/${artwork.slug}`} className="block">
+                {featuredProjects.slice(0, 3).map((project, index) => (
+                  <SectionReveal key={project.id} delay={index * 0.1}>
+                    <Link to={`/art/${project.slug}`} className="block">
                       <PixelCard
-                        title={artwork.title}
-                        imageUrl={artwork.cover_url}
+                        title={project.title}
+                        imageUrl={project.cover_url}
                       />
                     </Link>
                   </SectionReveal>

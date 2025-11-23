@@ -2,13 +2,13 @@ import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SectionReveal } from "@/components/SectionReveal";
 import { ArrowLeft, Calendar, Tag, Layers } from "lucide-react";
-import { useArtwork } from "@/hooks/useArtwork";
+import { useProject } from "@/hooks/useProject";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GlassIcon } from "@/components/reactbits/GlassIcon";
 
 const ArtworkDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { data: artwork, isLoading, error } = useArtwork(slug || "");
+  const { data: project, isLoading, error } = useProject(slug || "");
 
   if (isLoading) {
     return (
@@ -28,7 +28,7 @@ const ArtworkDetail = () => {
     );
   }
 
-  if (error || !artwork) {
+  if (error || !project) {
     return (
       <div className="min-h-screen overflow-x-hidden pt-24 flex items-center justify-center px-4">
         <div className="text-center">
@@ -66,8 +66,8 @@ const ArtworkDetail = () => {
             <div className="lg:sticky lg:top-24">
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-surface-2 shadow-lg">
                 <img
-                  src={artwork.cover_url}
-                  alt={artwork.title}
+                  src={project.cover_url}
+                  alt={project.title}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -79,48 +79,48 @@ const ArtworkDetail = () => {
             <SectionReveal delay={0.1}>
               <div>
                 <h1 className="mb-4 text-[clamp(1.85rem,6vw,3.25rem)] font-bold leading-tight text-balance">
-                  {artwork.title}
+                  {project.title}
                 </h1>
                 <p className="text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed">
-                  {artwork.description}
+                  {project.description}
                 </p>
               </div>
             </SectionReveal>
 
             <SectionReveal delay={0.2}>
               <div className="space-y-4">
-                {artwork.year && (
+                {project.year && (
                   <GlassIcon
                     icon={<Calendar className="w-6 h-6" />}
                     title="Year"
-                    description={String(artwork.year)}
+                    description={String(project.year)}
                   />
                 )}
 
-                {artwork.category && (
+                {project.category && (
                   <GlassIcon
                     icon={<Tag className="w-6 h-6" />}
                     title="Category"
-                    description={artwork.category}
+                    description={project.category}
                   />
                 )}
 
-                {artwork.technique && (
+                {project.technique && (
                   <GlassIcon
                     icon={<Layers className="w-6 h-6" />}
                     title="Technique"
-                    description={artwork.technique}
+                    description={project.technique}
                   />
                 )}
               </div>
             </SectionReveal>
 
-            {artwork.tags && artwork.tags.length > 0 && (
+            {project.tags && project.tags.length > 0 && (
               <SectionReveal delay={0.3}>
                 <div>
                   <h3 className="mb-3 text-[clamp(1.2rem,4vw,1.6rem)] font-bold leading-tight">Tags</h3>
                   <div className="flex flex-wrap gap-2">
-                    {artwork.tags.map((tag: string) => (
+                    {project.tags.map((tag: string) => (
                       <span
                         key={tag}
                         className="px-3 py-1 text-sm rounded-full bg-muted text-muted-foreground border border-border"

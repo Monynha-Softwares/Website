@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Search, Filter } from "lucide-react";
 import { RollingGallery } from "@/components/reactbits/RollingGallery";
 import { PixelCard } from "@/components/reactbits/PixelCard";
-import { useArtworks } from "@/hooks/useArtworks";
+import { useProjects } from "@/hooks/useProjects";
 import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
 
 const categories = ["all", "motion-design", "3d-art", "interactive", "generative"] as const;
@@ -17,12 +17,12 @@ const Portfolio = () => {
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: artworks = [], isLoading, error } = useArtworks({
+  const { data: projects = [], isLoading, error } = useProjects({
     category: selectedCategory,
     search: searchQuery,
   });
 
-  const featured = useMemo(() => artworks.slice(0, 4), [artworks]);
+  const featured = useMemo(() => projects.slice(0, 4), [projects]);
 
   if (error) {
     return (
@@ -106,25 +106,25 @@ const Portfolio = () => {
               <ArtworkSkeleton key={i} />
             ))}
           </div>
-        ) : artworks.length > 0 ? (
+        ) : projects.length > 0 ? (
           <motion.div
             layout
             className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3"
           >
-            {artworks.map((artwork, index) => (
+            {projects.map((project, index) => (
               <motion.div
-                key={artwork.id}
+                key={project.id}
                 layout
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
               >
-                <Link to={`/art/${artwork.slug}`} className="block">
+                <Link to={`/art/${project.slug}`} className="block">
                   <PixelCard
-                    imageUrl={artwork.cover_url}
-                    title={artwork.title}
-                    subtitle={artwork.category}
-                    footer={<span className="text-sm">{artwork.year}</span>}
+                    imageUrl={project.cover_url}
+                    title={project.title}
+                    subtitle={project.category}
+                    footer={<span className="text-sm">{project.year}</span>}
                   />
                 </Link>
               </motion.div>

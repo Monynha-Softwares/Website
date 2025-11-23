@@ -189,3 +189,44 @@ Short message for the team:
 ---
 
 Status summary: all tasks were completed without touching application frontend code, without creating tables, and without running actions against a Supabase instance.
+
+## Agent 5 (Projects hooks migration)
+
+Agent name: ChatGPT (OpenAI) — GPT-5.1-Codex-Max
+
+Date: 2025-11-23
+
+Tasks planned:
+- Introduce `useProjects` and `useProject` hooks targeting the forthcoming `projects` table while preserving React Query cache semantics.
+- Update component/page imports and variable names to use the new hooks and project terminology without altering UI copy.
+- Keep Supabase query filters consistent with the previous artwork implementation.
+- Run linting and unit tests after changes.
+
+Files to modify:
+- `src/hooks/useArtworks.ts` -> `src/hooks/useProjects.ts`
+- `src/hooks/useArtwork.ts` -> `src/hooks/useProject.ts`
+- `src/pages/Home.tsx`, `src/pages/Portfolio.tsx`, `src/pages/ArtworkDetail.tsx`
+- `AGENT_LOG.md`
+
+Justification:
+- Preparing for a transition to a `projects` table requires aligning hook names/queries and dependent imports while maintaining existing caching behavior.
+
+Notes before changes:
+- No dependency or folder structure changes planned beyond renaming hooks/files. Will adhere to existing UI text and run `npm run lint` and `npm run test:run` after edits.
+
+Tasks performed:
+- Renamed artwork data hooks to `useProjects`/`useProject` and pointed Supabase queries to the `projects` table while retaining query key semantics.
+- Updated Home, Portfolio, and Artwork Detail pages to consume the new hooks and project-shaped data without changing UI strings.
+- Added corresponding file renames to align exports/imports with the new project terminology.
+
+Files modified:
+- `src/hooks/useProjects.ts`, `src/hooks/useProject.ts`
+- `src/pages/Home.tsx`, `src/pages/Portfolio.tsx`, `src/pages/ArtworkDetail.tsx`
+- `AGENT_LOG.md`
+
+Tests executed:
+- `npm run lint`
+- `npm run test:run`
+
+Notes after changes:
+- Hook query keys mirror previous caching behavior with updated project naming; no UI copy adjustments were performed.
