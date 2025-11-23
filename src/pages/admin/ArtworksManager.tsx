@@ -9,13 +9,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"; // Keep Dialog imports for now, will remove if not needed
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import type { Artwork, ContentStatus } from "@/integrations/supabase/supabase.types"; // Import centralized type
+import type { Artwork, ContentStatus } from "@/integrations/supabase/supabase.types";
+import { AdminFormDialog } from "@/components/admin/AdminFormDialog"; // Import AdminFormDialog
 
 const ArtworksManager = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -23,9 +24,9 @@ const ArtworksManager = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingArtwork, setEditingArtwork] = useState<Artwork | null>(null);
   const [selectedArtworks, setSelectedArtworks] = useState<string[]>([]);
-  const [filterStatus, setFilterStatus] = useState<string>("all"); // This state is not currently used for filtering the query, but kept for potential future use.
+  const [filterStatus, setFilterStatus] = useState<string>("all");
 
-  const { data: artworks, isLoading: artworksLoading } = useQuery<Artwork[], Error>({ // Specify return type
+  const { data: artworks, isLoading: artworksLoading } = useQuery<Artwork[], Error>({
     queryKey: ["admin-artworks"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -38,7 +39,7 @@ const ArtworksManager = () => {
     },
   });
 
-  const deleteMutation = useMutation<void, Error, string>({ // Specify generic types
+  const deleteMutation = useMutation<void, Error, string>({
     mutationFn: async (id: string) => {
       const { error } = await supabase.from("artworks").delete().eq("id", id);
       if (error) throw error;
@@ -53,7 +54,7 @@ const ArtworksManager = () => {
     },
   });
 
-  const bulkDeleteMutation = useMutation<void, Error, string[]>({ // Specify generic types
+  const bulkDeleteMutation = useMutation<void, Error, string[]>({
     mutationFn: async (ids: string[]) => {
       const { error } = await supabase.from("artworks").delete().in("id", ids);
       if (error) throw error;
@@ -68,7 +69,7 @@ const ArtworksManager = () => {
     },
   });
 
-  const bulkUpdateStatusMutation = useMutation<void, Error, { ids: string[]; status: ContentStatus }>({ // Specify generic types
+  const bulkUpdateStatusMutation = useMutation<void, Error, { ids: string[]; status: ContentStatus }>({
     mutationFn: async ({ ids, status }: { ids: string[]; status: ContentStatus }) => {
       const { error } = await supabase
         .from("artworks")
@@ -119,27 +120,23 @@ const ArtworksManager = () => {
             </Link>
             <h1 className="text-4xl font-bold">Manage Artworks</h1>
           </div>
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={() => setEditingArtwork(null)}>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Artwork
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>{editingArtwork ? "Edit" : "Add"} Artwork</DialogTitle>
-              </DialogHeader>
-              <ArtworkForm
-                artwork={editingArtwork}
-                onSuccess={() => {
-                  setIsDialogOpen(false);
-                  setEditingArtwork(null);
-                  queryClient.invalidateQueries({ queryKey: ["admin-artworks"] });
-                }}
-              />
-            </DialogContent>
-          </Dialog>
+          <AdminFormDialog
+            title="Artwork"
+            triggerLabel="Add Artwork"
+            isOpen={isDialogOpen}
+            onOpenChange={setIsDialogOpen}
+            onTriggerClick={() => setEditingArtwork(null)}
+            isEditing={!!editingArtwork}
+          >
+            <ArtworkForm
+              artwork={editingArtwork}
+              onSuccess={() => {
+                setIsDialogOpen(false);
+                setEditingArtwork(null);
+                queryClient.invalidateQueries({ queryKey: ["admin-artworks"] });
+              }}
+            />
+          </AdminFormDialog>
         </div>
 
         {/* Select All Checkbox */}
@@ -255,13 +252,13 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
     status: artwork?.status || "draft",
     featured: artwork?.featured || false,
     display_order: artwork?.display_order || 0,
-    tags: artwork?.tags?.join(", ") || "", // Handle tags as comma-separated string
-    live_url: artwork?.live_url || "", // New: live_url
+    tags: artwork?.tags?.join(", ") || "",
+    live_url: artwork?.live_url || "",
   });
 
-  const mutation = useMutation<void, Error, typeof formData>({ // Specify generic types
+  const mutation = useMutation<void, Error, typeof formData>({
     mutationFn: async (data: typeof formData) => {
-      const payload: Omit<Artwork, "id" | "created_at" | "updated_at" | "images"> = { // Omit auto-generated fields
+      const payload: Omit<Artwork, "id" | "created_at" | "updated_at" | "images"> = {
         title: data.title,
         description: data.description || null,
         category: data.category,
@@ -269,11 +266,11 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
         year: data.year ? parseInt(data.year) : null,
         cover_url: data.cover_url,
         slug: data.slug,
-        status: data.status as ContentStatus, // Cast to ContentStatus enum
+        status: data.status as ContentStatus,
         featured: data.featured,
         display_order: data.display_order,
-        tags: data.tags.split(",").map(tag => tag.trim()).filter(tag => tag.length > 0), // Convert string to array
-        live_url: data.live_url || null, // New: live_url
+        tags: data.tags.split(",").map(tag => tag.trim()).filter(tag => tag.length > 0),
+        live_url: data.live_url || null,
       };
 
       if (artwork) {
