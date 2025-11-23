@@ -1,23 +1,22 @@
-# .agent_workspace — Espaço de Trabalho de Agentes
+# .agent_workspace — Agents Working Area
 
-Uso previsto:
+Intended use:
 
-- Esta pasta é um espaço isolado para que agentes deixem rascunhos, notas, POCs e arquivos temporários.
-- Nada aqui deve ser movido para produção sem revisão humana e um registro claro em `AGENT_LOG.md`.
+- This folder is an isolated workspace for agents to leave drafts, notes, proofs-of-concept, and temporary files.
+- Nothing here should be promoted to production without human review and a clear entry in `AGENT_LOG.md`.
 
-Regras rápidas:
+Quick rules:
 
-- Arquivos permitidos: notas, `EXP_`-prefixed experiments, logs locais, prints, arquivos temporários.
-- Arquivos proibidos: chaves/segredos, builds finais, assets que substituirão produção.
-- Marque todo arquivo experimental com o prefixo `EXP_` e descreva seu propósito em um arquivo README interno.
+- Allowed files: notes, experiment files prefixed with `EXP_`, local logs, screenshots, temporary artifacts.
+- Prohibited files: secrets/keys, final production builds, assets that will replace production without review.
+- Prefix experimental files with `EXP_` and document their purpose in an internal README.
 
-Fluxo recomendado:
+Recommended flow:
 
-1. Crie `/.agent_workspace/EXP_<nome>` para o experimento.
-2. Documente no `AGENT_LOG.md` que você iniciou o experimento, incluindo objetivo e arquivos criados.
-3. Quando terminar, registre resultados no `AGENT_LOG.md`. Não promova diretamente para `src/` sem revisão.
+1. Create `/.agent_workspace/EXP_<name>` for an experiment.
+2. Log the experiment start in `AGENT_LOG.md`, including objective and files created.
+3. When finished, record results in `AGENT_LOG.md`. Do not move artifacts to `src/` without human review.
 
-Limpeza:
+Cleanup:
 
-- Mantenha este diretório enxuto; remova artefatos antigos quando não forem mais necessários e registre a limpeza no log.
-
+- Keep this directory tidy; remove old artifacts when no longer needed and note the cleanup in the log.

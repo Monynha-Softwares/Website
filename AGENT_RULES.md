@@ -1,23 +1,22 @@
-# Regras para Todos os Agentes
+# Rules for All Agents
 
-1. Nunca modificar a arquitetura de pastas a menos que seja absolutamente necessário.
-2. Nunca refatorar sem justificativa técnica documentada (colocar justificativa no `AGENT_LOG.md`).
-3. Nunca reescrever ou substituir blocos de código essenciais sem evidência clara de necessidade e aprovação humana.
-4. Preservar todo estilo visual e lógica existente salvo correções pontuais e justificadas.
-5. Registrar tudo no `AGENT_LOG.md` antes e depois de qualquer mudança significativa.
-6. Sempre deixar uma dica concreta para o próximo agente continuar (passos, comandos, contexto).
-7. Se tiver dúvida, prefira não modificar e registre a dúvida no log para revisão humana.
-8. Proibições técnicas imediatas:
-   - Não adicionar novas dependências sem aprovação humana.
-   - Não inserir chaves ou segredos no repositório.
+1. Do not change the folder architecture unless absolutely necessary.
+2. Do not refactor without a documented technical justification (record the justification in `AGENT_LOG.md`).
+3. Do not rewrite or replace essential code blocks without clear evidence of necessity and human approval.
+4. Preserve existing visual style and logic except for small, justified fixes.
+5. Log all activity in `AGENT_LOG.md` before and after any significant change.
+6. Always leave concrete guidance for the next agent (steps, commands, context).
+7. If in doubt, prefer not to modify and record the question in the log for human review.
+8. Immediate technical prohibitions:
+   - Do not add new dependencies without human approval.
+   - Do not add keys or secrets to the repository.
 
-Procedimentos de emergência:
-- Se uma alteração quebrar a build, pare e registre imediatamente em `AGENT_LOG.md` com passos para reproduzir o problema.
+Emergency procedures:
+- If a change breaks the build, stop and record the incident immediately in `AGENT_LOG.md`, including steps to reproduce.
 
-Recomendações operacionais:
-- Use `/.agent_workspace` para experimentos e rascunhos; marque claramente qualquer arquivo experimental com o prefixo `EXP_`.
-- Ao finalizar um rascunho útil, registre no `AGENT_LOG.md` e mova o artefato para revisão humana (issue/PR), não diretamente para produção.
+Operational recommendations:
+- Use `/.agent_workspace` for experiments and drafts; clearly prefix any experimental file with `EXP_`.
+- When an experiment is useful, record it in `AGENT_LOG.md` and move the artifact into a human-reviewed issue/PR instead of directly to production.
 
-Responsabilidade:
-- Cada agente que fizer alterações tem responsabilidade de descrever o raciocínio, o impacto esperado e os testes realizados no `AGENT_LOG.md`.
-
+Responsibility:
+- Every agent that makes changes must describe reasoning, expected impact, and tests performed in `AGENT_LOG.md`.

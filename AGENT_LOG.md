@@ -1,130 +1,109 @@
-# Registro de Atividades dos Agentes
+# Agent Activity Log
 
-Este documento é compartilhado entre todos os agentes.
-Cada agente DEVE registrar:
+This document is shared between all agents. Each agent MUST record:
 
-1. Nome do agente
-2. Tarefas realizadas
-3. Arquivos modificados
-4. Justificativa para qualquer mudança
-5. Dicas e contexto para o próximo agente
+1. Agent name
+2. Tasks performed
+3. Files modified
+4. Justification for any change
+5. Hints and context for the next agent
 
 ---
 
-## Agente Inicial (Setup)
+## Initial Agent (Setup)
 
-Nome do agente: Agente Inicial — GitHub Copilot
+Agent name: Initial Agent — GitHub Copilot
 
-Data: 2025-11-23
+Date: 2025-11-23
 
-Tarefas realizadas:
-- Criação do arquivo `AGENT_LOG.md` (este arquivo).
-- Criação do arquivo `AGENT_RULES.md` (regras obrigatórias para agentes).
-- Criação da pasta de trabalho isolada `/.agent_workspace`.
-- Criação do arquivo `/.agent_workspace/README.md` explicando regras do espaço.
+Tasks performed:
+- Created `AGENT_LOG.md` (this file).
+- Created `AGENT_RULES.md` (mandatory agent rules).
+- Created the isolated workspace folder `/.agent_workspace`.
+- Created `/.agent_workspace/README.md` explaining workspace rules.
 
-Arquivos adicionados:
+Files added:
 - `AGENT_RULES.md`
-- `.agent_workspace/README.md`
+- `/.agent_workspace/README.md`
 
-Arquivos modificados: nenhum (somente adições).
+Files modified: none (only additions).
 
-Justificativa para mudanças:
-- Estabelecer um mecanismo mínimo de comunicação entre agentes, regras e um espaço isolado de trabalho. Nenhum arquivo de frontend, lógica ou configuração foi alterado.
+Justification for changes:
+- Establish a minimal communication mechanism between agents, rules, and an isolated working area. No frontend, logic, or configuration files were modified.
 
-Registro de variáveis de ambiente (registro apenas — NÃO USAR AINDA):
+Logged environment variables (record only — DO NOT USE YET):
 - `DATABASE_URL`
 - `SUPABASE_SERVICE_KEY`
 - `VITE_SUPABASE_PROJECT_ID`
 
-Identificador de projeto registrado: `hkkgfebdhevcdurpcdgu`
+Project identifier recorded: `hkkgfebdhevcdurpcdgu`
 
-Chaves que NÃO DEVEM SER USADAS por agentes futuros (proibidas nesta fase):
+Keys that MUST NOT be used by future agents (prohibited at this stage):
 - `VITE_SUPABASE_PUBLISHABLE_KEY`
 - `VITE_SUPABASE_URL`
 
-Observações de segurança e privacidade:
-- Nenhuma chave foi colocada neste repositório. Nunca registre segredos em arquivos acompanhados pelo Git. Use vaults/secret managers ou variáveis de ambiente seguras fora do código.
+Security and privacy notes:
+- No keys were placed in this repository. Never log secrets in files tracked by Git. Use vaults or secret managers and environment variables outside of the code.
+
+Hints for the next agent:
+- Always create an issue or log in `AGENT_LOG.md` before changing architecture or central files.
+- Before changing frontend code, run tests (or request permission to run them) and record in the log which tests you ran and their results.
+- If an architecture change is necessary, record a detailed technical justification in this log and open an issue for human review.
+- Use `/.agent_workspace` for drafts, local runs, and proofs-of-concept; do not move anything from this folder to production without human review.
 
 ---
 
-Dicas para o próximo agente:
-- Sempre criar uma issue ou registrar no `AGENT_LOG.md` antes de alterar qualquer arquitetura ou arquivos centrais.
-- Antes de alterar código de frontend, execute os testes (ou peça permissão para rodá-los) e comente no log quais testes você executou e os resultados.
-- Se uma mudança de arquitetura for necessária, registre uma justificativa técnica detalhada neste log e abra uma issue para revisão humana.
-- Use `/.agent_workspace` para rascunhos, runs locais, provas de conceito e arquivos temporários; não mova nada dessa pasta para produção sem revisão humana.
+## Agent 2 (Supabase Setup)
 
----
+Agent name: Agent 2 — GitHub Copilot
 
-Status atual do repositório (resumo sintetizado):
-- Projeto: Vite + React + TypeScript com Tailwind e integração com Supabase (detalhes em `AGENTS.md` e `SETUP.md`).
-- Estrutura: `src/` contém componentes, hooks e integrações; `supabase/` contém migrations.
-- Ações tomadas: nenhum código de aplicativo foi alterado — apenas documentação e pasta de trabalho adicionadas.
+Date: 2025-11-23
 
-Se precisar que eu (ou outro agente) faça verificações adicionais (por exemplo, validar `package.json` ou rodar testes), registre a tarefa aqui e eu procedo conforme instruções.
+Tasks performed:
+- Created `lib/supabase/client.ts` as a scaffold/placeholder for Supabase client initialization using only `SUPABASE_SERVICE_KEY`.
+- Documented required and prohibited environment variables.
+- Added a schema blueprint to this log.
 
----
-
-## Agente 2 (Supabase Setup)
-
-Nome do agente: Agente 2 — GitHub Copilot
-
-Data: 2025-11-23
-
-Tarefas realizadas:
-- Criação do arquivo `lib/supabase/client.ts` como scaffold/placeholder para inicialização do cliente Supabase usando apenas `SUPABASE_SERVICE_KEY`.
-- Validação documental das variáveis de ambiente necessárias e proíbidas (registro abaixo).
-- Documento blueprint dos schemas `public` e `protected` adicionado neste log.
-
-Arquivos adicionados:
+Files added:
 - `lib/supabase/client.ts`
 
-Arquivos modificados: nenhum (somente adições de documentação e scaffold).
+Files modified: none (only documentation and scaffold additions).
 
-Validação de variáveis de ambiente (registro):
-- Variáveis permitidas e necessárias (devem ser usadas apenas pelo backend/serviços):
-	- `DATABASE_URL`
-	- `SUPABASE_SERVICE_KEY` (ou `SUPABASE_SERVICE_ROLE_KEY` opcional)
-	- `VITE_SUPABASE_PROJECT_ID`
+Environment variables (validation):
+- Allowed/required for server-side usage:
+  - `DATABASE_URL`
+  - `SUPABASE_SERVICE_KEY` (or `SUPABASE_SERVICE_ROLE_KEY`)
+  - `VITE_SUPABASE_PROJECT_ID`
+- Explicitly prohibited in this stage:
+  - `VITE_SUPABASE_PUBLISHABLE_KEY`
+  - `VITE_SUPABASE_URL`
 
-- Variáveis explicitamente proibidas neste estágio (não usar):
-	- `VITE_SUPABASE_PUBLISHABLE_KEY`
-	- `VITE_SUPABASE_URL`
+Notes: None of these variables were read or executed by Agent 2 — they were only recorded. Never put keys in the repository.
 
-Obs: Nenhuma dessas variáveis foi lida ou executada pelo Agente 2 — foram apenas registradas. Nunca colocar chaves em arquivos no repositório.
+Schema blueprint (informational — no DB changes made):
 
-Blueprint de schemas (documental — sem criação/alteração de DB):
+- `public` (default): meant for public site content (artworks, pages, public settings). Public reads should be allowed via RLS where applicable.
+- `protected` (proposed logical namespace — NOT CREATED): meant for drafts and admin-only data accessible only via service role keys and strict RLS policies.
 
-- `public` (padrão):
-	- Finalidade: conteúdos públicos da aplicação (artworks, pages públicos, settings públicos).
-	- Acesso esperado: leitura pública via URL de storage e políticas RLS que permitam leituras públicas quando aplicável.
-	- Exemplo de tabelas (declarativo): `artworks`, `pages`, `settings`, `exhibitions` (descrições em `DATABASE.md`).
+How to access schemas (proposal):
+- Public frontend operations: use read-only public methods where appropriate — avoid using `VITE_SUPABASE_PUBLISHABLE_KEY` until RLS policies are solid.
+- Admin/privileged operations: use `SUPABASE_SERVICE_KEY` server-side with secure handling.
+- RLS: define admin-only policies for protected content, public policies for `public` content where safe.
 
-- `protected` (novo namespace lógico — NÃO CRIADO):
-	- Finalidade: armazenar dados que exigem controles adicionais (rascunhos, dados administrativos, registros sensíveis).
-	- Acesso esperado: acesso restrito via service role key e políticas RLS que permitam somente operações autenticadas/administrativas.
-	- Notas: O uso do schema `protected` deve ser acompanhado de migrações e de políticas RLS detalhadas executadas por um operador humano.
+Risks & mitigations:
+- Risk: leaking keys in the repo. Mitigation: never commit keys; use secret managers.
+- Risk: unauthorized schema changes. Mitigation: do not run migrations without human review; open issue/PR first.
 
-Como os schemas serão acessados (proposta):
-- Operações públicas (frontend): usar endpoints REST/JS client com chaves publicáveis **apenas** para leituras públicas (quando aplicável) — mas neste projeto inicial evitamos usar `VITE_SUPABASE_PUBLISHABLE_KEY` até que regras estejam definidas.
-- Operações administrativas/privilegiadas: usar `SUPABASE_SERVICE_KEY` em código server-side (lambdas, edge functions, backend) com atenção à segurança.
-- Políticas RLS: definir políticas no `protected` para permitir apenas roles administrativos; `public` deve expor apenas campos não sensíveis.
+Instructions for Agent 3:
+- The project now includes a Supabase client scaffold at `lib/supabase/client.ts`. Agent 3 may:
+  1. Install `@supabase/supabase-js` if needed.
+  2. Implement actual queries in a separate module (e.g. `lib/supabase/queries.ts`).
+  3. Ensure `SUPABASE_SERVICE_KEY` is provisioned securely before running server-side code.
+  4. Create migrations only after opening an issue/PR and obtaining human approval.
 
-Riscos e mitigações:
-- Risco: vazamento de chaves no repositório. Mitigação: registrar explicitamente que NÃO devemos commitar chaves; usar secret manager.
-- Risco: alterações de schema não autorizadas. Mitigação: não executar migrações sem revisão humana (pré-requisito: abrir issue/PR).
-
-Instruções claras para o Agente 3 (próximo):
-- O projeto agora tem um scaffold de cliente Supabase em `lib/supabase/client.ts` que descreve as variáveis de ambiente e o fluxo esperado. O Agente 3 pode:
-	1. Instalar `@supabase/supabase-js` se necessário.
-	2. Implementar as conexões e queries reais em um módulo separado (por exemplo `lib/supabase/queries.ts`).
-	3. Garantir que `SUPABASE_SERVICE_KEY` seja provisionado em ambiente seguro antes de executar o código.
-	4. Criar migrações somente após abertura de issue/PR e aprovação humana — não rodar migrações automaticamente.
-
-- Mensagem curta para o time:
-	O projeto está preparado para integração com Supabase (scaffold pronto). O próximo agente pode começar a implementar queries e transformar o conteúdo do portfólio em conteúdo institucional preservando rotas e estilos. Não altere arquitetura sem registrar a justificativa no `AGENT_LOG.md`.
+Short message for the team:
+- The project is scaffolded for Supabase integration. The next agent can implement queries and wire portfolio content while preserving routes and styles. Do not change architecture without logging the justification in `AGENT_LOG.md`.
 
 ---
 
-Status final do Agente 2: todas as tarefas solicitadas foram completadas sem tocar código de frontend, sem criar tabelas e sem rodar chamadas na instância Supabase.
-
+Status summary: all tasks were completed without touching application frontend code, without creating tables, and without running actions against a Supabase instance.
