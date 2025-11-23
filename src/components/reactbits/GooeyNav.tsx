@@ -8,45 +8,22 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { BrandMark } from "@/components/brand/BrandMark";
+import { useSiteSetting } from "@/hooks/useSettings"; // Import useSiteSetting
 
-const links = [
-  {
-    href: "/",
-    label: "Home",
-    accent: "linear-gradient(135deg, rgba(168, 85, 247, 0.7), rgba(99, 102, 241, 0.7))",
-  },
-  {
-    href: "/portfolio",
-    label: "Portfolio",
-    accent: "linear-gradient(135deg, rgba(14, 165, 233, 0.7), rgba(236, 72, 153, 0.7))",
-  },
-  {
-    href: "/repositories",
-    label: "Repositories",
-    accent: "linear-gradient(135deg, rgba(251, 191, 36, 0.7), rgba(249, 115, 22, 0.7))",
-  },
-  {
-    href: "/thoughts", // New Thoughts Link
-    label: "Thoughts",
-    accent: "linear-gradient(135deg, rgba(255, 100, 100, 0.7), rgba(255, 180, 0, 0.7))", // Example accent color
-  },
-  {
-    href: "/about",
-    label: "About",
-    accent: "linear-gradient(135deg, rgba(34, 197, 94, 0.7), rgba(147, 51, 234, 0.7))",
-  },
-  {
-    href: "/contact",
-    label: "Contact",
-    accent: "linear-gradient(135deg, rgba(251, 191, 36, 0.7), rgba(59, 130, 246, 0.7))",
-  },
-];
+interface NavLink {
+  href: string;
+  label: string;
+  accent: string;
+}
 
 export const GooeyNav = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const reduceMotion = useReducedMotion();
   const { user, isAdmin, signOut } = useAuth();
+
+  // Fetch navigation links dynamically
+  const dynamicLinks = useSiteSetting<NavLink[]>('site_navigation_links', []);
 
   const menuId = "mobile-navigation";
   const menuLabelId = "mobile-navigation-title";
@@ -196,7 +173,7 @@ export const GooeyNav = () => {
             </Link>
             <div className="ml-auto flex items-center gap-3">
               <div className="hidden items-center gap-3 md:flex">
-                {links.map((link) => (
+                {dynamicLinks.map((link) => (
                   <motion.div key={link.href} className="relative">
                     <Link
                       to={link.href}
@@ -278,7 +255,7 @@ export const GooeyNav = () => {
                 </div>
                 <FlowingMenu
                   items={[
-                    ...links,
+                    ...dynamicLinks, // Use dynamic links here
                     ...(user
                       ? isAdmin
                         ? [{ href: "/admin", label: "Admin", accent: "linear-gradient(135deg, rgba(99, 102, 241, 0.7), rgba(168, 85, 247, 0.7))" }]
