@@ -76,7 +76,7 @@ const Contact = () => {
 
         <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[2rem] border border-white/15 bg-transparent p-2 sm:rounded-[2.5rem] sm:p-4">
           <RippleGridBackground />
-          <div className="relative z-10 rounded-[1.75rem] p-6 text-white backdrop-blur-2xl sm:rounded-[2.25rem] sm:p-10">
+          <div className="relative z-10 rounded-[1.75rem] p-6 text-white sm:rounded-[2.25rem] sm:p-10">
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12">
               {/* Contact Info */}
               <div className="col-span-1">
