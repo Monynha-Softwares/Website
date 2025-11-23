@@ -9,14 +9,9 @@
 FROM node:20-slim AS deps
 WORKDIR /app
 
-# Ensure `pnpm` is available
-RUN npm install -g pnpm
-
-# Copy lockfile and package manifest first for efficient caching
-COPY package.json pnpm-lock.yaml* ./
-
-# Install production + dev deps required for build
-RUN pnpm install --frozen-lockfile --no-optional
+# Install dependencies using npm (npm installs optional/native build deps which fixes rollup native module issues)
+COPY package.json ./
+RUN npm install --no-audit --no-fund
 
 # Copy the rest of the repo
 COPY . .
@@ -38,10 +33,8 @@ ARG SUPABASE_SERVICE_ROLE_KEY
 ENV SUPABASE_URL=${SUPABASE_URL}
 ENV SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
 
-# Install pnpm in this stage so `pnpm build` is available; if typegen creds are provided
-# install the supabase CLI and run generation.
-RUN npm install -g pnpm \
- && if [ -n "$SUPABASE_SERVICE_ROLE_KEY" ]; then npm install -g supabase; fi
+# Optionally install the supabase CLI when the SERVICE ROLE KEY is provided for type generation
+RUN if [ -n "$SUPABASE_SERVICE_ROLE_KEY" ]; then npm install -g supabase; fi
 
 # Conditionally generate Supabase TypeScript types only when the CLI and creds are available
 RUN if command -v supabase >/dev/null 2>&1 && [ -n "$SUPABASE_SERVICE_ROLE_KEY" ]; then \
@@ -50,8 +43,8 @@ RUN if command -v supabase >/dev/null 2>&1 && [ -n "$SUPABASE_SERVICE_ROLE_KEY" 
 			echo "Supabase type generation skipped"; \
 		fi
 
-# Build the Vite app
-RUN pnpm build
+# Build the Vite app with npm
+RUN npm run build
 
 
 # --- Production stage: serve with nginx ---

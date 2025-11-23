@@ -127,8 +127,8 @@ Linting ensures TypeScript, React, and accessibility conventions stay consistent
 ## Extending The Project
 
 - Update the imagery and copywriting in `src/pages/Home.tsx`, `About.tsx`, and `Contact.tsx` to match your brand voice.
-- Explore additional React Bits-inspired components inside `src/components/reactbits/` to enrich future sections.
-- Add new blog posts by creating Markdown files in `public/content/blog` and updating `src/lib/blogPosts.ts`.
+-- Explore additional React Bits-inspired components inside `src/components/reactbits/` to enrich future sections.
+- Add new blog posts via Supabase: insert rows into the `blog_posts` table (use the admin UI or the `supabase` CLI). See `docs/CONTENT_MANAGEMENT.md` for seeding examples and the developer workflow. Local Markdown files are deprecated.
 
 ## License
 
