@@ -36,7 +36,7 @@ export const SplitText = ({
   return (
     <Tag className={cn("flex flex-col", className)}>
       {segments.map((line, lineIndex) => (
-        <span key={lineIndex} className="overflow-hidden whitespace-pre">
+        <span key={lineIndex} className="overflow-hidden">
           {line.split("").map((character, index) => (
             <motion.span
               key={`${lineIndex}-${index}-${character}`}
