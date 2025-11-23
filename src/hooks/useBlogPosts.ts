@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { BlogPost } from "@/integrations/supabase/interfaces";
+import type { BlogPost } from "@/integrations/supabase/supabase.types";
 
 export const useBlogPosts = (slug?: string) => {
   return useQuery<BlogPost[], Error>({

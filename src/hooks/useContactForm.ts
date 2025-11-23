@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
-import type { ContactMessage } from "@/integrations/supabase/interfaces"; // Import centralized type
+import type { ContactMessage } from "@/integrations/supabase/supabase.types"; // Import centralized type
 
 export const contactSchema = z.object({
   name: z

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { Exhibition } from "@/integrations/supabase/interfaces"; // Import centralized type
+import type { Exhibition } from "@/integrations/supabase/supabase.types"; // Import centralized type
 
 export const useExhibitions = () => {
   return useQuery<Exhibition[], Error>({ // Specify return type

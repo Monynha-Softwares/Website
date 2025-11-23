@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { Project } from "@/integrations/supabase/interfaces";
+import type { Project } from "@/integrations/supabase/supabase.types";
 
 interface UseProjectsOptions {
   slug?: string;

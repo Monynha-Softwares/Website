@@ -15,7 +15,7 @@ import { Plus, Pencil, Trash2, ArrowLeft, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import type { Artwork, ContentStatus } from "@/integrations/supabase/interfaces"; // Import centralized type
+import type { Artwork, ContentStatus } from "@/integrations/supabase/supabase.types"; // Import centralized type
 
 const ArtworksManager = () => {
   const { isAdmin, isLoading } = useAuth();

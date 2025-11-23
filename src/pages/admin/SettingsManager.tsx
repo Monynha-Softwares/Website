@@ -11,7 +11,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { ArrowLeft, Save } from "lucide-react";
-import type { Setting } from "@/integrations/supabase/interfaces"; // Import centralized type
+import type { Setting } from "@/integrations/supabase/supabase.types"; // Import centralized type
+import type { Json } from "@/integrations/supabase/types_db"; // Import Json from generated types
 
 const SettingsManager = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -30,8 +31,8 @@ const SettingsManager = () => {
     },
   });
 
-  const updateMutation = useMutation<void, Error, { id: string; value: unknown; is_public: boolean }>({ // Specify generic types
-    mutationFn: async ({ id, value, is_public }: { id: string; value: unknown; is_public: boolean }) => {
+  const updateMutation = useMutation<void, Error, { id: string; value: Json; is_public: boolean }>({ // Specify generic types
+    mutationFn: async ({ id, value, is_public }: { id: string; value: Json; is_public: boolean }) => {
       const { error } = await supabase
         .from("settings")
         .update({ value, is_public })
@@ -88,7 +89,7 @@ const SettingsManager = () => {
 
 interface SettingCardProps {
   setting: Setting;
-  onUpdate: (value: unknown, is_public: boolean) => void;
+  onUpdate: (value: Json, is_public: boolean) => void;
 }
 
 const SettingCard = ({ setting, onUpdate }: SettingCardProps) => {
@@ -110,7 +111,7 @@ const SettingCard = ({ setting, onUpdate }: SettingCardProps) => {
 
   const handleSave = () => {
     try {
-      let parsedValue = value;
+      let parsedValue: Json = value;
       // Try to parse as JSON if it looks like JSON
       if (value.trim().startsWith("{") || value.trim().startsWith("[")) {
         parsedValue = JSON.parse(value);

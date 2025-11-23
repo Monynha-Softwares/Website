@@ -1,7 +1,6 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { Navigation } from "./components/Navigation";
@@ -30,46 +29,43 @@ import BlogPostsManager from "./pages/admin/BlogPostsManager";
 import LegalPagesManager from "./pages/admin/LegalPagesManager"; // Import LegalPagesManager
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <ScrollToTop />
-          <Navigation />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/art/:slug" element={<ArtworkDetail />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/repositories" element={<Repositories />} />
-            <Route path="/repositories/:owner/:repoName" element={<RepositoryDetail />} />
-            <Route path="/thoughts" element={<Thoughts />} />
-            <Route path="/thoughts/:slug" element={<ThoughtDetail />} />
-            <Route path="/legal/:slug" element={<LegalPageDetail />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/admin" element={<Dashboard />} />
-            <Route path="/admin/artworks" element={<ArtworksManager />} />
-            <Route path="/admin/exhibitions" element={<ExhibitionsManager />} />
-            <Route path="/admin/messages" element={<MessagesManager />} />
-            <Route path="/admin/settings" element={<SettingsManager />} />
-            <Route path="/admin/projects" element={<ProjectsManager />} />
-            <Route path="/admin/experiences" element={<ExperiencesManager />} />
-            <Route path="/admin/skills" element={<SkillsManager />} />
-            <Route path="/admin/blog-posts" element={<BlogPostsManager />} />
-            <Route path="/admin/legal-pages" element={<LegalPagesManager />} /> {/* New Legal Pages Manager Route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <Footer />
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-  </QueryClientProvider>
+  <AuthProvider>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <ScrollToTop />
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/art/:slug" element={<ArtworkDetail />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/repositories" element={<Repositories />} />
+          <Route path="/repositories/:owner/:repoName" element={<RepositoryDetail />} />
+          <Route path="/thoughts" element={<Thoughts />} />
+          <Route path="/thoughts/:slug" element={<ThoughtDetail />} />
+          <Route path="/legal/:slug" element={<LegalPageDetail />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/admin" element={<Dashboard />} />
+          <Route path="/admin/artworks" element={<ArtworksManager />} />
+          <Route path="/admin/exhibitions" element={<ExhibitionsManager />} />
+          <Route path="/admin/messages" element={<MessagesManager />} />
+          <Route path="/admin/settings" element={<SettingsManager />} />
+          <Route path="/admin/projects" element={<ProjectsManager />} />
+          <Route path="/admin/experiences" element={<ExperiencesManager />} />
+          <Route path="/admin/skills" element={<SkillsManager />} />
+          <Route path="/admin/blog-posts" element={<BlogPostsManager />} />
+          <Route path="/admin/legal-pages" element={<LegalPagesManager />} /> {/* New Legal Pages Manager Route */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </TooltipProvider>
+  </AuthProvider>
 );
 
 export default App;

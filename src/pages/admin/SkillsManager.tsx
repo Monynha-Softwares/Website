@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
-import type { Skill } from "@/integrations/supabase/interfaces";
+import type { Skill } from "@/integrations/supabase/supabase.types";
 
 const SkillsManager = () => {
   const { isAdmin, isLoading } = useAuth();

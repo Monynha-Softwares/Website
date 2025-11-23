@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { LegalPage } from "@/integrations/supabase/interfaces";
+import type { LegalPage } from "@/integrations/supabase/supabase.types";
 
 export const useLegalPages = (slug?: string) => {
   return useQuery<LegalPage | LegalPage[] | null, Error>({

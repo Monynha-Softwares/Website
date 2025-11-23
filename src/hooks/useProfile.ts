@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { Profile } from "@/integrations/supabase/interfaces";
+import type { Profile } from "@/integrations/supabase/supabase.types";
 
 export const useProfile = (id?: string) => {
   return useQuery<Profile | null, Error>({

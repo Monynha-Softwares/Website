@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { ArrowLeft, Mail, Check } from "lucide-react";
 import { format } from "date-fns";
-import type { ContactMessage } from "@/integrations/supabase/interfaces"; // Import centralized type
+import type { ContactMessage } from "@/integrations/supabase/supabase.types"; // Import centralized type
 
 const MessagesManager = () => {
   const { isAdmin, isLoading } = useAuth();
