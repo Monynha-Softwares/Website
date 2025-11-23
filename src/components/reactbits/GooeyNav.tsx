@@ -8,7 +8,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { BrandMark } from "@/components/brand/BrandMark";
-import { useSiteSetting } from "@/hooks/useSettings"; // Import useSiteSetting
+import { useSiteSetting } from "@/hooks/useSettings";
+import { defaultNavLinks } from "@/config/site"; // Import defaultNavLinks
 
 interface NavLink {
   href: string;
@@ -22,8 +23,8 @@ export const GooeyNav = () => {
   const reduceMotion = useReducedMotion();
   const { user, isAdmin, signOut } = useAuth();
 
-  // Fetch navigation links dynamically
-  const dynamicLinks = useSiteSetting<NavLink[]>('site_navigation_links', []);
+  // Fetch navigation links dynamically, using defaultNavLinks as fallback
+  const dynamicLinks = useSiteSetting<NavLink[]>('site_navigation_links', defaultNavLinks);
 
   const menuId = "mobile-navigation";
   const menuLabelId = "mobile-navigation-title";
@@ -255,7 +256,7 @@ export const GooeyNav = () => {
                 </div>
                 <FlowingMenu
                   items={[
-                    ...dynamicLinks, // Use dynamic links here
+                    ...dynamicLinks,
                     ...(user
                       ? isAdmin
                         ? [{ href: "/admin", label: "Admin", accent: "linear-gradient(135deg, rgba(99, 102, 241, 0.7), rgba(168, 85, 247, 0.7))" }]

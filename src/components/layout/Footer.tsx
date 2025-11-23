@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
 import { useSiteSetting } from "@/hooks/useSettings";
+import { defaultFooterLinks } from "@/config/site"; // Import defaultFooterLinks
 
 interface FooterLink {
   name: string;
@@ -15,28 +16,13 @@ interface SiteLinks {
   legal: FooterLink[];
 }
 
-export const Footer = () => { // Added 'export' here
+export const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { data: blogPosts } = useBlogPosts();
   const showThoughtsLink = blogPosts && blogPosts.length > 0;
 
-  const siteLinks = useSiteSetting<SiteLinks>('site_links', {
-    ecosystem: [
-      { name: "Main Portal", href: "https://monynha.com" },
-      { name: "Boteco Pro Platform", href: "https://boteco.pt" },
-      { name: "Online Services Hub", href: "https://monynha.online" },
-      { name: "Experimental Playground", href: "https://monynha.fun" },
-      { name: "Developer & Tech Portal", "href": "https://monynha.tech" },
-    ],
-    company: [
-      { name: "About", href: "/about" },
-      { name: "Contact", href: "/contact" },
-    ],
-    legal: [
-      { name: "Privacy Policy", href: "/legal/privacy-policy" },
-      { name: "Terms of Service", href: "/legal/terms-of-service" },
-    ],
-  });
+  // Use defaultFooterLinks as fallback for site_links
+  const siteLinks = useSiteSetting<SiteLinks>('site_links', defaultFooterLinks);
 
   return (
     <footer className="bg-surface-0 py-16 sm:py-24 border-t border-border/70">

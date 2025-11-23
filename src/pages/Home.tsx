@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SectionReveal } from "@/components/SectionReveal";
-import { ArrowRight, Sparkles, Palette, Eye } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import LiquidEtherBackground from "@/components/reactbits/LiquidEtherBackground";
 import { SplitText } from "@/components/reactbits/SplitText";
@@ -13,32 +13,23 @@ import { useArtworks } from "@/hooks/useArtworks";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
 import { useProfile } from "@/hooks/useProfile";
-import type { Page } from "@/integrations/supabase/supabase.types"; // Import Page type
+import type { Page } from "@/integrations/supabase/supabase.types";
+import { defaultFeaturedDisciplines, ICON_MAP } from "@/config/site"; // Import from site config
 
 interface FeaturedDiscipline {
-  icon: string; // Changed to string to represent Lucide icon name
+  icon: keyof typeof ICON_MAP; // Use keyof typeof ICON_MAP for type safety
   title: string;
   desc: string;
 }
 
-const ICON_MAP: { [key: string]: React.ElementType } = {
-  Palette: Palette,
-  Eye: Eye,
-  Sparkles: Sparkles,
-  // Add other icons as needed
-};
-
 const Home = () => {
-  const { data: homePageData } = usePages("home"); // Renamed to avoid conflict with type
-  const homePage = homePageData as Page | null; // Cast to Page type
+  const { data: homePageData } = usePages("home");
+  const homePage = homePageData as Page | null;
   const tagline = useSiteSetting("site_tagline", "Inclusive technology for everyone");
   const { data: featuredArtworks, isLoading: artworksLoading } = useArtworks({ featured: true });
   const { data: profile } = useProfile();
-  const featuredDisciplines = useSiteSetting<FeaturedDiscipline[]>('featured_disciplines', [
-    { icon: "Palette", title: "Motion Design", desc: "Dynamic visual narratives" },
-    { icon: "Eye", title: "3D Art", desc: "Immersive spatial experiences" },
-    { icon: "Sparkles", title: "Interactive", desc: "Engaging digital installations" },
-  ]);
+  // Use defaultFeaturedDisciplines as fallback for site_settings
+  const featuredDisciplines = useSiteSetting<FeaturedDiscipline[]>('featured_disciplines', defaultFeaturedDisciplines);
 
   // Extract content from homePage if available
   const heroContent = homePage?.content?.hero || {};
