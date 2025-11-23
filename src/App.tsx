@@ -16,6 +16,7 @@ import Repositories from "./pages/Repositories";
 import RepositoryDetail from "./pages/RepositoryDetail";
 import Thoughts from "./pages/Thoughts";
 import ThoughtDetail from "./pages/ThoughtDetail";
+import LegalPageDetail from "./pages/LegalPageDetail"; // Import LegalPageDetail
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/admin/Dashboard";
 import ArtworksManager from "./pages/admin/ArtworksManager";
@@ -45,6 +46,7 @@ const App = () => (
             <Route path="/repositories/:owner/:repoName" element={<RepositoryDetail />} />
             <Route path="/thoughts" element={<Thoughts />} />
             <Route path="/thoughts/:slug" element={<ThoughtDetail />} />
+            <Route path="/legal/:slug" element={<LegalPageDetail />} /> {/* New Legal Page Route */}
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/artworks" element={<ArtworksManager />} />

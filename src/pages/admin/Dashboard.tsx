@@ -2,7 +2,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Navigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Palette, Calendar, Mail, Settings, ArrowRight } from "lucide-react";
+import { Palette, Calendar, Mail, Settings, ArrowRight, BookText, Code, Briefcase, LayoutGrid } from "lucide-react"; // Added new icons
 
 const Dashboard = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -31,6 +31,13 @@ const Dashboard = () => {
       color: "text-purple-500",
     },
     {
+      title: "Projects",
+      description: "Showcase your software projects",
+      icon: Code,
+      href: "/admin/projects",
+      color: "text-cyan-500",
+    },
+    {
       title: "Exhibitions",
       description: "Update your timeline and events",
       icon: Calendar,
@@ -38,18 +45,46 @@ const Dashboard = () => {
       color: "text-blue-500",
     },
     {
+      title: "Experiences",
+      description: "Manage professional experience",
+      icon: Briefcase,
+      href: "/admin/experiences",
+      color: "text-green-500",
+    },
+    {
+      title: "Skills",
+      description: "Define your technical skills",
+      icon: LayoutGrid,
+      href: "/admin/skills",
+      color: "text-yellow-500",
+    },
+    {
+      title: "Blog Posts",
+      description: "Create and manage blog content",
+      icon: BookText,
+      href: "/admin/blog-posts",
+      color: "text-red-500",
+    },
+    {
+      title: "Legal Pages",
+      description: "Manage privacy policy, terms, etc.",
+      icon: BookText,
+      href: "/admin/legal-pages",
+      color: "text-orange-500",
+    },
+    {
       title: "Contact Messages",
       description: "View and respond to inquiries",
       icon: Mail,
       href: "/admin/messages",
-      color: "text-green-500",
+      color: "text-pink-500",
     },
     {
       title: "Settings",
       description: "Configure site settings",
       icon: Settings,
       href: "/admin/settings",
-      color: "text-orange-500",
+      color: "text-gray-500",
     },
   ];
 
@@ -63,7 +98,7 @@ const Dashboard = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {adminSections.map((section) => (
             <Card key={section.href} className="group hover:shadow-lg transition-shadow">
               <CardHeader>
@@ -103,6 +138,12 @@ const Dashboard = () => {
             <p className="text-xs text-muted-foreground/60 mb-4">
               This will open the backend dashboard where you can manage your database tables, authentication, storage, and edge functions (e.g. Supabase dashboard).
             </p>
+            <a href="https://supabase.com/dashboard/project/hkkgfebdhevcdurpcdgu" target="_blank" rel="noopener noreferrer">
+              <Button variant="outline">
+                Go to Supabase Dashboard
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </a>
           </CardContent>
         </Card>
       </div>

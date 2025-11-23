@@ -26,15 +26,15 @@ const Footer = () => {
       { name: "Boteco Pro Platform", href: "https://boteco.pt" },
       { name: "Online Services Hub", href: "https://monynha.online" },
       { name: "Experimental Playground", href: "https://monynha.fun" },
-      { name: "Developer & Tech Portal", href: "https://monynha.tech" },
+      { name: "Developer & Tech Portal", "href": "https://monynha.tech" },
     ],
     company: [
       { name: "About", href: "/about" },
       { name: "Contact", href: "/contact" },
     ],
     legal: [
-      { name: "Privacy Policy", href: "#" },
-      { name: "Terms of Service", href: "#" },
+      { name: "Privacy Policy", href: "/legal/privacy-policy" },
+      { name: "Terms of Service", href: "/legal/terms-of-service" },
     ],
   });
 
