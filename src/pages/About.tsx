@@ -17,13 +17,6 @@ const About = () => {
   const isLoading = exhibitionsLoading || cvLoading;
   const error = exhibitionsError || cvError;
 
-  const timeline = exhibitions.map((exhibition) => ({
-    title: exhibition.title,
-    subtitle: `${exhibition.year} · ${exhibition.location || ""}`,
-    description: exhibition.description || "",
-    indicator: exhibition.year.toString(),
-  }));
-
   const experienceTimeline = cvData?.experience.map((exp) => ({
     title: exp.role,
     subtitle: `${exp.org} · ${exp.location} (${exp.start} - ${exp.end || "Present"})`,
@@ -117,10 +110,44 @@ const About = () => {
           </SectionReveal>
         </div>
 
+        {/* Experience Timeline */}
+        {experienceTimeline.length > 0 && (
+          <SectionReveal delay={0.3}>
+            <div className="mx-auto max-w-3xl mb-20">
+              <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
+                Professional <span className="bg-gradient-primary bg-clip-text text-transparent">Experience</span>
+              </h2>
+              <StepperTimeline steps={experienceTimeline} />
+            </div>
+          </SectionReveal>
+        )}
+
+        {/* Skills Section */}
+        {cvData?.skills && cvData.skills.length > 0 && (
+          <SectionReveal delay={0.4}>
+            <div className="mx-auto max-w-4xl mb-20">
+              <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
+                Technical <span className="bg-gradient-primary bg-clip-text text-transparent">Skills</span>
+              </h2>
+              <div className="flex flex-wrap justify-center gap-3">
+                {cvData.skills.map((skill, index) => (
+                  <Badge
+                    key={index}
+                    variant="secondary"
+                    className="px-4 py-2 text-sm font-medium rounded-full"
+                  >
+                    {skill.name} ({skill.level})
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </SectionReveal>
+        )}
+
         {/* Company Projects Section */}
         {cvData?.projects && cvData.projects.length > 0 && (
-          <SectionReveal delay={0.3}>
-            <div className="mx-auto max-w-6xl mb-20">
+          <SectionReveal delay={0.5}>
+            <div className="mx-auto max-w-6xl">
               <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
                 Our <span className="bg-gradient-primary bg-clip-text text-transparent">Projects</span>
               </h2>
@@ -171,58 +198,6 @@ const About = () => {
             </div>
           </SectionReveal>
         )}
-
-        {/* Experience Timeline */}
-        {experienceTimeline.length > 0 && (
-          <SectionReveal delay={0.4}>
-            <div className="mx-auto max-w-3xl mb-20">
-              <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-                Professional <span className="bg-gradient-primary bg-clip-text text-transparent">Experience</span>
-              </h2>
-              <StepperTimeline steps={experienceTimeline} />
-            </div>
-          </SectionReveal>
-        )}
-
-        {/* Skills Section */}
-        {cvData?.skills && cvData.skills.length > 0 && (
-          <SectionReveal delay={0.5}>
-            <div className="mx-auto max-w-4xl mb-20">
-              <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-                Technical <span className="bg-gradient-primary bg-clip-text text-transparent">Skills</span>
-              </h2>
-              <div className="flex flex-wrap justify-center gap-3">
-                {cvData.skills.map((skill, index) => (
-                  <Badge
-                    key={index}
-                    variant="secondary"
-                    className="px-4 py-2 text-sm font-medium rounded-full"
-                  >
-                    {skill.name} ({skill.level})
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          </SectionReveal>
-        )}
-
-        {/* Exhibitions Timeline */}
-        <SectionReveal delay={0.6}>
-          <div className="mx-auto max-w-3xl">
-            <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-              Milestones & <span className="bg-gradient-primary bg-clip-text text-transparent">Timeline</span>
-            </h2>
-            {exhibitionsLoading ? (
-              <TimelineSkeleton />
-            ) : exhibitionsError ? (
-              <p className="text-center text-muted-foreground">Error loading exhibitions</p>
-            ) : timeline.length > 0 ? (
-              <StepperTimeline steps={timeline} />
-            ) : (
-              <p className="text-center text-muted-foreground">No exhibitions to display yet.</p>
-            )}
-          </div>
-        </SectionReveal>
       </div>
     </div>
   );
