@@ -1,0 +1,482 @@
+{
+  "langDefault": "pt",
+  "profile": {
+    "name": "Marcelo Santos",
+    "headline": "Software Engineer & Founder @ Monynha Softwares",
+    "location": "Faro, Portugal",
+    "bio": "Engenheiro de software com foco em produtos digitais, automação e DevOps. Apaixonado por acessibilidade, open-source e design inclusivo. Fundador da Monynha Softwares — um laboratório criativo que une tecnologia, diversidade e arte digital.",
+    "avatar": "/avatar.jpg"
+  },
+  "links": {
+    "github": "https://github.com/marcelo-m7",
+    "org": "https://github.com/Monynha-Softwares",
+    "site": "https://monynha.com",
+    "linkedin": "https://www.linkedin.com/in/marcelo-m7",
+    "email": "mailto:marcelo@monynha.com"
+  },
+  "projects": [
+    {
+      "slug": "botecopro",
+      "name": "BotecoPro",
+      "summary": "Sistema de gestão para bares e restaurantes com IA integrada para otimizar operações e melhorar a eficiência do negócio.",
+      "fullDescription": "BotecoPro centraliza operações de bares e restaurantes com automação de pedidos, gestão de estoque e dashboards em tempo real. A camada de IA recomenda ações preventivas, reduz desperdícios e empodera equipas a oferecer experiências consistentes em cada serviço.",
+      "stack": [
+        "Reflex (Django)",
+        "Python",
+        "Flutter",
+        "PostgreSQL",
+        "Clerk Auth"
+      ],
+      "url": "https://app.boteco.pt",
+      "domain": "app.boteco.pt",
+      "repoUrl": "https://github.com/Monynha-Softwares/BotecoPro",
+      "thumbnail": "/images/botecopro.svg",
+      "category": "Soluções Empresariais",
+      "status": "Desenvolvimento",
+      "visibility": "Pública",
+      "year": 2023
+    },
+    {
+      "slug": "boteco-pt",
+      "name": "Boteco.pt",
+      "summary": "Site institucional multilíngue (pt/en/es/fr) do BotecoPro com foco em performance, acessibilidade e experiência do usuário.",
+      "fullDescription": "Boteco.pt é a vitrine digital do BotecoPro, apresentando soluções de gestão para bares e restaurantes. O site combina design responsivo, lazy loading progressivo, testes visuais automatizados e suporte a 4 idiomas. A arquitetura prioriza Core Web Vitals, SEO e acessibilidade WCAG, com bundle otimizado (75% de redução) e sistema de design customizado com shadcn/ui.",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Vite",
+        "Tailwind CSS",
+        "i18next",
+        "Playwright"
+      ],
+      "url": "https://boteco.pt",
+      "domain": "boteco.pt",
+      "repoUrl": "https://github.com/marcelo-m7/boteco.pt",
+      "thumbnail": "/images/boteco-pt.svg",
+      "category": "Institucional",
+      "status": "Desenvolvimento",
+      "visibility": "Pública",
+      "year": 2025
+    },
+    {
+      "slug": "facodi",
+      "name": "FACODI",
+      "summary": "Faculdade Comunitária Digital — plataforma de educação comunitária aberta e gratuita, com foco em inclusão social.",
+      "fullDescription": "FACODI democratiza o acesso a cursos superiores por meio de trilhas interativas, conteúdos revisados por especialistas e ferramentas de apoio comunitário. A plataforma prioriza acessibilidade, conectividade de baixa largura de banda e governança colaborativa.",
+      "stack": [
+        "Pute Markdonwn",
+        "Hugo Framework",
+        "ViteJs",
+        "Tailwind CSS"
+      ],
+      "url": "https://facodi.pt",
+      "domain": "facodi.pt",
+      "repoUrl": "https://github.com/Monynha-Softwares/facodi.pt",
+      "thumbnail": "/images/facodi.svg",
+      "category": "Educação",
+      "status": "Desenvolvimento",
+      "visibility": "Pública",
+      "year": 2025
+    },
+    {
+      "slug": "monynha-tech",
+      "name": "MonynhaTech",
+      "summary": "Blog técnico e centro de documentação multilíngue da empresa.",
+      "fullDescription": "MonynhaTech concentra notas técnicas, tutoriais e a visão de arquitetura dos produtos Monynha. A curadoria em múltiplos idiomas garante que equipas globais acompanhem decisões, padrões de design e integrações com a stack oficial.",
+      "stack": [
+        "Next.js",
+        "Payload CMS",
+        "i18n"
+      ],
+      "url": "https://monynha.tech",
+      "domain": "monynha.tech",
+      "repoUrl": "https://github.com/Monynha-Softwares/MonynhaTech",
+      "thumbnail": "/images/monynha-tech.svg",
+      "category": "Draft",
+      "status": "Draft",
+      "visibility": "Public",
+      "year": 2025
+    },
+    {
+      "slug": "artleo",
+      "name": "Art Leo",
+      "summary": "Portfólio artístico e espaço de demonstrações criativas.",
+      "fullDescription": "Art Leo apresenta narrativas digitais, esculturas 3D e experiências interativas desenvolvidas com React Three Fiber. O projeto celebra artistas LGBTQIAP+ e mantém performance otimizada para dispositivos móveis e realidade aumentada.",
+      "stack": [
+        "Next.js",
+        "React Three Fiber",
+        "Supabase"
+      ],
+      "url": "https://artleo.monynha.com",
+      "domain": "artleo.monynha.com",
+      "repoUrl": "https://github.com/Monynha-Softwares/artleo-creative-spaces",
+      "thumbnail": "/images/artleo.svg",
+      "category": "Arte Digital",
+      "status": "MVP",
+      "visibility": "Pública",
+      "year": 2025
+    },
+    {
+      "slug": "Kobu Assistent",
+      "name": "Kobu Assistent",
+      "summary": "Assistente virtual por IA para atendimento e automação de processos.",
+      "fullDescription": "Kobu Assistent combina modelos de linguagem, fluxos de automação e integrações omnicanal para responder clientes com rapidez e empatia. A solução aprende com feedback humano e mantém trilhas auditáveis para governança responsável de IA.",
+      "stack": [
+        "LangChain",
+        "Flask",
+        "OpenAI",
+        "FAISS",
+        "Pickle",
+        "Python"
+      ],
+      "url": null,
+      "domain": null,
+      "repoUrl": "https://github.com/Monynha-Softwares/Kobu-Assistent",
+      "thumbnail": "/images/kobu-assistent.svg",
+      "category": "IA Conversacional",
+      "status": "Desenvolvimento",
+      "visibility": "Interna",
+      "year": 2025
+    },
+    {
+      "slug": "monadocs",
+      "name": "MonaDocs",
+      "summary": "Template de documentação técnica para portais e produtos Monynha.",
+      "fullDescription": "MonaDocs oferece uma base estática elegante para portais de documentação com suporte a Markdown avançado, componentes shadcn/ui e integração contínua com o design system Monynha.",
+      "stack": [
+        "Static Site",
+        "Markdown",
+        "Design System"
+      ],
+      "url": "https://docs.monynha.com",
+      "domain": "docs.monynha.com",
+      "repoUrl": "https://github.com/Monynha-Softwares/MonaDocs",
+      "thumbnail": "/images/monadocs.svg",
+      "category": "Documentação",
+      "status": "Produção",
+      "visibility": "Pública",
+      "year": 2024
+    },
+    {
+      "slug": "monynha-com",
+      "name": "Monynha.com (Institucional)",
+      "summary": "Site institucional da Monynha Softwares com branding e informações corporativas.",
+      "fullDescription": "O site institucional consolida manifesto, propostas de valor e canais de contacto da Monynha Softwares. A arquitetura prioriza performance, acessibilidade AA e narrativa alinhada ao dossiê institucional.",
+      "stack": [
+        "Next.js",
+        "Tailwind CSS",
+        "Design System Monynha"
+      ],
+      "url": "https://monynha.com",
+      "domain": "monynha.com",
+      "repoUrl": "https://github.com/Monynha-Softwares/Monynha-com",
+      "thumbnail": "/images/monynha-com.svg",
+      "category": "Institucional",
+      "status": "Produção",
+      "visibility": "Pública",
+      "year": 2024
+    },
+    {
+      "slug": "infra-hub",
+      "name": "Monynha Online",
+      "summary": "Hub central da infraestrutura Monynha, baseado em Coolify.",
+      "fullDescription": "Monynha Online orquestra pipelines, monitorização e deploys automatizados com Coolify e contêineres isolados. A camada de observabilidade garante estabilidade para experiências públicas e privadas do ecossistema Monynha.",
+      "stack": [
+        "Coolify",
+        "Containers",
+        "Observability"
+      ],
+      "url": "https://monynha.online",
+      "domain": "monynha.online",
+      "repoUrl": "https://github.com/Monynha-Softwares/MonynhaOnline-Default-Page",
+      "thumbnail": "/images/infra-hub.svg",
+      "category": "Infraestrutura",
+      "status": "MVP",
+      "visibility": "Interna",
+      "year": 2024
+    },
+    {
+      "slug": "open-webui",
+      "name": "Open WebUI",
+      "summary": "Instância Open WebUI para IA local e web.",
+      "fullDescription": "A instância Open WebUI da Monynha facilita experimentação segura com modelos locais e serviços hospedados. O ambiente é integrado ao Monynha Online e segue políticas de privacidade para treino e teste de agentes.",
+      "stack": [
+        "Open WebUI",
+        "LLMs",
+        "Docker"
+      ],
+      "url": "https://ai.monynha.com",
+      "domain": "ai.monynha.com",
+      "repoUrl": "https://github.com/open-webui/open-webui",
+      "thumbnail": "/images/open-webui.svg",
+      "category": "IA",
+      "status": "Desenvolvimento",
+      "visibility": "Pública",
+      "year": 2025
+    },
+    {
+      "slug": "marcelo-portfolio",
+      "name": "Marcelo Portfolio",
+      "summary": "Portfólio pessoal e site profissional de Marcelo M7.",
+      "fullDescription": "O portfólio de Marcelo apresenta projetos, manifestos e estudos autorais dentro da linguagem visual Monynha. É construído como laboratório vivo para novas interações, acessibilidade avançada e componentes do design system interno.",
+      "stack": [
+        "Vite",
+        "React",
+        "shadcn/ui"
+      ],
+      "url": "https://marcelo.monynha.com",
+      "domain": "marcelo.monynha.com",
+      "repoUrl": "https://github.com/marcelo-m7/MS-Portfolio",
+      "thumbnail": "/images/marcelo-portfolio.svg",
+      "category": "Portfólio",
+      "status": "Produção",
+      "visibility": "Pública",
+      "year": 2025
+    },
+    {
+      "slug": "monagent",
+      "name": "MonAgent",
+      "summary": "Sistema de agentes AI para automação e processamento inteligente de tarefas.",
+      "fullDescription": "MonAgent é uma plataforma experimental de agentes autônomos baseada em LLMs. O sistema permite orquestração de múltiplos agentes especializados, processamento paralelo de contextos e integração com ferramentas externas através de Model Context Protocol (MCP).",
+      "stack": [
+        "Python",
+        "LangChain",
+        "OpenAI"
+      ],
+      "url": null,
+      "domain": null,
+      "repoUrl": "https://github.com/Monynha-Softwares/MonAgent",
+      "thumbnail": "/images/monagent.svg",
+      "category": "IA",
+      "status": "Desenvolvimento",
+      "visibility": "Interna",
+      "year": 2024
+    }
+  ],
+  "experience": [
+    {
+      "role": "Founder & Software Engineer",
+      "org": "Monynha Softwares",
+      "start": "2022-01",
+      "end": null,
+      "location": "Faro, Portugal",
+      "highlights": [
+        "Criação e manutenção do ecossistema Monynha (sites, apps e automações).",
+        "Desenvolvimento full-stack com Next.js, Supabase, Flutter e Payload CMS.",
+        "Gestão de pipelines CI/CD (Coolify, GitHub Actions) e infraestrutura Docker.",
+        "Integração entre arte, tecnologia e IA aplicada a produtos digitais."
+      ]
+    },
+    {
+      "role": "Full-Stack Developer Intern",
+      "org": "Kobu Agency",
+      "start": "2024-02",
+      "end": "2024-06",
+      "location": "Faro, Portugal",
+      "highlights": [
+        "Desenvolvi um assistente virtual para geração de leads usando Python (FAISS, LangChain, Flask, OpenAI, Pickle).",
+        "Construí frontend responsivo com JavaScript, CSS/SCSS, PHP e Node.js.",
+        "Melhorei a recuperação de dados e a interação com clientes orientada por IA."
+      ]
+    },
+    {
+      "role": "LLM Evaluator (Freelancer)",
+      "org": "Outlier.ai",
+      "start": "2024-07",
+      "end": "2024-12",
+      "location": "Remoto",
+      "highlights": [
+        "Avaliei e classifiquei respostas geradas por IA para melhorar performance e alinhamento de LLMs.",
+        "Contribuí para o fine-tuning de sistemas avançados de linguagem natural."
+      ]
+    },
+    {
+      "role": "Commercial Assistant",
+      "org": "Worten - Equipamentos para o Lar S.A.",
+      "start": "2022-02",
+      "end": "2022-10",
+      "location": "Lisboa, Portugal",
+      "highlights": [
+        "Gestão de parcerias comerciais e de marketing, catálogo de produtos e relacionamento com fornecedores.",
+        "Suporte às operações de loja e atendimento de tickets e reclamações."
+      ]
+    },
+    {
+      "role": "Business Manager",
+      "org": "Bar do Jonas e Comida Caseira",
+      "start": "2019-05",
+      "end": "2020-10",
+      "location": "Vitória, Brasil",
+      "highlights": [
+        "Gestão de operações, fornecedores, controlo de inventário e processos administrativos.",
+        "Continuidade remota como Gestor Administrativo após mudança para Portugal."
+      ]
+    },
+    {
+      "role": "Estudante de Engenharia de Software",
+      "org": "Universidade do Algarve (LESTI)",
+      "start": "2021-09",
+      "end": "2025-07",
+      "location": "Faro, Portugal",
+      "highlights": [
+        "Licenciatura em Engenharia de Software e Tecnologias de Informação.",
+        "Projetos práticos em IA, desenvolvimento web e visualização de informação.",
+        "Participação em iniciativas open-source e pesquisa aplicada."
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "Python",
+      "category": "Backend / IA",
+      "level": "Avançado"
+    },
+    {
+      "name": "LangChain",
+      "category": "IA / LLMs",
+      "level": "Intermédio"
+    },
+    {
+      "name": "FAISS",
+      "category": "IA / Vector DB",
+      "level": "Intermédio"
+    },
+    {
+      "name": "Flask / FastAPI",
+      "category": "Backend",
+      "level": "Intermédio"
+    },
+    {
+      "name": "SQL Server",
+      "category": "Base de Dados",
+      "level": "Intermédio"
+    },
+    {
+      "name": "Node.js / TypeScript",
+      "category": "Backend",
+      "level": "Avançado"
+    },
+    {
+      "name": "React / Vite / Tailwind",
+      "category": "Frontend",
+      "level": "Avançado"
+    },
+    {
+      "name": "GitHub Actions",
+      "category": "DevOps",
+      "level": "Intermédio"
+    },
+    {
+      "name": "Docker",
+      "category": "DevOps",
+      "level": "Avançado"
+    },
+    {
+      "name": "Next.js",
+      "category": "Frontend",
+      "level": "Avançado"
+    },
+    {
+      "name": "Supabase",
+      "category": "Backend / DB",
+      "level": "Avançado"
+    },
+    {
+      "name": "Flutter",
+      "category": "Mobile",
+      "level": "Intermédio"
+    },
+    {
+      "name": "Docker",
+      "category": "DevOps",
+      "level": "Avançado"
+    },
+    {
+      "name": "Payload CMS",
+      "category": "CMS",
+      "level": "Intermédio"
+    },
+    {
+      "name": "CI/CD (Coolify + GitHub Actions)",
+      "category": "DevOps",
+      "level": "Avançado"
+    },
+    {
+      "name": "Framer Motion",
+      "category": "Animações / UI",
+      "level": "Intermédio"
+    },
+    {
+      "name": "React Three Fiber",
+      "category": "3D / WebGL",
+      "level": "Intermédio"
+    }
+  ],
+  "series": [
+    {
+      "slug": "creative-systems",
+      "title": "Creative Systems",
+      "description": "Coleção de projetos experimentais que exploram a intersecção entre arte generativa, UX e automação inteligente.",
+      "year": 2024,
+      "works": [
+        "artleo",
+        "monagent"
+      ]
+    }
+  ],
+  "artworks": [
+    {
+      "slug": "artleo",
+      "title": "Art Leo Creative Spaces",
+      "media": [
+        "/images/artleo-hero.svg",
+        "/images/artleo-3d.svg"
+      ],
+      "year": 2025,
+      "materials": [
+        "WebGL",
+        "3D Animation",
+        "Digital Sculpture"
+      ],
+      "description": "Experiência imersiva criada em Next.js e React Three Fiber para o artista Leonardo Silva, destacando arte interativa e ambiente 3D.",
+      "url3d": "https://artleo.monynha.com"
+    }
+  ],
+  "thoughts": [
+    {
+      "slug": "design-tecnologia-inclusiva",
+      "date": "2025-01-17",
+      "tags": [
+        "Acessibilidade",
+        "Design",
+        "Experiência do Utilizador",
+        "Inclusão",
+        "UX/UI"
+      ],
+      "title": "Design e Tecnologia Inclusiva",
+      "excerpt": "A tecnologia é mais humana quando é feita para todas as pessoas — não apenas para quem tem acesso fácil a ela.",
+      "body": "Sempre acreditei que design e acessibilidade não são pontos opostos num espectro, mas duas linguagens que, quando dialogam, traduzem o verdadeiro sentido da inovação. A estética só é completa quando é compreensível. O belo só é belo quando é acessível.\n\nNa Monynha Softwares, cada interface nasce de um princípio simples: **empatia como arquitetura**. Criar não é só desenhar pixels; é entender contextos, reconhecer diferenças e garantir que ninguém fique de fora da experiência digital.\n\nImplementamos contrastes adequados, hierarquias visuais claras e navegação por teclado desde o primeiro protótipo. Evitamos animações que possam causar desconforto a pessoas sensíveis ao movimento, respeitando o `prefers-reduced-motion`. Cada componente é pensado para ser útil, não apenas bonito.\n\nMais do que cumprir normas da WCAG, tratamos acessibilidade como expressão de respeito. Cada *alt-text* é um convite à inclusão; cada *aria-label* é um gesto de empatia codificado.\n\nO design inclusivo não é um diferencial competitivo — é um ato político e ético. Porque se a tecnologia é feita por pessoas, para pessoas, então ela deve abraçar todas as formas de existir. 💜"
+    },
+    {
+      "slug": "por-tras-da-monynha",
+      "date": "2025-02-02",
+      "tags": [
+        "Cultura",
+        "Comunidade",
+        "Empreendedorismo",
+        "Orgulho",
+        "Diversidade"
+      ],
+      "title": "Por trás da Monynha",
+      "excerpt": "Mais do que software — um movimento de orgulho, diversidade e resistência digital.",
+      "body": "A **Monynha Softwares** nasceu de um sonho coletivo: provar que tecnologia e afeto podem coexistir. Que inovação também vem da margem. Que a web pode ser um espaço de acolhimento, criação e resistência.\n\nO nome carrega essa essência. *\"Mona\"*, palavra de resistência do Pajubá, e o sufixo *\"-nynha\"*, expressão carinhosa e periférica, simbolizam a mistura de ternura, humor e coragem que definem quem somos. Criamos com amor, mas também com propósito — cada projeto é uma forma de dizer: **estamos aqui e não vamos voltar pro armário da tecnologia.** 🏳️‍🌈\n\nNosso manifesto é simples: **democratizar o digital, celebrar a diferença e hackear o sistema com orgulho.** Através de software livre, design acessível e comunidades diversas, buscamos transformar o que antes era privilégio em possibilidade.\n\nDe apps e plataformas open source a iniciativas culturais e educacionais, cada linha de código escrita pela Monynha é um gesto de resistência criativa. Nossos produtos — como o BotecoPro, o FACODI e a AssisTina — não são apenas soluções tecnológicas; são manifestações vivas de empatia, inclusão e representatividade.\n\nSer Monynha é entender que tecnologia é linguagem, e linguagem é poder. Que cada pessoa que se vê num produto é mais do que usuária — é protagonista. E é por isso que seguimos criando, dia após dia, com a certeza de que **diversidade também é performance.** 💅✨"
+    }
+  ],
+  "contact": {
+    "email": "marcelo@monynha.com",
+    "availability": "Disponível para colaborações e oportunidades criativas.",
+    "note": "Entre em contato para projetos, parcerias ou ideias fora da caixa!",
+    "successMessage": "Mensagem enviada com sucesso! Entrarei em contato em breve 🌈",
+    "errorMessage": "Ops! Algo deu errado. Tenta novamente mais tarde 💜"
+  }
+}
