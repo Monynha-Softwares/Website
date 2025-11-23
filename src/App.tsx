@@ -23,7 +23,9 @@ import ArtworksManager from "./pages/admin/ArtworksManager";
 import ExhibitionsManager from "./pages/admin/ExhibitionsManager";
 import MessagesManager from "./pages/admin/MessagesManager";
 import SettingsManager from "./pages/admin/SettingsManager";
-import ProjectsManager from "./pages/admin/ProjectsManager"; // Import ProjectsManager
+import ProjectsManager from "./pages/admin/ProjectsManager";
+import ExperiencesManager from "./pages/admin/ExperiencesManager"; // Import ExperiencesManager
+import SkillsManager from "./pages/admin/SkillsManager"; // Import SkillsManager
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -54,7 +56,9 @@ const App = () => (
             <Route path="/admin/exhibitions" element={<ExhibitionsManager />} />
             <Route path="/admin/messages" element={<MessagesManager />} />
             <Route path="/admin/settings" element={<SettingsManager />} />
-            <Route path="/admin/projects" element={<ProjectsManager />} /> {/* New Projects Manager Route */}
+            <Route path="/admin/projects" element={<ProjectsManager />} />
+            <Route path="/admin/experiences" element={<ExperiencesManager />} /> {/* New Experiences Manager Route */}
+            <Route path="/admin/skills" element={<SkillsManager />} /> {/* New Skills Manager Route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
