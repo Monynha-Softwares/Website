@@ -3,18 +3,16 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { SectionReveal } from "@/components/SectionReveal";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react"; // Removed Filter icon
+import { Search, Globe } from "lucide-react"; // Added Globe icon
 import { RollingGallery } from "@/components/reactbits/RollingGallery";
 import { PixelCard } from "@/components/reactbits/PixelCard";
-import { useArtworks } from "@/hooks/useArtworks"; // Removed useArtworkTags
+import { useArtworks } from "@/hooks/useArtworks";
 import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
-// Removed Skeleton import as it was only used for tag loading state
+import { Button } from "@/components/ui/button"; // Import Button
 
 const Portfolio = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  // The useArtworks hook already handles searching across title, description, and tags.
-  // We no longer need a separate 'tag' filter state or the useArtworkTags hook.
   const { data: artworks = [], isLoading: artworksLoading, error } = useArtworks({
     search: searchQuery,
   });
@@ -103,12 +101,24 @@ const Portfolio = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
               >
-                <Link to={`/art/${artwork.slug}`} className="block">
+                <Link to={`/art/${artwork.slug}`} className="block h-full">
                   <PixelCard
                     imageUrl={artwork.cover_url}
                     title={artwork.title}
                     subtitle={artwork.category}
-                    footer={<span className="text-sm">{artwork.year}</span>}
+                    footer={
+                      <div className="flex flex-col gap-2">
+                        <span className="text-sm text-muted-foreground">{artwork.year}</span>
+                        {artwork.live_url && (
+                          <a href={artwork.live_url} target="_blank" rel="noopener noreferrer" className="block mt-2">
+                            <Button variant="outline" size="sm" className="w-full">
+                              View Live Demo <Globe className="h-4 w-4 ml-2" />
+                            </Button>
+                          </a>
+                        )}
+                      </div>
+                    }
+                    className="h-full flex flex-col"
                   />
                 </Link>
               </motion.div>

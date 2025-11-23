@@ -1,12 +1,12 @@
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SectionReveal } from "@/components/SectionReveal";
-import { ArrowLeft, Calendar, Tag, Layers } from "lucide-react";
+import { ArrowLeft, Calendar, Tag, Layers, Globe } from "lucide-react"; // Added Globe icon
 import { useArtwork } from "@/hooks/useArtwork";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GlassIcon } from "@/components/reactbits/GlassIcon";
-import { SpotlightCard } from "@/components/reactbits/SpotlightCard"; // Import SpotlightCard
-import { Badge } from "@/components/ui/badge"; // Import Badge component
+import { SpotlightCard } from "@/components/reactbits/SpotlightCard";
+import { Badge } from "@/components/ui/badge";
 
 const ArtworkDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -73,6 +73,25 @@ const ArtworkDetail = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
+              <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
+                {artwork.live_url && (
+                  <a href={artwork.live_url} target="_blank" rel="noopener noreferrer">
+                    <Button variant="hero" size="lg" className="w-full sm:w-auto">
+                      View Live Demo
+                      <Globe className="w-5 h-5 ml-2" />
+                    </Button>
+                  </a>
+                )}
+                <Link to="/contact" className="block sm:inline-block">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full sm:w-auto justify-center"
+                  >
+                    Inquire About This Work
+                  </Button>
+                </Link>
+              </div>
             </div>
           </SectionReveal>
 
@@ -137,20 +156,6 @@ const ArtworkDetail = () => {
                 </SpotlightCard>
               </SectionReveal>
             )}
-
-            <SectionReveal delay={0.4}>
-              <div className="pt-4">
-                <Link to="/contact" className="block sm:inline-block">
-                  <Button
-                    variant="hero"
-                    size="lg"
-                    className="w-full sm:w-auto justify-center"
-                  >
-                    Inquire About This Work
-                  </Button>
-                </Link>
-              </div>
-            </SectionReveal>
           </div>
         </div>
       </div>

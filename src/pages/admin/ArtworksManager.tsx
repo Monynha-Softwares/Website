@@ -256,6 +256,7 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
     featured: artwork?.featured || false,
     display_order: artwork?.display_order || 0,
     tags: artwork?.tags?.join(", ") || "", // Handle tags as comma-separated string
+    live_url: artwork?.live_url || "", // New: live_url
   });
 
   const mutation = useMutation<void, Error, typeof formData>({ // Specify generic types
@@ -272,6 +273,7 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
         featured: data.featured,
         display_order: data.display_order,
         tags: data.tags.split(",").map(tag => tag.trim()).filter(tag => tag.length > 0), // Convert string to array
+        live_url: data.live_url || null, // New: live_url
       };
 
       if (artwork) {
@@ -369,6 +371,17 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
           value={formData.cover_url}
           onChange={(e) => setFormData({ ...formData, cover_url: e.target.value })}
           required
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="live_url">Live Demo URL (Optional)</Label>
+        <Input
+          id="live_url"
+          type="url"
+          value={formData.live_url}
+          onChange={(e) => setFormData({ ...formData, live_url: e.target.value })}
+          placeholder="https://live-demo.com"
         />
       </div>
 
