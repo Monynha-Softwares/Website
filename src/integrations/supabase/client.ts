@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import type { Database } from './types';
+import type { Database } from './types_db'; // Changed import path
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
@@ -19,7 +19,7 @@ if (!supabaseKey) {
 
 // Initialize the Supabase client.
 // After any database schema changes, remember to regenerate types by running:
-// npx supabase gen types typescript --schema public > src/integrations/supabase/types.ts
+// npx supabase gen types typescript --schema public > src/integrations/supabase/types_db.ts
 export const supabase = createClient<Database>(supabaseUrl, supabaseKey, {
   auth: {
     storage: localStorage,
