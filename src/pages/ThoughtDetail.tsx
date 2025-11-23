@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SectionReveal } from "@/components/SectionReveal";
 import { ArrowLeft, CalendarDays, User, Tag } from "lucide-react";
-import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { useBlogPost } from "@/hooks/useBlogPosts"; // Updated hook
 import { Skeleton } from "@/components/ui/skeleton";
 import { BlogContent } from "@/components/blog/BlogContent";
 import { Badge } from "@/components/ui/badge";
@@ -11,9 +11,7 @@ import { useEffect } from "react";
 
 const ThoughtDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { data: blogPosts, isLoading, error } = useBlogPosts(slug);
-
-  const post = blogPosts?.[0];
+  const { data: post, isLoading, error } = useBlogPost(slug || ""); // Use updated hook for single post
 
   useEffect(() => {
     if (post) {
@@ -98,7 +96,7 @@ const ThoughtDetail = () => {
 
         {/* Post Content */}
         <SectionReveal delay={0.2}>
-          <BlogContent htmlContent={post.contentHtml} className="mt-8" />
+          <BlogContent htmlContent={post.content_html} className="mt-8" />
         </SectionReveal>
       </div>
     </div>

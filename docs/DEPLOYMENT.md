@@ -1,6 +1,6 @@
 # Deployment Guide
 
-This guide covers deploying the Art Leo portfolio to production. The project is decoupled from external site builders—deployment relies on standard Vite static hosting workflows.
+This guide covers deploying the Monynha Softwares corporate website to production. The project is decoupled from external site builders—deployment relies on standard Vite static hosting workflows.
 
 ## Prerequisites
 
@@ -99,7 +99,4 @@ Vercel offers frictionless builds for Vite + React projects.
 
 ---
 
-**Project note:** Art Leo no longer depends on proprietary builder hosting. Deployments mirror standard Vite static site workflows across Vercel, Netlify, and other CDNs.
-
-
-> Project decoupled from external builders; no proprietary site-builder dependencies.
+**Project note:** Monynha Softwares website is decoupled from external builders; deployments mirror standard Vite static site workflows across Vercel, Netlify, and other CDNs.

@@ -58,7 +58,7 @@ const Repositories = () => {
                 onClick={() => setOwnerFilter("marcelo-m7")}
                 className="transition-all motion-reduce:transition-none"
               >
-                Marcelo M7
+                marcelo-m7
               </Button>
             </div>
           </div>

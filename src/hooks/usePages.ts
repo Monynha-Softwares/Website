@@ -1,15 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { Json } from "@/integrations/supabase/types";
+import type { Page } from "@/integrations/supabase/supabase.types"; // Import centralized type
 
-interface PageContent {
-  title: string;
-  content: Json;
-  meta_title?: string;
-  meta_description?: string;
-}
-
-type PagesQueryResult = PageContent[] | (PageContent | null);
+type PagesQueryResult = Page[] | (Page | null);
 
 export const usePages = (slug?: string) => {
   return useQuery<PagesQueryResult>({
@@ -22,7 +15,7 @@ export const usePages = (slug?: string) => {
           .eq("status", "published");
 
         if (error) throw error;
-        return data as PageContent[];
+        return data as Page[];
       }
 
       const { data, error } = await supabase
@@ -33,7 +26,7 @@ export const usePages = (slug?: string) => {
         .maybeSingle();
 
       if (error) throw error;
-      return data as PageContent | null;
+      return data as Page | null;
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,

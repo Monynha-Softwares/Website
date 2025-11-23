@@ -1,6 +1,6 @@
 # Setup Guide
 
-This guide will help you set up the Art Leo portfolio website locally and in production. The project is fully self-managed—no external builder accounts are required.
+This guide will help you set up the Monynha Softwares corporate website locally and in production. The project is fully self-managed—no external builder accounts are required.
 
 ## Prerequisites
 
@@ -13,7 +13,7 @@ This guide will help you set up the Art Leo portfolio website locally and in pro
 
 ```bash
 git clone <repository-url>
-cd artleo-creative-spaces
+cd monynha-softwares-website
 npm install
 ```
 
@@ -38,6 +38,12 @@ supabase db reset
 ```
 
 This command recreates the local database, runs migrations, and seeds any sample data defined in `supabase/seed.sql`.
+
+**Regenerate Supabase Types:**
+After any schema changes or `supabase db reset`, ensure your TypeScript types are up-to-date by running:
+```bash
+npx supabase gen types typescript --schema public > src/integrations/supabase/types.ts
+```
 
 ### 4. Create First Admin User
 
@@ -86,6 +92,10 @@ Upload images via the Supabase dashboard or the Supabase CLI. Ensure Storage pol
 
 ## Troubleshooting
 
+### "VITE_SUPABASE_URL is missing" or "VITE_SUPABASE_PUBLISHABLE_KEY is missing"
+
+Ensure your `.env` file is correctly set up at the project root with the required `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` variables.
+
 ### "Requested path is invalid" error on login
 
 Check that Site URL and Redirect URLs are configured correctly in Authentication settings.
@@ -108,10 +118,3 @@ Verify `.env` contains the correct credentials. Restart the dev server after env
 
 - Read [DATABASE.md](./DATABASE.md) for schema details
 - Review [DEPLOYMENT.md](./DEPLOYMENT.md) for hosting instructions
-
----
-
-**Project note:** Art Leo is decoupled from Lovable—local setup relies only on Supabase and standard Vite tooling.
-
-
-> Project decoupled from external builders; no proprietary site-builder dependencies.

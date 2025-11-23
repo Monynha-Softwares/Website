@@ -1,12 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { Json } from "@/integrations/supabase/types";
-
-interface Setting {
-  key: string;
-  value: Json;
-  description?: string | null;
-}
+import type { Json } from "@/integrations/supabase/types_db"; // Changed import path
+import type { Setting } from "@/integrations/supabase/supabase.types";
 
 type SettingsQueryResult = Setting[] | (Setting | null);
 
@@ -46,6 +41,15 @@ export const useSiteSetting = <T = Json | null>(key: string, fallback?: T) => {
     return (fallback ?? null) as T;
   }
 
-  const value = data.value as unknown;
-  return (value ?? fallback ?? null) as T;
+  // Attempt to parse the value if it's a string that looks like JSON
+  let parsedValue: unknown = data.value;
+  if (typeof data.value === 'string') {
+    try {
+      parsedValue = JSON.parse(data.value);
+    } catch (e) {
+      // Not a JSON string, use as is
+    }
+  }
+  
+  return (parsedValue ?? fallback ?? null) as T;
 };

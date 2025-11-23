@@ -2,6 +2,13 @@
 
 The current version of the **Monynha Softwares Corporate Website** is built with React, React Router, Tailwind (including "fluid" tokens), animations from Framer Motion, and a 3D field implemented with `@react-three/fiber` and `@react-three/drei`. The hero section features a dynamic background, overlaid by a gradient and the main heading. Subsequent sections use a `SectionReveal` component to reveal cards and text on scroll, highlighting the company's services and values. The contact page includes a form with validation and feedback.
 
+**Recent Changes:**
+*   **Branding Refresh:** The entire website has been rebranded from "Art Leo" to "Monynha Softwares," including UI copy, meta tags, navigation labels, and brand components.
+*   **Supabase Integration:** The Supabase client initialization has been hardened with environment variable validation, and application-specific types have been centralized in `src/integrations/supabase/supabase.types.ts` for improved DX and maintainability.
+*   **UI Enhancements:** The `SplitText` component has been fixed for better word-by-word animation. The portfolio's tagging system was refactored to use the `tags` array in Supabase. The Artwork Detail page now leverages `SpotlightCard` and `Badge` components for metadata display.
+*   **New Global Footer:** A comprehensive and responsive `Footer` component has been integrated globally, featuring ecosystem links, company information, legal links, and dynamic display of blog post links.
+*   **New Routes:** Added `/repositories`, `/repositories/:owner/:repoName`, `/thoughts`, and `/thoughts/:slug` routes for displaying GitHub repositories and blog posts.
+
 ### React Bits — Overview
 
 React Bits is a library of animated components offering 3D backgrounds, interactive cards, animated menus, and text effects. This project uses a curated selection of React Bits components to create an engaging user experience while maintaining excellent performance and accessibility.

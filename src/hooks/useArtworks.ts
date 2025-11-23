@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import type { Artwork } from "@/integrations/supabase/supabase.types"; // Import centralized type
 
 interface UseArtworksOptions {
-  category?: string;
   search?: string;
   featured?: boolean;
 }
 
 export const useArtworks = (options: UseArtworksOptions = {}) => {
-  return useQuery({
+  return useQuery<Artwork[], Error>({ // Specify return type
     queryKey: ["artworks", options],
     queryFn: async () => {
       let query = supabase
@@ -22,16 +22,11 @@ export const useArtworks = (options: UseArtworksOptions = {}) => {
         query = query.eq("featured", true);
       }
 
-      // New filtering logic: filter by tags array
-      if (options.category && options.category !== "all") {
-        query = query.contains("tags", [options.category.toLowerCase()]); // Use .contains for array matching
-      }
-
       const { data, error } = await query;
 
       if (error) throw error;
 
-      // Client-side search filtering
+      // Client-side search filtering across title, description, and tags
       let filteredData = data || [];
       if (options.search) {
         const searchLower = options.search.toLowerCase();

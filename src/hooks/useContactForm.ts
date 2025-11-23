@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import type { ContactMessage } from "@/integrations/supabase/supabase.types"; // Import centralized type
 
 export const contactSchema = z.object({
   name: z
@@ -23,7 +24,7 @@ export const contactSchema = z.object({
 export type ContactFormData = z.infer<typeof contactSchema>;
 
 export const useContactForm = () => {
-  return useMutation({
+  return useMutation<void, Error, ContactFormData>({ // Specify generic types for useMutation
     mutationFn: async (formData: ContactFormData) => {
       // Validate data
       const validatedData = contactSchema.parse(formData);
@@ -35,8 +36,8 @@ export const useContactForm = () => {
             name: validatedData.name,
             email: validatedData.email,
             message: validatedData.message,
-            status: "unread",
-          },
+            status: "unread", // Ensure status matches ContactMessage type
+          } as ContactMessage, // Cast to ContactMessage to ensure type safety
         ]);
 
       if (error) throw error;

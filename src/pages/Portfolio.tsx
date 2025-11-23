@@ -2,30 +2,20 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { SectionReveal } from "@/components/SectionReveal";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Filter } from "lucide-react";
+import { Search } from "lucide-react"; // Removed Filter icon
 import { RollingGallery } from "@/components/reactbits/RollingGallery";
 import { PixelCard } from "@/components/reactbits/PixelCard";
-import { useArtworks } from "@/hooks/useArtworks";
+import { useArtworks } from "@/hooks/useArtworks"; // Removed useArtworkTags
 import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
-import { useCvData } from "@/hooks/useCvData"; // Import useCvData
+// Removed Skeleton import as it was only used for tag loading state
 
 const Portfolio = () => {
-  const { data: cvData } = useCvData(); // Fetch CV data
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Dynamically generate categories based on cvData projects
-  const categories = useMemo(() => {
-    const projectNames = cvData?.projects
-      .filter(project => project.status === "Production" || project.status === "MVP" || project.status === "Development") // Only show active projects
-      .map(project => project.name) || [];
-    return ["all", "art", ...projectNames];
-  }, [cvData]);
-
-  const { data: artworks = [], isLoading, error } = useArtworks({
-    category: selectedCategory,
+  // The useArtworks hook already handles searching across title, description, and tags.
+  // We no longer need a separate 'tag' filter state or the useArtworkTags hook.
+  const { data: artworks = [], isLoading: artworksLoading, error } = useArtworks({
     search: searchQuery,
   });
 
@@ -61,13 +51,13 @@ const Portfolio = () => {
           </div>
         </SectionReveal>
 
-        {!isLoading && featured.length > 0 && (
+        {!artworksLoading && featured.length > 0 && (
           <SectionReveal delay={0.05}>
             <RollingGallery
               items={featured.map((item) => ({
                 id: item.id,
                 title: item.title,
-                subtitle: item.category, // Keep original category for display
+                subtitle: item.category,
                 imageUrl: item.cover_url,
                 href: `/art/${item.slug}`,
                 footer: <span className="text-sm">{item.year}</span>,
@@ -77,41 +67,24 @@ const Portfolio = () => {
           </SectionReveal>
         )}
 
-        {/* Filters */}
+        {/* Search Input (now handles all filtering) */}
         <SectionReveal delay={0.1}>
           <div className="mb-10 space-y-6">
-            {/* Search */}
             <div className="relative max-w-md mx-auto">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Search artworks and projects..."
+                placeholder="Search artworks, projects, and tags..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="h-12 rounded-full border-border bg-surface-1 shadow-sm pl-10"
               />
             </div>
-
-            {/* Categories */}
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Filter className="h-5 w-5 text-muted-foreground" />
-              {categories.map((category) => (
-                <Button
-                  key={category}
-                  variant={selectedCategory === category ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedCategory(category)}
-                  className="transition-all motion-reduce:transition-none"
-                >
-                  {category.replace(/-/g, ' ')} {/* Format category for display */}
-                </Button>
-              ))}
-            </div>
           </div>
         </SectionReveal>
 
         {/* Gallery Grid */}
-        {isLoading ? (
+        {artworksLoading ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <ArtworkSkeleton key={i} />

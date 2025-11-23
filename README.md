@@ -11,6 +11,8 @@ Monynha Softwares' corporate website is a Vite + React application designed to s
 - 📊 Dynamic content powered by Supabase
 - 🛠️ Modular components for scalability and maintainability
 - ♿ Accessibility-first approach with motion-reduced fallbacks
+- 📝 Integrated blog for insights and thoughts
+- 🐙 Showcase of open-source repositories
 
 ## Branding Assets
 
@@ -32,6 +34,9 @@ Example usage with Tailwind:
 - [Tailwind CSS](https://tailwindcss.com/) with custom token scales
 - [shadcn/ui](https://ui.shadcn.com/) component primitives
 - Animation libraries: [Framer Motion](https://www.framer.com/motion/) and [GSAP](https://gsap.com/)
+- Backend: [Supabase](https://supabase.com/) for database, authentication, and storage
+- Data Fetching: [React Query](https://tanstack.com/query/latest) for server state management
+- Icons: [Lucide React](https://lucide.dev/icons/)
 
 ## Getting Started
 
@@ -51,6 +56,8 @@ Example usage with Tailwind:
    ```
 
 2. Set up environment variables:
+
+   Create a `.env` file at the project root with the following variables:
 
    ```env
    VITE_SUPABASE_URL=<your-supabase-url>
@@ -80,9 +87,10 @@ npm run preview
 
 ```bash
 npm run lint
+npm run test
 ```
 
-Linting ensures TypeScript, React, and accessibility conventions stay consistent.
+Linting ensures TypeScript, React, and accessibility conventions stay consistent. Unit tests verify component logic.
 
 ## Project Structure
 
@@ -92,31 +100,35 @@ Linting ensures TypeScript, React, and accessibility conventions stay consistent
 │   ├── components/
 │   │   ├── reactbits/     # Custom animated UI primitives (FlowingMenu, SilkBackground, ...)
 │   │   ├── ui/            # shadcn/ui components
-│   │   ├── Hero3D.tsx     # Legacy hero Three.js field (currently unused but kept for reference)
-│   │   └── SectionReveal.tsx
-│   ├── hooks/             # Shared hooks (toast, etc.)
-│   ├── integrations/      # Supabase and API adapters
-│   ├── pages/             # Route components (Home, Portfolio, About, Contact, ...)
-│   ├── lib/               # Utility helpers
+│   │   ├── brand/         # Branding components (BrandLogo, BrandMark)
+│   │   └── ...            # Other reusable components
+│   ├── hooks/             # Shared hooks (toast, useArtworks, useSettings, etc.)
+│   ├── integrations/      # Supabase and API adapters (client.ts, supabase.types.ts)
+│   ├── pages/             # Route components (Home, Portfolio, About, Contact, Repositories, Thoughts, ...)
+│   ├── lib/               # Utility helpers (utils.ts, blogPosts.ts)
 │   ├── App.tsx            # Router + providers
 │   └── main.tsx           # Vite entry point
-├── supabase/              # Database configuration & migrations (optional)
+├── supabase/              # Database configuration & migrations
 ├── tailwind.config.ts
 └── vite.config.ts
 ```
 
 ## Key Implementation Notes
 
-- **Navigation:** The Infinite Menu experiment has been removed. Mobile navigation now uses `FlowingMenu`, providing consistent hover/touch behaviour with reduced-motion awareness.
+- **Branding:** The entire site has been rebranded to "Monynha Softwares."
+- **Supabase Types:** Supabase table types are centralized in `src/integrations/supabase/supabase.types.ts` for improved type safety.
+- **Navigation:** Mobile navigation uses `FlowingMenu`, providing consistent hover/touch behaviour with reduced-motion awareness.
 - **Motion Safeguards:** All animated components check `prefers-reduced-motion`, fall back gracefully, and avoid excessive GPU load.
 - **State Safety:** The contact form clears pending timeouts during unmount to prevent memory leaks when navigating away mid-submit.
 - **Typed Data Models:** Portfolio listings declare explicit TypeScript types, improving maintainability as the data source evolves.
+- **Blog Integration:** Markdown blog posts are parsed and displayed via new `/thoughts` routes.
+- **GitHub Repositories:** Integration to display open-source projects from GitHub.
 
 ## Extending The Project
 
-- Replace the mock data in `src/pages/Portfolio.tsx` with Supabase queries located in `src/integrations`.
 - Update the imagery and copywriting in `src/pages/Home.tsx`, `About.tsx`, and `Contact.tsx` to match your brand voice.
 - Explore additional React Bits-inspired components inside `src/components/reactbits/` to enrich future sections.
+- Add new blog posts by creating Markdown files in `public/content/blog` and updating `src/lib/blogPosts.ts`.
 
 ## License
 
