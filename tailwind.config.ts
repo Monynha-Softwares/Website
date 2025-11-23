@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
+import typography from "@tailwindcss/typography"; // Import the typography plugin
 
 export default {
   darkMode: ["class"],
@@ -152,10 +153,10 @@ export default {
         "reveal-text": "reveal-text 1.2s cubic-bezier(0.77, 0, 0.175, 1)",
         marquee: "marquee 18s linear infinite",
       },
-      gridAutoRows: { // Add this new section
-        'fr': 'minmax(0, 1fr)', // Define grid-auto-rows-fr
+      gridAutoRows: {
+        'fr': 'minmax(0, 1fr)',
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [tailwindcssAnimate, typography], // Add typography plugin here
 } satisfies Config;

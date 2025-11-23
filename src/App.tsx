@@ -11,9 +11,11 @@ import Portfolio from "./pages/Portfolio";
 import ArtworkDetail from "./pages/ArtworkDetail";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Auth from "./pages/Auth";
 import Repositories from "./pages/Repositories";
-import RepositoryDetail from "./pages/RepositoryDetail"; // Import the new RepositoryDetail page
+import RepositoryDetail from "./pages/RepositoryDetail";
+import Thoughts from "./pages/Thoughts"; // Import the new Thoughts page
+import ThoughtDetail from "./pages/ThoughtDetail"; // Import the new ThoughtDetail page
+import Auth from "./pages/Auth";
 import Dashboard from "./pages/admin/Dashboard";
 import ArtworksManager from "./pages/admin/ArtworksManager";
 import ExhibitionsManager from "./pages/admin/ExhibitionsManager";
@@ -39,7 +41,9 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/repositories" element={<Repositories />} />
-            <Route path="/repositories/:owner/:repoName" element={<RepositoryDetail />} /> {/* New Repository Detail Route */}
+            <Route path="/repositories/:owner/:repoName" element={<RepositoryDetail />} />
+            <Route path="/thoughts" element={<Thoughts />} /> {/* New Thoughts Route */}
+            <Route path="/thoughts/:slug" element={<ThoughtDetail />} /> {/* New Thought Detail Route */}
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/artworks" element={<ArtworksManager />} />
