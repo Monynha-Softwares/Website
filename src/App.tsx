@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { Navigation } from "./components/Navigation";
 import { ScrollToTop } from "./components/ScrollToTop";
+import { Footer } from "./components/layout/Footer"; // Import the new Footer component
 import Home from "./pages/Home";
 import Portfolio from "./pages/Portfolio";
 import ArtworkDetail from "./pages/ArtworkDetail";
@@ -13,8 +14,8 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Repositories from "./pages/Repositories";
 import RepositoryDetail from "./pages/RepositoryDetail";
-import Thoughts from "./pages/Thoughts"; // Import the new Thoughts page
-import ThoughtDetail from "./pages/ThoughtDetail"; // Import the new ThoughtDetail page
+import Thoughts from "./pages/Thoughts";
+import ThoughtDetail from "./pages/ThoughtDetail";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/admin/Dashboard";
 import ArtworksManager from "./pages/admin/ArtworksManager";
@@ -42,8 +43,8 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/repositories" element={<Repositories />} />
             <Route path="/repositories/:owner/:repoName" element={<RepositoryDetail />} />
-            <Route path="/thoughts" element={<Thoughts />} /> {/* New Thoughts Route */}
-            <Route path="/thoughts/:slug" element={<ThoughtDetail />} /> {/* New Thought Detail Route */}
+            <Route path="/thoughts" element={<Thoughts />} />
+            <Route path="/thoughts/:slug" element={<ThoughtDetail />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/artworks" element={<ArtworksManager />} />
@@ -52,6 +53,7 @@ const App = () => (
             <Route path="/admin/settings" element={<SettingsManager />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <Footer /> {/* Integrate the Footer here */}
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
