@@ -67,7 +67,7 @@ const ArtworkDetail = () => {
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-surface-2 shadow-lg">
                 <img
                   src={project.cover_url}
-                  alt={project.title}
+                  alt={project.name}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -79,7 +79,7 @@ const ArtworkDetail = () => {
             <SectionReveal delay={0.1}>
               <div>
                 <h1 className="mb-4 text-[clamp(1.85rem,6vw,3.25rem)] font-bold leading-tight text-balance">
-                  {project.title}
+                  {project.name}
                 </h1>
                 <p className="text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed">
                   {project.description}
