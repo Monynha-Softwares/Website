@@ -9,27 +9,25 @@ import { RollingGallery } from "@/components/reactbits/RollingGallery";
 import { PixelCard } from "@/components/reactbits/PixelCard";
 import { useArtworks } from "@/hooks/useArtworks";
 import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
-import { useCvData } from "@/hooks/useCvData"; // Import useCvData
+
+const ARTWORK_CATEGORIES = [
+  "All",
+  "3D Art",
+  "Motion Design",
+  "Interactive",
+  "Digital Art",
+];
 
 const Portfolio = () => {
-  const { data: cvData } = useCvData(); // Fetch CV data
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Dynamically generate categories based on cvData projects
-  const categories = useMemo(() => {
-    const projectNames = cvData?.projects
-      .filter(project => project.status === "Production" || project.status === "MVP" || project.status === "Development") // Only show active projects
-      .map(project => project.name) || [];
-    return ["all", "art", ...projectNames];
-  }, [cvData]);
-
   const { data: artworks = [], isLoading, error } = useArtworks({
-    category: selectedCategory,
+    category: selectedCategory === "All" ? undefined : selectedCategory,
     search: searchQuery,
   });
 
-  const featured = useMemo(() => artworks.slice(0, 4), [artworks]);
+  const featured = useMemo(() => artworks.filter(a => a.featured).slice(0, 4), [artworks]);
 
   useEffect(() => {
     document.title = "Portfolio • Monynha Softwares";
@@ -67,7 +65,7 @@ const Portfolio = () => {
               items={featured.map((item) => ({
                 id: item.id,
                 title: item.title,
-                subtitle: item.category, // Keep original category for display
+                subtitle: item.category,
                 imageUrl: item.cover_url,
                 href: `/art/${item.slug}`,
                 footer: <span className="text-sm">{item.year}</span>,
@@ -95,7 +93,7 @@ const Portfolio = () => {
             {/* Categories */}
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Filter className="h-5 w-5 text-muted-foreground" />
-              {categories.map((category) => (
+              {ARTWORK_CATEGORIES.map((category) => (
                 <Button
                   key={category}
                   variant={selectedCategory === category ? "default" : "outline"}
@@ -103,7 +101,7 @@ const Portfolio = () => {
                   onClick={() => setSelectedCategory(category)}
                   className="transition-all motion-reduce:transition-none"
                 >
-                  {category.replace(/-/g, ' ')} {/* Format category for display */}
+                  {category}
                 </Button>
               ))}
             </div>

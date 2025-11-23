@@ -23,16 +23,16 @@ export const useArtworks = (options: UseArtworksOptions = {}) => {
         query = query.eq("featured", true);
       }
 
-      // New filtering logic: filter by tags array
-      if (options.category && options.category !== "all") {
-        query = query.contains("tags", [options.category.toLowerCase()]); // Use .contains for array matching
+      // Filter by the 'category' column directly
+      if (options.category) {
+        query = query.eq("category", options.category);
       }
 
       const { data, error } = await query;
 
       if (error) throw error;
 
-      // Client-side search filtering
+      // Client-side search filtering (includes tags, title, description)
       let filteredData = data || [];
       if (options.search) {
         const searchLower = options.search.toLowerCase();
@@ -40,7 +40,8 @@ export const useArtworks = (options: UseArtworksOptions = {}) => {
           (artwork) =>
             artwork.title.toLowerCase().includes(searchLower) ||
             artwork.description?.toLowerCase().includes(searchLower) ||
-            artwork.tags?.some((tag: string) => tag.toLowerCase().includes(searchLower))
+            artwork.tags?.some((tag: string) => tag.toLowerCase().includes(searchLower)) ||
+            artwork.category.toLowerCase().includes(searchLower) // Also search in category
         );
       }
 
