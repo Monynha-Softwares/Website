@@ -1,6 +1,6 @@
 # React Bits Integration Documentation
 
-This document provides a comprehensive overview of how React Bits components are integrated into the Art Leo Creative Spaces portfolio site.
+This document provides a comprehensive overview of how React Bits components are integrated into the Monynha Softwares corporate website.
 
 ## Overview
 
@@ -61,10 +61,10 @@ Following React Bits best practices:
 **Location:** `src/components/reactbits/SplitText.tsx`
 
 **Usage:**
-- **Home Page** - Main hero title "Leonardo Silva / Crafting Visual Stories"
+- **Home Page** - Main hero title "Monynha Softwares / Inclusive tech that empowers"
 
 **Features:**
-- Character-by-character text reveal
+- Character-by-character text reveal, now improved for word-by-word animation.
 - Stagger delay for smooth animation
 - Configurable tag (h1, h2, etc.)
 
@@ -72,8 +72,8 @@ Following React Bits best practices:
 ```typescript
 <SplitText
   as="h1"
-  text="Leonardo Silva\nCrafting Visual Stories"
-  className="mb-6 text-[clamp(2.25rem,8vw,3.75rem)] font-bold"
+  text={["Monynha Softwares", "Inclusive tech that empowers"].join("\n")}
+  className="mb-6 text-[clamp(2.25rem,8vw,3.75rem)] font-bold leading-[1.1] break-words text-balance items-center"
 />
 ```
 
@@ -104,6 +104,7 @@ Following React Bits best practices:
 
 **Usage:**
 - **Home Page** - Featured discipline cards (Motion Design, 3D Art, Interactive)
+- **Artwork Detail Page** - Used for displaying artwork description and tags.
 
 **Features:**
 - Spotlight effect following cursor
@@ -129,6 +130,8 @@ Following React Bits best practices:
 **Usage:**
 - **Home Page** - Featured artworks grid
 - **Portfolio Page** - All artwork items in grid
+- **About Page** - Company projects section
+- **Repositories Page** - Individual repository cards
 
 **Features:**
 - Pixelated hover effect
@@ -217,6 +220,7 @@ Following React Bits best practices:
 **Usage:**
 - **Contact Page** - Email and Instagram contact cards
 - **Artwork Detail Page** - Year, Category, and Technique metadata display
+- **Repository Detail Page** - Repository metadata display (stars, forks, language, etc.)
 
 **Features:**
 - Glassmorphism effect
@@ -229,8 +233,8 @@ Following React Bits best practices:
 <GlassIcon
   icon={<Mail className="h-6 w-6" />}
   title="Email"
-  description="contact@artleo.com"
-  href="mailto:contact@artleo.com"
+  description="contact@monynha.com"
+  href="mailto:contact@monynha.com"
 />
 ```
 
@@ -276,9 +280,10 @@ Following React Bits best practices:
 **Performance:** Within guideline, grid uses same component multiple times
 
 ### About Page (`src/pages/About.tsx`)
-**React Bits Components Used: 2**
-1. **TextType** - Biography text (2 instances)
-2. **StepperTimeline** - Exhibitions timeline
+**React Bits Components Used: 3**
+1. **TextType** - Biography text (multiple instances)
+2. **StepperTimeline** - Experience timeline
+3. **PixelCard** - Company projects (multiple instances)
 
 **Performance:** Within guideline
 
@@ -290,10 +295,23 @@ Following React Bits best practices:
 **Performance:** Within guideline
 
 ### Artwork Detail Page (`src/pages/ArtworkDetail.tsx`)
-**React Bits Components Used: 1**
+**React Bits Components Used: 2**
 1. **GlassIcon** - Metadata display (Year, Category, Technique)
+2. **SpotlightCard** - Artwork description and tags
 
 **Performance:** Well within guideline, plenty of room for enhancements
+
+### Repositories Page (`src/pages/Repositories.tsx`)
+**React Bits Components Used: 1**
+1. **PixelCard** - Repository list items
+
+**Performance:** Well within guideline
+
+### Repository Detail Page (`src/pages/RepositoryDetail.tsx`)
+**React Bits Components Used: 1**
+1. **GlassIcon** - Repository metadata display (stars, forks, language, etc.)
+
+**Performance:** Well within guideline
 
 ### Navigation (All Pages)
 **React Bits Components Used: 2**
@@ -377,4 +395,4 @@ Remember to maintain the 2-3 components per page limit when adding new component
 
 ## Conclusion
 
-The React Bits integration in Art Leo provides a sophisticated, performant, and accessible user experience. The careful selection and placement of components ensures visual impact without sacrificing performance or usability.
+The React Bits integration in Monynha Softwares provides a sophisticated, performant, and accessible user experience. The careful selection and placement of components ensures visual impact without sacrificing performance or usability.

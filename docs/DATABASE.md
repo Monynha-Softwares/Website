@@ -1,10 +1,11 @@
 # Database Schema Documentation
 
-This document describes the database structure for the Art Leo portfolio website.
+This document describes the database structure for the Monynha Softwares corporate website.
 
 ## Overview
 
 The database uses PostgreSQL on Supabase with Row Level Security (RLS) enabled on all tables.
+Application-specific types are centralized in `src/integrations/supabase/supabase.types.ts`.
 
 ## Tables
 
@@ -206,7 +207,7 @@ Role-based access control.
 ### `content_status`
 
 ```sql
-'published' | 'draft'
+'published' | 'draft' | 'archived'
 ```
 
 ### `app_role`
@@ -274,6 +275,11 @@ To create a new migration:
 2. Test locally first
 3. Apply to production via backend dashboard
 
+To regenerate TypeScript types after schema changes:
+```bash
+npx supabase gen types typescript --schema public > src/integrations/supabase/types.ts
+```
+
 ---
 
 ## Entity Relationship Diagram
@@ -311,6 +317,3 @@ Current indexes:
 - GIN index on artworks.tags for array searches
 
 - Index on exhibitions.year for timeline sorting
-
-
-> Project decoupled from external builders; no proprietary site-builder dependencies.

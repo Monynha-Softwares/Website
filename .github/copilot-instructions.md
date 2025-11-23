@@ -7,8 +7,8 @@ Keep the content concise and refer to concrete files/commands.
 ## 1. Big Picture (What This Repo Is)
 - **Architecture**: Vite + React + TypeScript single-page app (entry: `src/main.tsx`, router in `src/App.tsx`).
 - **UI**: Tailwind CSS + `shadcn/ui` primitives. Animated components live under `src/components/reactbits/` (e.g., `GooeyNav.tsx`, `LiquidEtherBackground.tsx`, `PixelCard.tsx`).
-- **Data**: Supabase-backed content (migrations in `supabase/migrations/`). Integrations live under `src/integrations/supabase` and hooks in `src/hooks/` (e.g., `useArtworks.tsx`, `useArtwork.tsx`).
-- **Purpose**: Corporate institutional website showcasing Monynha Softwares' services, values, and contact information.
+- **Data**: Supabase-backed content (migrations in `supabase/migrations/`). Integrations live under `src/integrations/supabase` and hooks in `src/hooks/` (e.g., `useArtworks.tsx`, `useArtwork.tsx`). Data types are centralized in `src/integrations/supabase/supabase.types.ts`.
+- **Purpose**: Corporate institutional website showcasing Monynha Softwares' services, values, and contact information, including a portfolio, open-source repositories, and a blog.
 
 ## 2. Developer Workflows & Commands
 - **Local Development**:
@@ -47,6 +47,10 @@ Keep the content concise and refer to concrete files/commands.
   supabase db reset
   ```
   (Recreates local DB and applies migrations from `supabase/migrations/`.)
+- **Generate Supabase Types**:
+  ```bash
+  npx supabase gen types typescript --schema public > src/integrations/supabase/types.ts
+  ```
 
 ## 3. Environment and Deployment
 - **Environment Variables** (create `.env` at repo root):
@@ -71,7 +75,7 @@ Keep the content concise and refer to concrete files/commands.
 - **File Naming**: React components use PascalCase and live in `src/components/**`.
 
 ## 5. Integration & Cross-Cutting Notes
-- **Supabase**: Data models described in `docs/DATABASE.md` (tables: `artworks`, `exhibitions`, `pages`, `settings`, `contact_messages`, `profiles`, `user_roles`). RLS is enabled—tests and local queries may require admin context for draft content.
+- **Supabase**: Data models described in `docs/DATABASE.md` (tables: `artworks`, `exhibitions`, `pages`, `settings`, `contact_messages`, `profiles`, `user_roles`). RLS is enabled—tests and local queries may require admin context for draft content. Types are centralized in `src/integrations/supabase/supabase.types.ts`.
 - **Images**: Stored in Supabase Storage. Public URL format: `https://<project>.supabase.co/storage/v1/object/public/<bucket>/<path>` (see `docs/SETUP.md`).
 - **3D/WebGL**: `three`, `@react-three/fiber`, and `@react-three/drei` are used. Heavy rendering is isolated in `src/components/reactbits/` or `src/components/Hero3D.tsx`.
 
