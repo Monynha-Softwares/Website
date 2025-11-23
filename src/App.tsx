@@ -24,8 +24,10 @@ import ExhibitionsManager from "./pages/admin/ExhibitionsManager";
 import MessagesManager from "./pages/admin/MessagesManager";
 import SettingsManager from "./pages/admin/SettingsManager";
 import ProjectsManager from "./pages/admin/ProjectsManager";
-import ExperiencesManager from "./pages/admin/ExperiencesManager"; // Import ExperiencesManager
-import SkillsManager from "./pages/admin/SkillsManager"; // Import SkillsManager
+import ExperiencesManager from "./pages/admin/ExperiencesManager";
+import SkillsManager from "./pages/admin/SkillsManager";
+import BlogPostsManager from "./pages/admin/BlogPostsManager";
+import LegalPagesManager from "./pages/admin/LegalPagesManager"; // Import LegalPagesManager
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -57,8 +59,10 @@ const App = () => (
             <Route path="/admin/messages" element={<MessagesManager />} />
             <Route path="/admin/settings" element={<SettingsManager />} />
             <Route path="/admin/projects" element={<ProjectsManager />} />
-            <Route path="/admin/experiences" element={<ExperiencesManager />} /> {/* New Experiences Manager Route */}
-            <Route path="/admin/skills" element={<SkillsManager />} /> {/* New Skills Manager Route */}
+            <Route path="/admin/experiences" element={<ExperiencesManager />} />
+            <Route path="/admin/skills" element={<SkillsManager />} />
+            <Route path="/admin/blog-posts" element={<BlogPostsManager />} />
+            <Route path="/admin/legal-pages" element={<LegalPagesManager />} /> {/* New Legal Pages Manager Route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
