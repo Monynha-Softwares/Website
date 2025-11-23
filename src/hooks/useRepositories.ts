@@ -32,20 +32,16 @@ const fetchGitHubRepos = async (org: string): Promise<GitHubRepo[]> => {
   return response.json();
 };
 
-interface UseRepositoriesOptions {
-  owner?: 'all' | 'Monynha-Softwares' | 'marcelo-m7';
-}
-
-export const useRepositories = (options: UseRepositoriesOptions = {}) => {
+export const useRepositories = () => {
   return useQuery<Repository[], Error>({
-    queryKey: ["githubRepositories", options.owner],
+    queryKey: ["githubRepositories"],
     queryFn: async () => {
       const [monynhaRepos, marceloRepos] = await Promise.all([
         fetchGitHubRepos("Monynha-Softwares"),
         fetchGitHubRepos("marcelo-m7"),
       ]);
 
-      let allRepos: Repository[] = [...monynhaRepos, ...marceloRepos]
+      const allRepos: Repository[] = [...monynhaRepos, ...marceloRepos]
         .filter(repo => repo.name && repo.html_url) // Ensure essential fields exist
         .map(repo => ({
           id: repo.id,
@@ -57,11 +53,6 @@ export const useRepositories = (options: UseRepositoriesOptions = {}) => {
           updated_at: repo.updated_at,
           owner_login: repo.owner.login,
         }));
-
-      // Filter by owner if specified
-      if (options.owner && options.owner !== 'all') {
-        allRepos = allRepos.filter(repo => repo.owner_login === options.owner);
-      }
 
       // Sort by updated_at descending
       allRepos.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());

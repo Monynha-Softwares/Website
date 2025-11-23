@@ -1,15 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SectionReveal } from "@/components/SectionReveal";
 import { useRepositories } from "@/hooks/useRepositories";
 import { RepositoryList } from "@/components/repositories/RepositoryList";
-import { Button } from "@/components/ui/button";
-import { Filter } from "lucide-react";
-
-type OwnerFilter = 'all' | 'Monynha-Softwares' | 'marcelo-m7';
 
 const Repositories = () => {
-  const [selectedOwner, setSelectedOwner] = useState<OwnerFilter>('all');
-  const { data: repositories = [], isLoading, error } = useRepositories({ owner: selectedOwner });
+  const { data: repositories = [], isLoading, error } = useRepositories();
 
   useEffect(() => {
     document.title = "Repositories • Monynha Softwares";
@@ -32,37 +27,6 @@ const Repositories = () => {
 
         {/* Repository List */}
         <RepositoryList repositories={repositories} isLoading={isLoading} error={error} />
-
-        {/* Owner Filters */}
-        <SectionReveal delay={0.1}>
-          <div className="flex flex-wrap items-center justify-center gap-3 mt-10">
-            <Filter className="h-5 w-5 text-muted-foreground" />
-            <Button
-              variant={selectedOwner === 'all' ? "default" : "outline"}
-              size="sm"
-              onClick={() => setSelectedOwner('all')}
-              className="transition-all motion-reduce:transition-none"
-            >
-              All Repositories
-            </Button>
-            <Button
-              variant={selectedOwner === 'Monynha-Softwares' ? "default" : "outline"}
-              size="sm"
-              onClick={() => setSelectedOwner('Monynha-Softwares')}
-              className="transition-all motion-reduce:transition-none"
-            >
-              Monynha Softwares
-            </Button>
-            <Button
-              variant={selectedOwner === 'marcelo-m7' ? "default" : "outline"}
-              size="sm"
-              onClick={() => setSelectedOwner('marcelo-m7')}
-              className="transition-all motion-reduce:transition-none"
-            >
-              Marcelo M7
-            </Button>
-          </div>
-        </SectionReveal>
       </div>
     </div>
   );
