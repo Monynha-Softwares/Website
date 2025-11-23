@@ -36,33 +36,28 @@ const About = () => {
           {/* Bio */}
           <SectionReveal delay={0.1}>
             <div className="space-y-6">
-              <h2 className="text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">Monynha Softwares</h2>
+              <h2 className="text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">Meet Marcelo Santos</h2>
               <TextType
                 className="text-[clamp(1rem,3.3vw,1.1rem)] leading-relaxed"
-                text="Monynha Softwares is a multidisciplinary studio crafting accessible products, immersive interfaces, and thoughtful digital services for organizations that care about inclusion."
-              />
-              <TextType
-                className="text-[clamp(1rem,3.3vw,1.1rem)] leading-relaxed"
-                delay={1200}
-                text="Our team blends research, design, and engineering to deliver software that feels effortless to use—whether it's a public-facing experience or a mission-critical platform."
+                text="Based between Brazil and Portugal, Marcelo is a full-stack developer, DevOps enthusiast and open-source evangelist who believes that technology should serve everyone. He founded Monynha Softwares to bring together code, community and identity, designing products that are inclusive, accessible and grounded in real lives. Outside the code, he mentors peripheral developers, experiments with digital art and keeps an eye on the next big leap in accessibility. He lives by the creed: “technology + diversity + art = magic ✨”"
               />
               <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:flex-wrap">
                 <a
-                  href="https://www.instagram.com/monynhasoftwares/"
+                  href="https://www.instagram.com/marcelo.santos.027/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <Button variant="outline" size="lg" className="w-full sm:w-auto">
                     <Instagram className="mr-2 h-5 w-5" />
-                    Follow Monynha
+                    Follow Marcelo
                   </Button>
                 </a>
-                <Link to="/contact">
+                <a href="mailto:marcelo@monynha.com">
                   <Button variant="hero" size="lg" className="w-full sm:w-auto">
                     <Mail className="mr-2 h-5 w-5" />
-                    Talk with Us
+                    Email Marcelo
                   </Button>
-                </Link>
+                </a>
               </div>
             </div>
           </SectionReveal>
@@ -72,8 +67,8 @@ const About = () => {
             <div className="relative">
               <div className="aspect-square overflow-hidden rounded-2xl border border-border bg-gradient-mesh shadow-lg">
                 <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop"
-                  alt="Monynha Softwares team at work"
+                  src="/avatar.jpg"
+                  alt="Marcelo Santos, Founder of Monynha Softwares"
                   className="h-full w-full object-cover"
                 />
               </div>
