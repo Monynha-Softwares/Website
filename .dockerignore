@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.gitignore
+.vscode
+.env
+.env.*
+pnpm-store
+tmp
+coverage
+playwright-report
+*.log
+/.idea
+/.cache
