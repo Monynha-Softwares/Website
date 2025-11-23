@@ -1,18 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
-interface UseArtworksOptions {
+interface UseProjectsOptions {
   category?: string;
   search?: string;
   featured?: boolean;
 }
 
-export const useArtworks = (options: UseArtworksOptions = {}) => {
+export const useProjects = (options: UseProjectsOptions = {}) => {
   return useQuery({
-    queryKey: ["artworks", options],
+    queryKey: ["projects", options],
     queryFn: async () => {
       let query = supabase
-        .from("artworks")
+        .from("projects")
         .select("*")
         .eq("status", "published")
         .order("display_order", { ascending: true })
@@ -35,10 +35,10 @@ export const useArtworks = (options: UseArtworksOptions = {}) => {
       if (options.search) {
         const searchLower = options.search.toLowerCase();
         filteredData = filteredData.filter(
-          (artwork) =>
-            artwork.title.toLowerCase().includes(searchLower) ||
-            artwork.description?.toLowerCase().includes(searchLower) ||
-            artwork.tags?.some((tag: string) => tag.toLowerCase().includes(searchLower))
+          (project) =>
+            project.title.toLowerCase().includes(searchLower) ||
+            project.description?.toLowerCase().includes(searchLower) ||
+            project.tags?.some((tag: string) => tag.toLowerCase().includes(searchLower))
         );
       }
 
