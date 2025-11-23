@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import { format } from "date-fns";
-import type { BlogPost } from "@/integrations/supabase/supabase.types";
+import type { BlogPost } from "@/integrations/supabase/interfaces";
 import { cn } from "@/lib/utils";
 
 interface BlogPostCardProps {

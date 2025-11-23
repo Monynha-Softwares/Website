@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
-import type { LegalPage } from "@/integrations/supabase/supabase.types";
+import type { LegalPage } from "@/integrations/supabase/interfaces";
 
 const LegalPagesManager = () => {
   const { isAdmin, isLoading } = useAuth();

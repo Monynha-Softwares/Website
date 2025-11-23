@@ -13,7 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import { format } from "date-fns";
-import type { BlogPost, ContentStatus } from "@/integrations/supabase/supabase.types";
+import type { BlogPost, ContentStatus } from "@/integrations/supabase/interfaces";
 
 const BlogPostsManager = () => {
   const { isAdmin, isLoading } = useAuth();

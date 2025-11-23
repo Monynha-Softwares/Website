@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { ArrowLeft, Save } from "lucide-react";
-import type { Setting } from "@/integrations/supabase/supabase.types"; // Import centralized type
+import type { Setting } from "@/integrations/supabase/interfaces"; // Import centralized type
 
 const SettingsManager = () => {
   const { isAdmin, isLoading } = useAuth();

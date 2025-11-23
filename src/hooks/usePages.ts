@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { Page } from "@/integrations/supabase/supabase.types"; // Import centralized type
+import type { Page } from "@/integrations/supabase/interfaces"; // Import centralized type
 
 type PagesQueryResult = Page[] | (Page | null);
 

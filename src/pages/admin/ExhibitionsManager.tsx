@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
-import type { Exhibition } from "@/integrations/supabase/supabase.types"; // Import centralized type
+import type { Exhibition } from "@/integrations/supabase/interfaces"; // Import centralized type
 
 const ExhibitionsManager = () => {
   const { isAdmin, isLoading } = useAuth();

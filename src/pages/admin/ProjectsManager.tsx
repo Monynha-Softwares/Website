@@ -13,7 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import { ImageUpload } from "@/components/admin/ImageUpload";
-import type { Project, ContentStatus } from "@/integrations/supabase/supabase.types";
+import type { Project, ContentStatus } from "@/integrations/supabase/interfaces";
 import { useProjects } from "@/hooks/useProjects"; // Import useProjects hook
 
 const ProjectsManager = () => {

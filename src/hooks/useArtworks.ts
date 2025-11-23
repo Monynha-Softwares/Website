@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { Artwork } from "@/integrations/supabase/supabase.types"; // Import centralized type
+import type { Artwork } from "@/integrations/supabase/interfaces"; // Import centralized type
 
 interface UseArtworksOptions {
   search?: string;

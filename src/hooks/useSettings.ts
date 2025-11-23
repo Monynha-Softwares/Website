@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Json } from "@/integrations/supabase/types_db"; // Changed import path
-import type { Setting } from "@/integrations/supabase/supabase.types";
+import type { Setting } from "@/integrations/supabase/interfaces";
 
 type SettingsQueryResult = Setting[] | (Setting | null);
 

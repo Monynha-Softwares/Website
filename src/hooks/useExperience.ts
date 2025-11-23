@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { Experience } from "@/integrations/supabase/supabase.types"; // Import centralized type
+import type { Experience } from "@/integrations/supabase/interfaces"; // Import centralized type
 
 export const useExperience = () => {
   return useQuery<Experience[], Error>({
