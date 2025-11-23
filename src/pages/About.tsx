@@ -59,10 +59,10 @@ const About = () => {
         <SectionReveal>
           <div className="mb-14 text-center">
             <h1 className="mb-4 text-[clamp(2rem,7vw,3.5rem)] font-bold leading-tight text-balance">
-              About <span className="bg-gradient-primary bg-clip-text text-transparent">Monynha</span>
+              Our <span className="bg-gradient-primary bg-clip-text text-transparent">Story</span>
             </h1>
             <p className="mx-auto max-w-2xl text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed text-balance">
-              We build inclusive, reliable software so every person can access technology with confidence.
+              Monynha Softwares was born from a collective dream: to prove that technology and affection can coexist, that innovation also comes from the margins, and that the web can be a space of welcoming, creation, and resistance.
             </p>
           </div>
         </SectionReveal>
