@@ -189,3 +189,118 @@ Short message for the team:
 ---
 
 Status summary: all tasks were completed without touching application frontend code, without creating tables, and without running actions against a Supabase instance.
+
+---
+
+## Agent 5 (Schema check & verification)
+
+Agent name: GitHub Copilot
+
+Date: 2025-11-23
+
+Tasks performed:
+- Read all `supabase/migrations/*` and `docs/DATABASE.md` to synthesize the current schema.
+- Inspected frontend hooks and auth context (`src/hooks/*`, `src/contexts/AuthContext.tsx`) for table/column usage.
+- Verified the connected Supabase instance contains the expected tables and ran sample reads.
+- Confirmed `src/integrations/supabase/types.ts` matches the migrations; provided guidance to regenerate types if needed.
+- Added a small read-only healthcheck snippet to use for integration testing.
+
+What I found (summary):
+- Tables present in `public` schema: `settings`, `pages`, `artworks`, `exhibitions`, `contact_messages`, `profiles`, `user_roles` (RLS enabled on each).
+- Row counts observed (live DB):
+  - `settings`: 0 rows
+  - `pages`: 2 rows
+  - `artworks`: 5 rows
+  - `exhibitions`: 4 rows
+  - `contact_messages`: 0 rows
+  - `profiles`: 0 rows
+  - `user_roles`: 0 rows
+
+Notes on schema vs frontend usage:
+- `useArtworks` (selects from `artworks`) references: `status`, `display_order`, `created_at`, `featured`, `category`, `title`, `description`, `tags` — all present in schema.
+- `useExhibitions` (selects from `exhibitions`) uses `year` and `display_order` — present.
+- `usePages` (selects from `pages`) uses `slug`, `status`, `content`, `meta_title`, `meta_description` — present.
+- `useSettings` (selects from `settings`) uses `key`, `value`, `is_public` — present (note `is_public` was added in a later migration).
+- `useContactForm` inserts into `contact_messages` fields `name`, `email`, `message`, `status` — present.
+- `AuthContext` checks `user_roles` table (`user_id`, `role`) — present.
+
+Conclusion on names: All table names and columns referenced by the frontend hooks and `AuthContext` match the schema created by the migrations.
+
+Type definitions:
+- `src/integrations/supabase/types.ts` exists and reflects the current schema (enums `app_role`, `content_status`; tables and columns are present).
+- If you want to regenerate the types locally (recommended after any schema migration), run from project root (requires Supabase CLI installed and authenticated):
+
+```powershell
+npx supabase gen types typescript --schema public > src/integrations/supabase/types.ts
+```
+
+Replace `npx supabase` with your installed `supabase` CLI if preferred. After running, verify the file and commit if correct.
+
+Healthcheck (read-only) snippet
+- Save this small function in a utility file (e.g. `src/lib/healthcheck.ts`) and run locally with proper `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` configured in `.env`.
+
+```typescript
+import { supabase } from "@/integrations/supabase/client";
+
+export async function healthcheck() {
+  // Read public settings
+  const { data: settings, error: sErr } = await supabase
+    .from("settings")
+    .select("key, value")
+    .eq("is_public", true)
+    .limit(10);
+
+  if (sErr) throw sErr;
+
+  // Read one artwork and one exhibition (if any)
+  const { data: artworks, error: aErr } = await supabase
+    .from("artworks")
+    .select("id, slug, title")
+    .eq("status", "published")
+    .limit(1)
+    .maybeSingle();
+  if (aErr) throw aErr;
+
+  const { data: exhibitions, error: eErr } = await supabase
+    .from("exhibitions")
+    .select("id, title, year")
+    .order("year", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (eErr) throw eErr;
+
+  return {
+    settings: settings || [],
+    artwork: artworks || null,
+    exhibition: exhibitions || null,
+  };
+}
+```
+
+Recommendations & next actions:
+- If you plan to run local development and want content to appear, either run `supabase/seed.sql` (already added to repo) or re-run the migration seeds via Supabase SQL editor.
+- If you need an admin user immediately, create an auth user via the app signup route (the migration that assigns the first `auth.users` entry an admin was already applied and will have effect if an `auth.users` row exists), or run manually (example SQL):
+
+```sql
+INSERT INTO public.user_roles (user_id, role)
+VALUES ('<USER_ID>', 'admin')
+ON CONFLICT DO NOTHING;
+```
+
+- Regenerate types after any schema change with the `supabase gen types` command above and commit the resulting `src/integrations/supabase/types.ts`.
+
+What is missing or unexpected:
+- `settings` currently has 0 rows in the live DB; front-end expects some public settings (site title, description). Use `supabase/seed.sql` or the dashboard SQL editor to insert these.
+- `user_roles` is empty — no admin user exists yet; create a user via sign-up or assign role via SQL as shown above.
+
+Security note:
+- I did not log any secrets or service keys. Do not store service role keys in the repository — use CI/CD secrets or a vault.
+
+If you want, I can:
+- run the `supabase gen types` command locally and update `src/integrations/supabase/types.ts` (requires your Supabase CLI and project credentials), or
+- apply the `supabase/seed.sql` file to the connected DB (I can show the exact `supabase` CLI command to use), or
+- create a tiny script to create a first admin role once you provide a `user_id`.
+
+---
+
+Status: AGENT_LOG entry appended.
