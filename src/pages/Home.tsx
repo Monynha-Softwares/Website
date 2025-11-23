@@ -53,7 +53,7 @@ const Home = () => {
             <SplitText
               as="h1"
               text={["Monynha Softwares", "Inclusive tech that empowers"].join("\n")}
-              className="mb-6 text-[clamp(2.25rem,8vw,3.75rem)] font-bold leading-[1.1] break-words text-balance"
+              className="mb-6 text-[clamp(2.25rem,8vw,3.75rem)] font-bold leading-[1.1] break-words text-balance items-center"
             />
 
             <p className="mx-auto mb-8 max-w-2xl text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed text-balance">
