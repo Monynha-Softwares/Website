@@ -1,31 +1,42 @@
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { BrandLogo } from "@/components/brand/BrandLogo";
-import { useBlogPosts } from "@/hooks/useBlogPosts"; // Updated hook
+import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { useSiteSetting } from "@/hooks/useSettings";
 
-const MONYNHA_ECOSYSTEM_LINKS = [
-  { name: "Main Portal", href: "https://monynha.com" },
-  { name: "Boteco Pro Platform", href: "https://boteco.pt" },
-  { name: "Online Services Hub", href: "https://monynha.online" },
-  { name: "Experimental Playground", href: "https://monynha.fun" },
-  { name: "Developer & Tech Portal", href: "https://monynha.tech" },
-];
+interface FooterLink {
+  name: string;
+  href: string;
+}
 
-const COMPANY_LINKS = [
-  { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
-  // Careers link can be added here when implemented
-];
+interface SiteLinks {
+  ecosystem: FooterLink[];
+  company: FooterLink[];
+  legal: FooterLink[];
+}
 
-const LEGAL_LINKS = [
-  { name: "Privacy Policy", href: "#" },
-  { name: "Terms of Service", href: "#" },
-];
-
-export const Footer = () => {
+const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const { data: blogPosts } = useBlogPosts(); // Use updated hook
+  const { data: blogPosts } = useBlogPosts();
   const showThoughtsLink = blogPosts && blogPosts.length > 0;
+
+  const siteLinks = useSiteSetting<SiteLinks>('site_links', {
+    ecosystem: [
+      { name: "Main Portal", href: "https://monynha.com" },
+      { name: "Boteco Pro Platform", href: "https://boteco.pt" },
+      { name: "Online Services Hub", href: "https://monynha.online" },
+      { name: "Experimental Playground", href: "https://monynha.fun" },
+      { name: "Developer & Tech Portal", href: "https://monynha.tech" },
+    ],
+    company: [
+      { name: "About", href: "/about" },
+      { name: "Contact", href: "/contact" },
+    ],
+    legal: [
+      { name: "Privacy Policy", href: "#" },
+      { name: "Terms of Service", href: "#" },
+    ],
+  });
 
   return (
     <footer className="bg-surface-0 py-16 sm:py-24 border-t border-border/70">
@@ -45,7 +56,7 @@ export const Footer = () => {
           <div className="col-span-1">
             <h3 className="mb-4 text-lg font-semibold text-foreground">Monynha Ecosystem</h3>
             <nav className="flex flex-col space-y-3">
-              {MONYNHA_ECOSYSTEM_LINKS.map((link) => (
+              {siteLinks.ecosystem.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
@@ -66,7 +77,7 @@ export const Footer = () => {
           <div className="col-span-1">
             <h3 className="mb-4 text-lg font-semibold text-foreground">Company</h3>
             <nav className="flex flex-col space-y-3">
-              {COMPANY_LINKS.map((link) => (
+              {siteLinks.company.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
@@ -96,7 +107,7 @@ export const Footer = () => {
           <div className="col-span-1">
             <h3 className="mb-4 text-lg font-semibold text-foreground">Legal</h3>
             <nav className="flex flex-col space-y-3">
-              {LEGAL_LINKS.map((link) => (
+              {siteLinks.legal.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}

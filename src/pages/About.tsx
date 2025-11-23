@@ -8,11 +8,11 @@ import { useExhibitions } from "@/hooks/useExhibitions";
 import { TimelineSkeleton } from "@/components/TimelineSkeleton";
 import { Badge } from "@/components/ui/badge";
 import { PixelCard } from "@/components/reactbits/PixelCard";
-import { useProfile } from "@/hooks/useProfile"; // New hook
-import { useExperience } from "@/hooks/useExperience"; // New hook
-import { useSkills } from "@/hooks/useSkills"; // New hook
-import { useProjects } from "@/hooks/useProjects"; // New hook
-import { useSiteSetting } from "@/hooks/useSettings"; // For social links
+import { useProfile } from "@/hooks/useProfile";
+import { useExperience } from "@/hooks/useExperience";
+import { useSkills } from "@/hooks/useSkills";
+import { useProjects } from "@/hooks/useProjects";
+import { useSiteSetting } from "@/hooks/useSettings";
 
 const About = () => {
   const { data: exhibitions = [], isLoading: exhibitionsLoading, error: exhibitionsError } = useExhibitions();
@@ -20,15 +20,16 @@ const About = () => {
   const { data: experience = [], isLoading: experienceLoading, error: experienceError } = useExperience();
   const { data: skills = [], isLoading: skillsLoading, error: skillsError } = useSkills();
   const { data: projects = [], isLoading: projectsLoading, error: projectsError } = useProjects({ limit: 6 });
-  const socialLinks = useSiteSetting<{ instagram?: string; email?: string }>('social_links', {});
+  
+  const contactInfo = useSiteSetting<{ email?: string; instagram?: string; availability?: string; note?: string }>('contact_info', {});
 
   const isLoading = exhibitionsLoading || profileLoading || experienceLoading || skillsLoading || projectsLoading;
   const error = exhibitionsError || profileError || experienceError || skillsError || projectsError;
 
   const experienceTimeline = experience.map((exp) => ({
     title: exp.role,
-    subtitle: `${exp.org} · ${exp.location} (${exp.start_date} - ${exp.end_date || "Present"})`,
-    description: exp.highlights.join(" • "),
+    subtitle: `${exp.organization} · ${exp.location} (${exp.start_date} - ${exp.end_date || "Present"})`,
+    description: exp.highlights?.join(" • ") || "",
     indicator: exp.start_date.split('-')[0],
   })) || [];
 
@@ -79,9 +80,9 @@ const About = () => {
                 text={profile?.bio || "Loading biography..."}
               />
               <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:flex-wrap">
-                {socialLinks?.instagram && (
+                {contactInfo?.instagram && (
                   <a
-                    href={socialLinks.instagram}
+                    href={contactInfo.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -91,8 +92,8 @@ const About = () => {
                     </Button>
                   </a>
                 )}
-                {socialLinks?.email && (
-                  <a href={socialLinks.email}>
+                {contactInfo?.email && (
+                  <a href={`mailto:${contactInfo.email}`}>
                     <Button variant="hero" size="lg" className="w-full sm:w-auto">
                       <Mail className="mr-2 h-5 w-5" />
                       Email Marcelo
@@ -160,7 +161,7 @@ const About = () => {
                 Our <span className="bg-gradient-primary bg-clip-text text-transparent">Projects</span>
               </h2>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {projects.map((project, index) => ( // Display up to 6 projects
+                {projects.map((project, index) => (
                   <SectionReveal key={project.slug} delay={index * 0.05}>
                     <Link to={project.url || project.repo_url || "#"} target="_blank" rel="noopener noreferrer" className="block h-full">
                       <PixelCard
@@ -170,7 +171,7 @@ const About = () => {
                         footer={
                           <div className="flex flex-col gap-2">
                             <div className="flex flex-wrap gap-2">
-                              {project.stack.map((tech, techIndex) => (
+                              {project.stack?.map((tech, techIndex) => (
                                 <Badge key={techIndex} variant="secondary" className="text-xs">
                                   {tech}
                                 </Badge>
@@ -193,9 +194,9 @@ const About = () => {
                   </SectionReveal>
                 ))}
               </div>
-              {projects.length > 6 && ( // Only show "View All Projects" if there are more than 6 projects
+              {projects.length > 6 && (
                 <div className="mt-12 text-center">
-                  <Link to="/repositories"> {/* Assuming /repositories lists all projects */}
+                  <Link to="/repositories">
                     <Button variant="outline" size="lg" className="w-full sm:w-auto">
                       View All Projects
                       <ArrowRight className="h-5 w-5 ml-2" />

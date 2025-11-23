@@ -9,7 +9,7 @@ import { Mail, Instagram, Send } from "lucide-react";
 import { GlassIcon } from "@/components/reactbits/GlassIcon";
 import { RippleGridBackground } from "@/components/reactbits/RippleGridBackground";
 import { useContactForm } from "@/hooks/useContactForm";
-import { useSiteSetting } from "@/hooks/useSettings"; // Import useSiteSetting
+import { useSiteSetting } from "@/hooks/useSettings";
 
 const initialFormState = {
   name: "",
@@ -24,12 +24,15 @@ const Contact = () => {
   const [formData, setFormData] = useState<ContactFormState>(initialFormState);
   const { mutate: submitContact, isPending } = useContactForm();
 
-  const contactEmail = useSiteSetting<string>('contact_email', 'contact@monynha.com');
-  const contactAvailability = useSiteSetting<string>('contact_availability', 'Available for collaborations and creative opportunities.');
-  const contactNote = useSiteSetting<string>('contact_note', 'Get in touch for projects, partnerships, or out-of-the-box ideas!');
-  const successMessage = useSiteSetting<string>('contact_success_message', 'Message sent successfully! I\'ll get back to you soon 🌈');
-  const errorMessage = useSiteSetting<string>('contact_error_message', 'Oops! Something went wrong. Please try again later 💜');
-  const socialLinks = useSiteSetting<{ instagram?: string }>('social_links', {});
+  const contactInfo = useSiteSetting<{ email?: string; instagram?: string; availability?: string; note?: string }>('contact_info', {});
+  const formMessages = useSiteSetting<{ success?: string; error?: string }>('contact_form_messages', {});
+
+  const contactEmail = contactInfo?.email || 'contact@monynha.com';
+  const contactAvailability = contactInfo?.availability || 'Available for collaborations and creative opportunities.';
+  const contactNote = contactInfo?.note || 'Get in touch for projects, partnerships, or out-of-the-box ideas!';
+  const successMessage = formMessages?.success || 'Message sent successfully! I\'ll get back to you soon 🌈';
+  const errorMessage = formMessages?.error || 'Oops! Something went wrong. Please try again later 💜';
+  const instagramLink = contactInfo?.instagram;
 
 
   const resetForm = useCallback(() => {
@@ -109,12 +112,12 @@ const Contact = () => {
                           href={`mailto:${contactEmail}`}
                         />
                       )}
-                      {socialLinks?.instagram && (
+                      {instagramLink && (
                         <GlassIcon
                           icon={<Instagram className="h-6 w-6" />}
                           title="Instagram"
                           description="@marcelo.santos.027" // Hardcoded for now, could be dynamic
-                          href={socialLinks.instagram}
+                          href={instagramLink}
                         />
                       )}
                     </div>
