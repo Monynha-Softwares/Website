@@ -230,3 +230,36 @@ Tests executed:
 
 Notes after changes:
 - Hook query keys mirror previous caching behavior with updated project naming; no UI copy adjustments were performed.
+
+## Agent 6 (Admin defaults and data hygiene)
+
+Agent name: ChatGPT (OpenAI) — GPT-5.1-Codex-Max
+
+Date: 2025-11-23
+
+Tasks planned:
+- Audit admin project management to ensure newly created entries surface in the public site.
+- Prevent invalid `display_order` values from being persisted.
+
+Files to modify:
+- `src/pages/admin/ArtworksManager.tsx`
+- `AGENT_LOG.md`
+
+Justification:
+- Admin form defaulted to `draft`, so new projects never appeared on public queries that filter `published` status.
+- The display order input allowed `NaN` to propagate, risking failed inserts/updates and inconsistent ordering.
+
+Tasks performed:
+- Set the admin form default status to `published` to align with public visibility and table defaults.
+- Sanitized display order input and payload to coerce invalid/blank values to 0, preventing NaN writes.
+
+Files modified:
+- `src/pages/admin/ArtworksManager.tsx`
+- `AGENT_LOG.md`
+
+Tests executed:
+- `npm run lint`
+- `npm run test:run`
+
+Notes after changes:
+- No new dependencies or structural adjustments. Public project listings now receive published items created via the admin UI, and display order input no longer allows NaN values.

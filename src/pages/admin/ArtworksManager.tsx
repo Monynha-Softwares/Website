@@ -264,13 +264,15 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
     year: artwork?.year?.toString() || "",
     cover_url: artwork?.cover_url || "",
     slug: artwork?.slug || "",
-    status: artwork?.status || "draft",
+    status: artwork?.status || "published",
     featured: artwork?.featured || false,
     display_order: artwork?.display_order || 0,
   });
 
   const mutation = useMutation({
     mutationFn: async (data: typeof formData) => {
+      const displayOrder = Number.isFinite(data.display_order) ? data.display_order : 0;
+
       const payload = {
         name: data.name,
         description: data.description || null,
@@ -281,7 +283,7 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
         slug: data.slug,
         status: data.status as "draft" | "published" | "archived",
         featured: data.featured,
-        display_order: data.display_order,
+        display_order: displayOrder,
       };
 
       if (artwork) {
@@ -402,7 +404,13 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
             id="display_order"
             type="number"
             value={formData.display_order}
-            onChange={(e) => setFormData({ ...formData, display_order: parseInt(e.target.value) })}
+            onChange={(e) => {
+              const parsedValue = parseInt(e.target.value, 10);
+              setFormData({
+                ...formData,
+                display_order: Number.isFinite(parsedValue) ? parsedValue : 0,
+              });
+            }}
           />
         </div>
       </div>
