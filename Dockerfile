@@ -5,7 +5,8 @@
 # - Serves static `dist` with nginx
 
 # --- Dependencies stage ---
-FROM node:18-alpine AS deps
+# Use Node 20 slim (glibc) so Vite/rollup native optional binaries work
+FROM node:20-slim AS deps
 WORKDIR /app
 
 # Ensure `pnpm` is available
@@ -22,7 +23,7 @@ COPY . .
 
 
 # --- Builder stage: generate types + build ---
-FROM node:18-alpine AS builder
+FROM node:20-slim AS builder
 WORKDIR /app
 
 # Copy installed node_modules and project files from deps stage

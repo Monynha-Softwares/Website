@@ -4,11 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import { format } from "date-fns";
-import { BlogPostMeta } from "@/lib/blogPosts";
+import type { BlogPost } from "@/integrations/supabase/supabase.types";
 import { cn } from "@/lib/utils";
 
 interface BlogPostCardProps {
-  post: BlogPostMeta;
+  post: BlogPost;
   delay?: number;
   className?: string;
 }
@@ -31,7 +31,7 @@ export const BlogPostCard = ({ post, delay = 0, className }: BlogPostCardProps) 
           </CardContent>
           <CardFooter className="flex flex-wrap items-center justify-between gap-4 pt-4">
             <div className="flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
+              {(post.tags ?? []).map((tag) => (
                 <Badge key={tag} variant="secondary" className="text-xs">
                   {tag}
                 </Badge>
