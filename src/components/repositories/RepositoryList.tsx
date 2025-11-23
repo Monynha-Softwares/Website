@@ -50,7 +50,7 @@ export const RepositoryList = ({ repositories, isLoading, error }: RepositoryLis
   }
 
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3 grid-auto-rows-fr">
       {repositories.map((repo, index) => (
         <SectionReveal key={repo.id} delay={index * 0.05}>
           <Link to={`/repositories/${repo.owner_login}/${repo.name}`} className="block h-full">

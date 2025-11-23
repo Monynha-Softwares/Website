@@ -152,6 +152,9 @@ export default {
         "reveal-text": "reveal-text 1.2s cubic-bezier(0.77, 0, 0.175, 1)",
         marquee: "marquee 18s linear infinite",
       },
+      gridAutoRows: { // Add this new section
+        'fr': 'minmax(0, 1fr)', // Define grid-auto-rows-fr
+      },
     },
   },
   plugins: [tailwindcssAnimate],
