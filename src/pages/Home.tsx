@@ -120,7 +120,7 @@ const Home = () => {
                   <SectionReveal key={project.id} delay={index * 0.1}>
                     <Link to={`/art/${project.slug}`} className="block">
                       <PixelCard
-                        title={project.title}
+                        title={project.name}
                         imageUrl={project.cover_url}
                       />
                     </Link>

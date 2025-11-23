@@ -4,19 +4,21 @@ import { Navigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
+import { Plus, Pencil, Trash2, ArrowLeft, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface Artwork {
   id: string;
-  title: string;
+  name: string;
   description: string | null;
   category: string;
   technique: string | null;
@@ -34,16 +36,15 @@ const ArtworksManager = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingArtwork, setEditingArtwork] = useState<Artwork | null>(null);
   const [selectedArtworks, setSelectedArtworks] = useState<string[]>([]);
-  const [filterStatus, setFilterStatus] = useState<string>("all");
 
-  const { data: artworks, isLoading: artworksLoading } = useQuery({
-    queryKey: ["admin-artworks"],
+  const { data: projects, isLoading: projectsLoading } = useQuery({
+    queryKey: ["admin-projects"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("artworks")
+        .from("projects")
         .select("*")
         .order("display_order", { ascending: true });
-      
+
       if (error) throw error;
       return data as Artwork[];
     },
@@ -51,11 +52,11 @@ const ArtworksManager = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from("artworks").delete().eq("id", id);
+      const { error } = await supabase.from("projects").delete().eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin-artworks"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
       setSelectedArtworks([]);
       toast.success("Artwork deleted successfully");
     },
@@ -66,11 +67,11 @@ const ArtworksManager = () => {
 
   const bulkDeleteMutation = useMutation({
     mutationFn: async (ids: string[]) => {
-      const { error } = await supabase.from("artworks").delete().in("id", ids);
+      const { error } = await supabase.from("projects").delete().in("id", ids);
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin-artworks"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
       setSelectedArtworks([]);
       toast.success("Artworks deleted successfully");
     },
@@ -82,13 +83,13 @@ const ArtworksManager = () => {
   const bulkUpdateStatusMutation = useMutation({
     mutationFn: async ({ ids, status }: { ids: string[]; status: string }) => {
       const { error } = await supabase
-        .from("artworks")
+        .from("projects")
         .update({ status })
         .in("id", ids);
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin-artworks"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
       setSelectedArtworks([]);
       toast.success("Artworks updated successfully");
     },
@@ -104,14 +105,14 @@ const ArtworksManager = () => {
   };
 
   const toggleSelectAll = () => {
-    if (selectedArtworks.length === artworks?.length) {
+    if (selectedArtworks.length === projects?.length) {
       setSelectedArtworks([]);
     } else {
-      setSelectedArtworks(artworks?.map((a) => a.id) || []);
+      setSelectedArtworks(projects?.map((a) => a.id) || []);
     }
   };
 
-  if (isLoading || artworksLoading) {
+  if (isLoading || projectsLoading) {
     return <div className="flex min-h-screen items-center justify-center">Loading...</div>;
   }
 
@@ -146,7 +147,7 @@ const ArtworksManager = () => {
                 onSuccess={() => {
                   setIsDialogOpen(false);
                   setEditingArtwork(null);
-                  queryClient.invalidateQueries({ queryKey: ["admin-artworks"] });
+                  queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
                 }}
               />
             </DialogContent>
@@ -154,10 +155,10 @@ const ArtworksManager = () => {
         </div>
 
         {/* Select All Checkbox */}
-        {artworks && artworks.length > 0 && (
+        {projects && projects.length > 0 && (
           <div className="mb-4 flex items-center gap-2">
             <Checkbox
-              checked={selectedArtworks.length === artworks.length}
+              checked={selectedArtworks.length === projects.length}
               onCheckedChange={toggleSelectAll}
               id="select-all"
             />
@@ -168,7 +169,7 @@ const ArtworksManager = () => {
         )}
 
         <div className="grid gap-4">
-          {artworks?.map((artwork) => (
+          {projects?.map((artwork) => (
             <Card key={artwork.id} className="hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="flex items-start gap-4">
@@ -180,7 +181,7 @@ const ArtworksManager = () => {
                   {artwork.cover_url && (
                     <img
                       src={artwork.cover_url}
-                      alt={artwork.title}
+                      alt={artwork.name}
                       className="w-24 h-24 object-cover rounded-lg"
                     />
                   )}
@@ -188,7 +189,7 @@ const ArtworksManager = () => {
                     <div className="flex items-start justify-between">
                       <div>
                         <CardTitle className="flex items-center gap-2">
-                          {artwork.title}
+                          {artwork.name}
                           {artwork.featured && <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />}
                         </CardTitle>
                         <div className="mt-2 flex flex-wrap gap-2">
@@ -256,7 +257,7 @@ interface ArtworkFormProps {
 
 const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
   const [formData, setFormData] = useState({
-    title: artwork?.title || "",
+    name: artwork?.name || "",
     description: artwork?.description || "",
     category: artwork?.category || "painting",
     technique: artwork?.technique || "",
@@ -271,7 +272,7 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
   const mutation = useMutation({
     mutationFn: async (data: typeof formData) => {
       const payload = {
-        title: data.title,
+        name: data.name,
         description: data.description || null,
         category: data.category,
         technique: data.technique || null,
@@ -285,12 +286,12 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
 
       if (artwork) {
         const { error } = await supabase
-          .from("artworks")
+          .from("projects")
           .update(payload)
           .eq("id", artwork.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase.from("artworks").insert([payload]);
+        const { error } = await supabase.from("projects").insert([payload]);
         if (error) throw error;
       }
     },
@@ -314,8 +315,8 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
         <Label htmlFor="title">Title</Label>
         <Input
           id="title"
-          value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           required
         />
       </div>

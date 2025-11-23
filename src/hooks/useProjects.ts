@@ -36,7 +36,7 @@ export const useProjects = (options: UseProjectsOptions = {}) => {
         const searchLower = options.search.toLowerCase();
         filteredData = filteredData.filter(
           (project) =>
-            project.title.toLowerCase().includes(searchLower) ||
+            project.name.toLowerCase().includes(searchLower) ||
             project.description?.toLowerCase().includes(searchLower) ||
             project.tags?.some((tag: string) => tag.toLowerCase().includes(searchLower))
         );

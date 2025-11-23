@@ -14,7 +14,7 @@ export type Database = {
   }
   public: {
     Tables: {
-      artworks: {
+      projects: {
         Row: {
           category: string
           cover_url: string
@@ -24,11 +24,13 @@ export type Database = {
           featured: boolean | null
           id: string
           images: Json | null
+          name: string
+          repo_url: string | null
+          site_url: string | null
           slug: string
           status: Database["public"]["Enums"]["content_status"] | null
           tags: string[] | null
           technique: string | null
-          title: string
           updated_at: string | null
           year: number | null
         }
@@ -41,11 +43,13 @@ export type Database = {
           featured?: boolean | null
           id?: string
           images?: Json | null
+          name: string
+          repo_url?: string | null
+          site_url?: string | null
           slug: string
           status?: Database["public"]["Enums"]["content_status"] | null
           tags?: string[] | null
           technique?: string | null
-          title: string
           updated_at?: string | null
           year?: number | null
         }
@@ -58,11 +62,13 @@ export type Database = {
           featured?: boolean | null
           id?: string
           images?: Json | null
+          name?: string
+          repo_url?: string | null
+          site_url?: string | null
           slug?: string
           status?: Database["public"]["Enums"]["content_status"] | null
           tags?: string[] | null
           technique?: string | null
-          title?: string
           updated_at?: string | null
           year?: number | null
         }

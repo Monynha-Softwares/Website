@@ -55,7 +55,7 @@ const Portfolio = () => {
             <RollingGallery
               items={featured.map((item) => ({
                 id: item.id,
-                title: item.title,
+                title: item.name,
                 subtitle: item.category,
                 imageUrl: item.cover_url,
                 href: `/art/${item.slug}`,
@@ -122,7 +122,7 @@ const Portfolio = () => {
                 <Link to={`/art/${project.slug}`} className="block">
                   <PixelCard
                     imageUrl={project.cover_url}
-                    title={project.title}
+                    title={project.name}
                     subtitle={project.category}
                     footer={<span className="text-sm">{project.year}</span>}
                   />
