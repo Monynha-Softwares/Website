@@ -30,39 +30,42 @@ const Repositories = () => {
           </div>
         </SectionReveal>
 
-        {/* Repository List */}
-        <RepositoryList repositories={repositories} isLoading={isLoading} error={error} />
-
-        {/* Owner Filters at the bottom */}
+        {/* Owner Filters */}
         <SectionReveal delay={0.1}>
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
-            <Filter className="h-5 w-5 text-muted-foreground" />
-            <Button
-              variant={ownerFilter === "all" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setOwnerFilter("all")}
-              className="transition-all motion-reduce:transition-none"
-            >
-              All Repositories
-            </Button>
-            <Button
-              variant={ownerFilter === "Monynha-Softwares" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setOwnerFilter("Monynha-Softwares")}
-              className="transition-all motion-reduce:transition-none"
-            >
-              Monynha Softwares
-            </Button>
-            <Button
-              variant={ownerFilter === "marcelo-m7" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setOwnerFilter("marcelo-m7")}
-              className="transition-all motion-reduce:transition-none"
-            >
-              Marcelo M7
-            </Button>
+          <div className="mb-10 text-center">
+            <h2 className="mb-4 text-fluid-xl font-semibold text-foreground">Filter by Owner</h2>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <Filter className="h-5 w-5 text-muted-foreground" />
+              <Button
+                variant={ownerFilter === "all" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setOwnerFilter("all")}
+                className="transition-all motion-reduce:transition-none"
+              >
+                All Repositories
+              </Button>
+              <Button
+                variant={ownerFilter === "Monynha-Softwares" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setOwnerFilter("Monynha-Softwares")}
+                className="transition-all motion-reduce:transition-none"
+              >
+                Monynha Softwares
+              </Button>
+              <Button
+                variant={ownerFilter === "marcelo-m7" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setOwnerFilter("marcelo-m7")}
+                className="transition-all motion-reduce:transition-none"
+              >
+                Marcelo M7
+              </Button>
+            </div>
           </div>
         </SectionReveal>
+
+        {/* Repository List */}
+        <RepositoryList repositories={repositories} isLoading={isLoading} error={error} />
       </div>
     </div>
   );
