@@ -1,51 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img">
-  <title>Monynha Softwares - Monograma M</title>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 48 48"
+  fill="none"
+>
   <defs>
-    <!-- Enhanced gradient with three colors -->
-    <linearGradient id="faviconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7C3AED" />
-      <stop offset="50%" stop-color="#0EA5E9" />
-      <stop offset="100%" stop-color="#D946EF" />
+    <linearGradient id="favicon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="hsl(263 70% 65%)" />
+      <stop offset="100%" stop-color="hsl(217 91% 60%)" />
     </linearGradient>
-    
-    <!-- Glow effect -->
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+    <filter id="favicon-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
       <feMerge>
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
       </feMerge>
     </filter>
-    
-    <!-- Subtle inner glow -->
-    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#1E1B4B" />
-      <stop offset="100%" stop-color="#05010D" />
-    </radialGradient>
   </defs>
-  
-  <!-- Background with subtle glow -->
-  <rect width="256" height="256" rx="64" fill="url(#bgGlow)" />
-  
-  <!-- Decorative subtle corner accents -->
-  <circle cx="64" cy="64" r="48" fill="#7C3AED" opacity="0.08"/>
-  <circle cx="192" cy="192" r="48" fill="#D946EF" opacity="0.08"/>
-  
-  <!-- Main M logo -->
-  <path
-    d="M64 184V72h36l28 50 28-50h36v112h-28V114l-36 62-36-62v70z"
-    fill="none"
-    stroke="url(#faviconGradient)"
-    stroke-width="18"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    filter="url(#glow)"
-  />
-  
-  <!-- Subtle filled version for depth -->
-  <path
-    d="M64 184V72h36l28 50 28-50h36v112h-28V114l-36 62-36-62v70z"
-    fill="url(#faviconGradient)"
-    opacity="0.12"
-  />
+  <g filter="url(#favicon-glow)">
+    <rect x="4" y="4" width="40" height="40" rx="14" fill="url(#favicon-grad)" opacity="0.9" />
+    <path
+      d="M24 12.5l-11 23h6.1l3.6-7.6h9.1l3.7 7.6H41l-11.1-23h-5.9z"
+      fill="none"
+      stroke="white"
+      stroke-width="2.4"
+      stroke-linejoin="round"
+      stroke-linecap="round"
+    />
+    <path
+      d="M24 18.2c-2.35 0-4.26 1.9-4.26 4.25 0 2.35 1.91 4.25 4.26 4.25 1.09 0 2.09-.41 2.85-1.09l2.69 5.62h-5.54l-3.73 7.83"
+      fill="none"
+      stroke="white"
+      stroke-width="2.1"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      opacity="0.8"
+    />
+    <circle cx="24" cy="22.4" r="3.2" fill="white" fill-opacity="0.85" />
+  </g>
 </svg>

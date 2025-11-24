@@ -94,6 +94,10 @@ All colors MUST be HSL.
     /* Transitions */
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-spring: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Brand specific accents for logo */
+    --brand-accent: hsl(var(--primary));
+    --brand-accent-alt: hsl(var(--secondary));
   }
 
   .dark {
