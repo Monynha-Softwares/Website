@@ -9,9 +9,11 @@ import { PixelCard } from "@/components/reactbits/PixelCard";
 import { useArtworks } from "@/hooks/useArtworks";
 import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
 import { Button } from "@/components/ui/button"; // Import Button
+import { useIsMobile } from "@/hooks/use-mobile"; // Import useIsMobile hook
 
 const Portfolio = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const isMobile = useIsMobile(); // Determine if on mobile
 
   const { data: artworks = [], isLoading: artworksLoading, error } = useArtworks({
     search: searchQuery,
@@ -119,6 +121,7 @@ const Portfolio = () => {
                       </div>
                     }
                     className="h-full flex flex-col"
+                    noFocus={isMobile} // Apply noFocus conditionally for mobile
                   />
                 </Link>
               </motion.div>
