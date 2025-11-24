@@ -8,6 +8,7 @@ interface GitHubRepo {
   language: string | null;
   stargazers_count: number;
   updated_at: string;
+  created_at: string; // Added created_at
   owner: {
     login: string;
   };
@@ -21,6 +22,7 @@ export interface Repository {
   language: string | null;
   stargazers_count: number;
   updated_at: string;
+  created_at: string; // Added created_at
   owner_login: string;
 }
 
@@ -52,6 +54,7 @@ export const useRepositories = (options?: UseRepositoriesOptions) => {
           language: repo.language,
           stargazers_count: repo.stargazers_count,
           updated_at: repo.updated_at,
+          created_at: repo.created_at, // Mapped created_at
           owner_login: repo.owner.login,
         })));
       }
@@ -66,6 +69,7 @@ export const useRepositories = (options?: UseRepositoriesOptions) => {
           language: repo.language,
           stargazers_count: repo.stargazers_count,
           updated_at: repo.updated_at,
+          created_at: repo.created_at, // Mapped created_at
           owner_login: repo.owner.login,
         })));
       }
@@ -73,8 +77,8 @@ export const useRepositories = (options?: UseRepositoriesOptions) => {
       // Filter out any repos that might not have essential fields (though GitHub API usually provides them)
       allRepos = allRepos.filter(repo => repo.name && repo.html_url);
 
-      // Sort by updated_at descending
-      allRepos.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+      // Sort by created_at ascending (oldest first)
+      allRepos.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
 
       return allRepos;
     },
