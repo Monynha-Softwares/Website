@@ -170,7 +170,7 @@ export const GooeyNav = () => {
             >
               <BrandMark className="h-10 w-10 text-foreground md:hidden" />
               {/* Adjusted width for BrandLogo on desktop */}
-              <BrandLogo className="hidden h-8 w-[147px] text-foreground md:block" />
+              <BrandLogo className="hidden h-8 w-[160px] text-foreground md:block" /> {/* Increased width */}
               <span className="sr-only">Monynha Softwares</span>
             </Link>
             <div className="ml-auto flex items-center gap-3">

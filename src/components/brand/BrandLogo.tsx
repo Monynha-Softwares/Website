@@ -59,7 +59,7 @@ export const BrandLogo = ({ className, title = "Monynha Softwares" }: BrandLogoP
           fontWeight="400"
           fontSize="12"
           letterSpacing="0.32em"
-          textLength="128"
+          /* Removed textLength="128" to allow natural text flow */
         >
           INCLUSIVE SOFTWARE
         </text>
