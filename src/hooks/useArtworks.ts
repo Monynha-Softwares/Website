@@ -5,6 +5,7 @@ import type { Artwork } from "@/integrations/supabase/supabase.types"; // Import
 interface UseArtworksOptions {
   search?: string;
   featured?: boolean;
+  category?: string; // Added category filter option
 }
 
 export const useArtworks = (options: UseArtworksOptions = {}) => {
@@ -20,6 +21,10 @@ export const useArtworks = (options: UseArtworksOptions = {}) => {
 
       if (options.featured) {
         query = query.eq("featured", true);
+      }
+      // Apply category filter if provided and not "all"
+      if (options.category && options.category !== "all") {
+        query = query.eq("category", options.category);
       }
 
       const { data, error } = await query;

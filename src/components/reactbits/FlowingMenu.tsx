@@ -13,7 +13,7 @@ interface FlowingMenuItem {
 interface FlowingMenuProps {
   items: FlowingMenuItem[];
   activeHref?: string;
-  onItemClick?: () => void;
+  onItemClick?: (item: FlowingMenuItem) => void; // Changed to pass the full item
   className?: string;
   menuLabel?: string;
   itemRole?: React.AriaRole;
@@ -39,7 +39,7 @@ const findClosestEdge = (
 interface MenuItemProps extends FlowingMenuItem {
   isActive: boolean;
   reduceMotion: boolean;
-  onItemClick?: () => void;
+  onItemClick?: (item: FlowingMenuItem) => void; // Changed to pass the full item
   role?: React.AriaRole;
 }
 
@@ -121,7 +121,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ href, label, accent, isActive, redu
         )}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
-        onClick={onItemClick}
+        onClick={() => onItemClick?.({ href, label, accent })} // Pass the full item here
         aria-current={isActive ? "page" : undefined}
         role={role}
         data-menu-item
@@ -144,12 +144,12 @@ const MenuItem: React.FC<MenuItemProps> = ({ href, label, accent, isActive, redu
 
 export const FlowingMenu = React.forwardRef<HTMLDivElement, FlowingMenuProps>(
   ({ items, activeHref, onItemClick, className, menuLabel = "Mobile navigation", itemRole = "menuitem", authAction }, ref) => {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = React.useReducedMotion();
 
   const handleAuthClick = () => {
     if (authAction?.onClick) {
       authAction.onClick();
-      onItemClick?.();
+      onItemClick?.(authAction as FlowingMenuItem); // Pass authAction as a FlowingMenuItem
     }
   };
 
