@@ -3,27 +3,21 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { SectionReveal } from "@/components/SectionReveal";
 import { Input } from "@/components/ui/input";
-import { Search, Globe } from "lucide-react";
+import { Search, Globe } from "lucide-react"; // Added Globe icon
 import { RollingGallery } from "@/components/reactbits/RollingGallery";
 import { PixelCard } from "@/components/reactbits/PixelCard";
 import { useArtworks } from "@/hooks/useArtworks";
 import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
-import { Button } from "@/components/ui/button";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { FlowingMenu } from "@/components/reactbits/FlowingMenu"; // Import FlowingMenu
-import { useArtworkCategories } from "@/hooks/useArtworkCategories"; // Import new hook
+import { Button } from "@/components/ui/button"; // Import Button
+import { useIsMobile } from "@/hooks/use-mobile"; // Import useIsMobile hook
 
 const Portfolio = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all"); // New state for category
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile(); // Determine if on mobile
 
   const { data: artworks = [], isLoading: artworksLoading, error } = useArtworks({
     search: searchQuery,
-    category: selectedCategory, // Pass selected category to hook
   });
-
-  const { data: categories = [], isLoading: categoriesLoading } = useArtworkCategories(); // Fetch categories
 
   const featured = useMemo(() => artworks.slice(0, 4), [artworks]);
 
@@ -73,7 +67,7 @@ const Portfolio = () => {
           </SectionReveal>
         )}
 
-        {/* Search Input */}
+        {/* Search Input (now handles all filtering) */}
         <SectionReveal delay={0.1}>
           <div className="mb-10 space-y-6">
             <div className="relative max-w-md mx-auto">
@@ -88,29 +82,6 @@ const Portfolio = () => {
             </div>
           </div>
         </SectionReveal>
-
-        {/* Category Filter (FlowingMenu) */}
-        {!categoriesLoading && categories.length > 0 && (
-          <SectionReveal delay={0.15}>
-            <div className="mb-10">
-              <FlowingMenu
-                items={categories.map(cat => ({
-                  href: "#", // Not a real navigation, just for selection
-                  label: cat === "all" ? "All Categories" : cat,
-                  accent: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)"
-                }))}
-                activeHref="#" // No active href for this usage, as it's a filter menu
-                onItemClick={(clickedItem) => {
-                  const categoryLabel = clickedItem.label === "All Categories" ? "all" : clickedItem.label;
-                  setSelectedCategory(categoryLabel);
-                }}
-                className="max-w-full overflow-x-auto" // Allow horizontal scroll on small screens
-                menuLabel="Artwork categories"
-                itemRole="button" // Treat as buttons for selection
-              />
-            </div>
-          </SectionReveal>
-        )}
 
         {/* Gallery Grid */}
         {artworksLoading ? (
@@ -150,7 +121,7 @@ const Portfolio = () => {
                       </div>
                     }
                     className="h-full flex flex-col"
-                    noFocus={isMobile}
+                    noFocus={isMobile} // Apply noFocus conditionally for mobile
                   />
                 </Link>
               </motion.div>
