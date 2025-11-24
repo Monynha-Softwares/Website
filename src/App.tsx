@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { BrowserRouter, Routes, Route } from "react-router-dom"; // Changed to BrowserRouter
+import { HashRouter, Routes, Route } from "react-router-dom"; // Changed to HashRouter
 import { AuthProvider } from "./contexts/AuthContext";
 import { Navigation } from "./components/Navigation";
 import { ScrollToTop } from "./components/ScrollToTop";
@@ -35,7 +35,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter> {/* Changed to BrowserRouter */}
+      <HashRouter> {/* Changed to HashRouter */}
         <ScrollToTop />
         <Navigation />
         <Routes>
@@ -63,7 +63,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
-      </BrowserRouter>
+      </HashRouter>
     </TooltipProvider>
   </AuthProvider>
 );

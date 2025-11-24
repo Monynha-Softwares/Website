@@ -84,8 +84,9 @@ Vercel offers frictionless builds for Vite + React projects.
 
 1. Run `npm run build`
 2. Upload the generated `dist/` directory to your preferred static host (Cloudflare Pages, S3 + CloudFront, Render, etc.)
-3. **Important for `BrowserRouter`**: Ensure the host serves `index.html` for all SPA routes (fallback routing). This means any request that doesn't match a static file should fall back to serving `index.html`.
-4. Set the same Supabase environment variables on the hosting platform
+3. **Important for `HashRouter` (current setup)**: No special server configuration is needed as all routes will be prefixed with `#`.
+4. **If using `BrowserRouter` (requires server configuration)**: Ensure the host serves `index.html` for all SPA routes (fallback routing). This means any request that doesn't match a static file should fall back to serving `index.html`.
+5. Set the same Supabase environment variables on the hosting platform
 
 ---
 
