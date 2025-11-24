@@ -169,7 +169,8 @@ export const GooeyNav = () => {
               aria-label="Monynha Softwares home"
             >
               <BrandMark className="h-10 w-10 text-foreground md:hidden" />
-              <BrandLogo className="hidden h-8 text-foreground md:block" />
+              {/* Adjusted width for BrandLogo on desktop */}
+              <BrandLogo className="hidden h-8 w-[147px] text-foreground md:block" />
               <span className="sr-only">Monynha Softwares</span>
             </Link>
             <div className="ml-auto flex items-center gap-3">

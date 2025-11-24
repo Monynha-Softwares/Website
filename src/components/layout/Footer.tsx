@@ -31,7 +31,8 @@ export const Footer = () => {
           {/* Brand Logo */}
           <div className="col-span-full md:col-span-1 lg:col-span-2">
             <Link to="/" aria-label="Monynha Softwares home">
-              <BrandLogo className="h-10 text-foreground" />
+              {/* Adjusted width for BrandLogo in footer */}
+              <BrandLogo className="h-10 w-[183px] text-foreground" />
             </Link>
             <p className="mt-4 text-sm text-muted-foreground max-w-xs">
               Inclusive technology for everyone. Built with pride, coffee and open-source.
