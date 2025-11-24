@@ -16,67 +16,67 @@ This guide covers deploying the Monynha Softwares corporate website to productio
 
 Vercel offers frictionless builds for Vite + React projects.
 
-1. **Push the repository**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git remote add origin <your-repo-url>
-   git push -u origin main
-   ```
+1.  **Push the repository**
+    ```bash
+    git init
+    git add .
+    git commit -m "Initial commit"
+    git remote add origin <your-repo-url>
+    git push -u origin main
+    ```
 
-2. **Import the project**
-   - Visit [vercel.com](https://vercel.com)
-   - Click **Import Project**
-   - Select your Git repository
+2.  **Import the project**
+    - Visit [vercel.com](https://vercel.com)
+    - Click **Import Project**
+    - Select your Git repository
 
-3. **Configure build settings**
-   - Framework Preset: **Vite**
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-   - Install Command: `npm install`
+3.  **Configure build settings**
+    - Framework Preset: **Vite**
+    - Build Command: `npm run build`
+    - Output Directory: `dist`
+    - Install Command: `npm install`
 
-4. **Add environment variables**
+4.  **Add environment variables**
 
-   Navigate to **Settings → Environment Variables** and add:
+    Navigate to **Settings → Environment Variables** and add:
 
-   ```env
-   VITE_SUPABASE_URL=<your-supabase-url>
-   VITE_SUPABASE_PUBLISHABLE_KEY=<your-anon-key>
-   VITE_SUPABASE_PROJECT_ID=<your-project-id>
-   ```
+    ```env
+    VITE_SUPABASE_URL=<your-supabase-url>
+    VITE_SUPABASE_PUBLISHABLE_KEY=<your-anon-key>
+    VITE_SUPABASE_PROJECT_ID=<your-project-id>
+    ```
 
-5. **Deploy**
-   - Click **Deploy**
-   - Vercel builds and deploys automatically
-   - Access the site at `<project>.vercel.app`
+5.  **Deploy**
+    - Click **Deploy**
+    - Vercel builds and deploys automatically
+    - Access the site at `<project>.vercel.app`
 
-6. **Custom domain (optional)**
-   - Settings → Domains
-   - Add your domain and follow Vercel’s DNS instructions
+6.  **Custom domain (optional)**
+    - Settings → Domains
+    - Add your domain and follow Vercel’s DNS instructions
 
 ---
 
 ### Option 2: Netlify
 
-1. **Connect repository**
-   - Visit [app.netlify.com](https://app.netlify.com)
-   - Click **Add new site → Import an existing project**
-   - Authorize Git provider and pick the repository
+1.  **Connect repository**
+    - Visit [app.netlify.com](https://app.netlify.com)
+    - Click **Add new site → Import an existing project**
+    - Authorize Git provider and pick the repository
 
-2. **Configure build settings**
-   - Build command: `npm run build`
-   - Publish directory: `dist`
+2.  **Configure build settings**
+    - Build command: `npm run build`
+    - Publish directory: `dist`
 
-3. **Add environment variables**
-   Under **Site settings → Build & deploy → Environment**, add Supabase keys identical to the Vercel example above.
+3.  **Add environment variables**
+    Under **Site settings → Build & deploy → Environment**, add Supabase keys identical to the Vercel example above.
 
-4. **Deploy**
-   - Trigger a deploy from the UI or push to the default branch
-   - Netlify serves the static build from its CDN
+4.  **Deploy**
+    - Trigger a deploy from the UI or push to the default branch
+    - Netlify serves the static build from its CDN
 
-5. **Domain management**
-   - Use Netlify DNS or configure external DNS for a custom domain
+5.  **Domain management**
+    - Use Netlify DNS or configure external DNS for a custom domain
 
 ---
 
@@ -84,7 +84,7 @@ Vercel offers frictionless builds for Vite + React projects.
 
 1. Run `npm run build`
 2. Upload the generated `dist/` directory to your preferred static host (Cloudflare Pages, S3 + CloudFront, Render, etc.)
-3. Ensure the host serves `index.html` for SPA routes (fallback routing)
+3. **Important for `BrowserRouter`**: Ensure the host serves `index.html` for all SPA routes (fallback routing). This means any request that doesn't match a static file should fall back to serving `index.html`.
 4. Set the same Supabase environment variables on the hosting platform
 
 ---

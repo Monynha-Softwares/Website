@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom"; // Changed to BrowserRouter
 import { AuthProvider } from "./contexts/AuthContext";
 import { Navigation } from "./components/Navigation";
 import { ScrollToTop } from "./components/ScrollToTop";
@@ -26,7 +26,7 @@ import ProjectsManager from "./pages/admin/ProjectsManager";
 import ExperiencesManager from "./pages/admin/ExperiencesManager";
 import SkillsManager from "./pages/admin/SkillsManager";
 import BlogPostsManager from "./pages/admin/BlogPostsManager";
-import LegalPagesManager from "./pages/admin/LegalPagesManager"; // Import LegalPagesManager
+import LegalPagesManager from "./pages/admin/LegalPagesManager";
 import NotFound from "./pages/NotFound";
 
 
@@ -35,7 +35,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <HashRouter>
+      <BrowserRouter> {/* Changed to BrowserRouter */}
         <ScrollToTop />
         <Navigation />
         <Routes>
@@ -59,11 +59,11 @@ const App = () => (
           <Route path="/admin/experiences" element={<ExperiencesManager />} />
           <Route path="/admin/skills" element={<SkillsManager />} />
           <Route path="/admin/blog-posts" element={<BlogPostsManager />} />
-          <Route path="/admin/legal-pages" element={<LegalPagesManager />} /> {/* New Legal Pages Manager Route */}
+          <Route path="/admin/legal-pages" element={<LegalPagesManager />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
-      </HashRouter>
+      </BrowserRouter>
     </TooltipProvider>
   </AuthProvider>
 );
