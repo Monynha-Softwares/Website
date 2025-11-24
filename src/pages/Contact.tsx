@@ -8,20 +8,13 @@ import { useToast } from "@/hooks/use-toast";
 import { Mail, Instagram, Send } from "lucide-react";
 import { GlassIcon } from "@/components/reactbits/GlassIcon";
 import { RippleGridBackground } from "@/components/reactbits/RippleGridBackground";
-import { useContactForm } from "@/hooks/useContactForm";
+import { useContactForm, contactSchema, ContactFormData } from "@/hooks/useContactForm";
 import { useSiteSetting } from "@/hooks/useSettings";
-
-const initialFormState = {
-  name: "",
-  email: "",
-  message: "",
-};
-
-type ContactFormState = typeof initialFormState;
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const Contact = () => {
   const { toast } = useToast();
-  const [formData, setFormData] = useState<ContactFormState>(initialFormState);
   const { mutate: submitContact, isPending } = useContactForm();
 
   const contactInfo = useSiteSetting<{ email?: string; instagram?: string; availability?: string; note?: string }>('contact_info', {});
@@ -34,42 +27,38 @@ const Contact = () => {
   const errorMessage = formMessages?.error || 'Oops! Something went wrong. Please try again later 💜';
   const instagramLink = contactInfo?.instagram;
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+  });
 
-  const resetForm = useCallback(() => {
-    setFormData(() => ({ ...initialFormState }));
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    submitContact(formData, {
+  const onSubmit = async (data: ContactFormData) => {
+    submitContact(data, {
       onSuccess: () => {
         toast({
           title: "Message sent!",
           description: successMessage,
         });
-        resetForm();
+        reset(); // Reset form fields on success
       },
       onError: (error) => {
         toast({
           title: "Error sending message",
-          description: errorMessage,
+          description: error.message || errorMessage, // Use specific error message if available
           variant: "destructive",
         });
       },
     });
   };
-
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { name, value } = e.target;
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    },
-    [],
-  );
 
   return (
     <div className="min-h-screen overflow-x-hidden pt-24 pb-16">
@@ -128,45 +117,45 @@ const Contact = () => {
               {/* Contact Form */}
               <div className="col-span-1">
                 <SectionReveal delay={0.2}>
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     <div className="space-y-2">
                       <Label htmlFor="name">Name</Label>
                       <Input
                         id="name"
-                        name="name"
                         type="text"
-                        required
-                        value={formData.name}
-                        onChange={handleChange}
+                        {...register("name")}
                         placeholder="Your name"
                       />
+                      {errors.name && (
+                        <p className="text-sm text-destructive">{errors.name.message}</p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
                       <Input
                         id="email"
-                        name="email"
                         type="email"
-                        required
-                        value={formData.email}
-                        onChange={handleChange}
+                        {...register("email")}
                         placeholder="your.email@example.com"
                       />
+                      {errors.email && (
+                        <p className="text-sm text-destructive">{errors.email.message}</p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="message">Message</Label>
                       <Textarea
                         id="message"
-                        name="message"
-                        required
-                        value={formData.message}
-                        onChange={handleChange}
+                        {...register("message")}
                         placeholder="Tell me about your project or inquiry..."
                         rows={6}
                         className="resize-none"
                       />
+                      {errors.message && (
+                        <p className="text-sm text-destructive">{errors.message.message}</p>
+                      )}
                     </div>
 
                     <Button
