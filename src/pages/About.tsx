@@ -22,6 +22,8 @@ const About = () => {
   const { data: projects = [], isLoading: projectsLoading, error: projectsError } = useProjects({ limit: 6 });
   
   const contactInfo = useSiteSetting<{ email?: string; instagram?: string; availability?: string; note?: string }>('contact_info', {});
+  const siteTitle = useSiteSetting<string>('site_title', 'Monynha Softwares');
+  const siteDescription = useSiteSetting<string>('site_description', '');
 
   const isLoading = exhibitionsLoading || profileLoading || experienceLoading || skillsLoading || projectsLoading;
   const error = exhibitionsError || profileError || experienceError || skillsError || projectsError;
@@ -74,10 +76,10 @@ const About = () => {
           {/* Bio */}
           <SectionReveal delay={0.1}>
             <div className="space-y-6">
-              <h2 className="text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">Meet {profile?.full_name || "Our Founder"}</h2>
+              <h2 className="text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">Meet {profile?.full_name || siteTitle || "Our Founder"}</h2>
               <TextType
                 className="text-[clamp(1rem,3.3vw,1.1rem)] leading-relaxed"
-                text={profile?.bio || "Loading biography..."}
+                text={profile?.bio ?? siteDescription ?? "Loading biography..."}
               />
               <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:flex-wrap">
                 {contactInfo?.instagram && (

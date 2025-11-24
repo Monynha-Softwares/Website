@@ -3,6 +3,16 @@ import * as matchers from "@testing-library/jest-dom/matchers";
 import React from "react";
 import { configure } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { vi } from "vitest";
+
+// Provide lightweight module-level mocks for hooks that rely on a
+// QueryClient so tests (and module imports) don't throw before a
+// render wrapper is applied. Individual tests can override these mocks
+// if they need to exercise real behavior.
+vi.mock("@/hooks/useSettings", () => ({
+  useSettings: () => ({ data: null }),
+  useSiteSetting: (key: string, fallback: any) => (fallback ?? null),
+}));
 
 expect.extend(matchers);
 
@@ -30,7 +40,5 @@ const testQueryClient = new QueryClient({
 });
 
 configure({
-  wrapper: ({ children }) => (
-    <QueryClientProvider client={testQueryClient}>{children}</QueryClientProvider>
-  ),
+  wrapper: ({ children }) => React.createElement(QueryClientProvider, { client: testQueryClient }, children),
 });
