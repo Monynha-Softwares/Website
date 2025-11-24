@@ -11,7 +11,7 @@ import { vi } from "vitest";
 // if they need to exercise real behavior.
 vi.mock("@/hooks/useSettings", () => ({
   useSettings: () => ({ data: null }),
-  useSiteSetting: (key: string, fallback: any) => (fallback ?? null),
+  useSiteSetting: (key: string, fallback: unknown) => fallback ?? null,
 }));
 
 expect.extend(matchers);
