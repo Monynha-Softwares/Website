@@ -13,7 +13,11 @@ export const useLegalPages = (slug?: string) => {
           .eq("slug", slug)
           .maybeSingle();
 
-        if (error) throw error;
+        if (error) {
+          console.error(`Error fetching legal page with slug '${slug}':`, error);
+          throw error;
+        }
+        console.log(`Fetched legal page '${slug}':`, data);
         return data;
       } else {
         const { data, error } = await supabase
@@ -21,7 +25,11 @@ export const useLegalPages = (slug?: string) => {
           .select("*")
           .order("title", { ascending: true });
 
-        if (error) throw error;
+        if (error) {
+          console.error("Error fetching all legal pages:", error);
+          throw error;
+        }
+        console.log("Fetched all legal pages:", data);
         return data || [];
       }
     },
@@ -41,7 +49,11 @@ export const useLegalPage = (slug: string) => {
         .eq("slug", slug)
         .maybeSingle();
 
-      if (error) throw error;
+      if (error) {
+        console.error(`Error fetching legal page with slug '${slug}':`, error);
+        throw error;
+      }
+      console.log(`Fetched legal page '${slug}':`, data);
       return data;
     },
     enabled: !!slug,
