@@ -13,6 +13,9 @@ export const useBlogPosts = (slug?: string) => {
 
       if (slug) {
         query = query.eq("slug", slug);
+      } else {
+        // Only fetch published posts for the main listing
+        query = query.eq("status", "published");
       }
 
       const { data, error } = await query;
