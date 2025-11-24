@@ -1,5 +1,8 @@
 import { expect } from "vitest";
 import * as matchers from "@testing-library/jest-dom/matchers";
+import React from "react";
+import { configure } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 expect.extend(matchers);
 
@@ -19,3 +22,15 @@ if (typeof window !== "undefined" && typeof window.matchMedia !== "function") {
     }),
   });
 }
+
+// Provide a global QueryClientProvider wrapper for tests so hooks using
+// `useQuery`/`useMutation` work without needing to wrap each render.
+const testQueryClient = new QueryClient({
+  defaultOptions: { queries: { retry: false } },
+});
+
+configure({
+  wrapper: ({ children }) => (
+    <QueryClientProvider client={testQueryClient}>{children}</QueryClientProvider>
+  ),
+});
