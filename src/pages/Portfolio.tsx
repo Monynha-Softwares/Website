@@ -10,13 +10,18 @@ import { useArtworks } from "@/hooks/useArtworks";
 import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
 import { Button } from "@/components/ui/button"; // Import Button
 import { useIsMobile } from "@/hooks/use-mobile"; // Import useIsMobile hook
+import { FlowingMenu } from "@/components/reactbits/FlowingMenu"; // Import FlowingMenu
+import { useArtworkCategories } from "@/hooks/useArtworkCategories"; // Import useArtworkCategories
 
 const Portfolio = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all"); // New state for category
   const isMobile = useIsMobile(); // Determine if on mobile
 
+  const { data: categories = [], isLoading: categoriesLoading } = useArtworkCategories();
   const { data: artworks = [], isLoading: artworksLoading, error } = useArtworks({
     search: searchQuery,
+    category: selectedCategory, // Pass selected category to hook
   });
 
   const featured = useMemo(() => artworks.slice(0, 4), [artworks]);
@@ -35,6 +40,19 @@ const Portfolio = () => {
       </div>
     );
   }
+
+  const categoryMenuItems = useMemo(() => {
+    const allCategories = [{ href: "#all", label: "All", accent: "hsl(var(--primary))" }, ...categories.map(cat => ({
+      href: `#${cat.toLowerCase().replace(/\s/g, '-')}`, // Use hash for internal navigation
+      label: cat,
+      accent: "hsl(var(--secondary))" // Example accent color
+    }))];
+    return allCategories;
+  }, [categories]);
+
+  const handleCategoryClick = (itemLabel: string) => {
+    setSelectedCategory(itemLabel === "All" ? "all" : itemLabel);
+  };
 
   return (
     <div className="min-h-screen overflow-x-hidden pt-24 pb-16">
@@ -67,7 +85,7 @@ const Portfolio = () => {
           </SectionReveal>
         )}
 
-        {/* Search Input (now handles all filtering) */}
+        {/* Search Input */}
         <SectionReveal delay={0.1}>
           <div className="mb-10 space-y-6">
             <div className="relative max-w-md mx-auto">
@@ -82,6 +100,22 @@ const Portfolio = () => {
             </div>
           </div>
         </SectionReveal>
+
+        {/* Category Filter (FlowingMenu) */}
+        {!categoriesLoading && categories.length > 0 && (
+          <SectionReveal delay={0.15}>
+            <div className="mb-10">
+              <FlowingMenu
+                items={categoryMenuItems}
+                activeHref={`#${selectedCategory.toLowerCase().replace(/\s/g, '-')}`}
+                onItemClick={(item) => handleCategoryClick(item.label)}
+                className="max-w-full overflow-x-auto"
+                menuLabel="Artwork Categories"
+                itemRole="button" // Use button role for filter items
+              />
+            </div>
+          </SectionReveal>
+        )}
 
         {/* Gallery Grid */}
         {artworksLoading ? (
