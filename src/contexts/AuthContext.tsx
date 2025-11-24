@@ -9,18 +9,21 @@ interface AuthContextType {
   session: Session | null;
   isAdmin: boolean;
   isLoading: boolean;
+  canRegister: boolean; // New flag to control registration
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signUp: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
+  sendPasswordResetEmail: (email: string) => Promise<{ error: Error | null }>; // New function
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { ReactNode }) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => { // Corrected children type
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const canRegister = false; // Account creation disabled by default
   const { toast } = useToast();
 
   useEffect(() => {
@@ -101,6 +104,16 @@ export const AuthProvider = ({ children }: { ReactNode }) => {
   };
 
   const signUp = async (email: string, password: string) => {
+    if (!canRegister) {
+      const error = new Error("Account creation is currently disabled.");
+      toast({
+        title: "Registration Disabled",
+        description: error.message,
+        variant: "destructive",
+      });
+      return { error };
+    }
+
     try {
       const redirectUrl = `${window.location.origin}/`;
       
@@ -123,7 +136,7 @@ export const AuthProvider = ({ children }: { ReactNode }) => {
       
       toast({
         title: "Account created!",
-        description: "Welcome to the platform.",
+        description: "Please check your email to confirm your account.",
       });
       return { error: null };
     } catch (error) {
@@ -140,6 +153,32 @@ export const AuthProvider = ({ children }: { ReactNode }) => {
     });
   };
 
+  const sendPasswordResetEmail = async (email: string) => {
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/#/reset-password`, // Use hash router path
+      });
+
+      if (error) {
+        toast({
+          title: "Error sending reset email",
+          description: error.message,
+          variant: "destructive",
+        });
+        return { error };
+      }
+
+      toast({
+        title: "Password reset email sent!",
+        description: "Check your inbox for instructions to reset your password.",
+      });
+      return { error: null };
+    } catch (error) {
+      const err = error as Error;
+      return { error: err };
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -147,9 +186,11 @@ export const AuthProvider = ({ children }: { ReactNode }) => {
         session,
         isAdmin,
         isLoading,
+        canRegister,
         signIn,
         signUp,
         signOut,
+        sendPasswordResetEmail,
       }}
     >
       {children}
