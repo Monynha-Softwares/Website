@@ -17,8 +17,9 @@ export const BrandLogo = ({ className, title = "Monynha Softwares" }: BrandLogoP
     <svg
       role="img"
       aria-labelledby={titleId}
-      viewBox="0 0 220 48"
-      className={cn("h-10 w-auto", className)}
+      viewBox="0 0 280 48"
+      className={cn("h-auto w-full max-w-[280px]", className)}
+      preserveAspectRatio="xMidYMid meet"
     >
       <title id={titleId}>{title}</title>
       <defs>
@@ -59,11 +60,10 @@ export const BrandLogo = ({ className, title = "Monynha Softwares" }: BrandLogoP
           fontWeight="400"
           fontSize="12"
           letterSpacing="0.32em"
-          /* Removed textLength="128" to allow natural text flow */
         >
           INCLUSIVE SOFTWARE
         </text>
-        <rect x="0" y="30" width="120" height="2" rx="1" fill={`url(#${accentId}-underline)`} opacity="0.8" />
+        <rect x="0" y="30" width="180" height="2" rx="1" fill={`url(#${accentId}-underline)`} opacity="0.8" />
       </g>
     </svg>
   );
