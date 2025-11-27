@@ -11,7 +11,7 @@ Application-specific types are centralized in `src/integrations/supabase/supabas
 
 ### `artworks`
 
-Portfolio pieces displayed in the gallery.
+Creative works (e.g., digital art, motion design) displayed in the gallery.
 
 | Column | Type | Nullable | Default | Description |
 |--------|------|----------|---------|-------------|
@@ -176,7 +176,7 @@ Extended user information.
 
 - Users can INSERT own profile (via trigger)
 
-**Trigger**: `handle_new_user()` automatically creates profile when user signs up.
+**Trigger**: `handle_new_user()` automatically creates profile when new user signs up.
 
 ---
 
@@ -243,7 +243,7 @@ Creates profile entry when new user signs up via auth.
 ### `artwork-images`
 
 - **Public**: Yes
-- **Purpose**: Portfolio cover images and galleries
+- **Purpose**: Creative works cover images and galleries
 - **RLS**: Public SELECT, admin-only INSERT/UPDATE/DELETE
 
 ### `general-media`

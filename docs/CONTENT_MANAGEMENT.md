@@ -1,6 +1,6 @@
 # Content Management Guide
 
-This guide explains how to manage content for the Art Leo portfolio website. The project is now fully self-hosted—no external page builders or embedded dashboards are required.
+This guide explains how to manage content for the Monynha Softwares website. The project is now fully self-hosted—no external page builders or embedded dashboards are required.
 
 ## Access Methods
 
@@ -18,7 +18,7 @@ A custom admin panel UI is planned for easier content management. Until that shi
 
 ---
 
-## Managing Artworks
+## Managing Creative Works (Artworks)
 
 ### Add New Artwork
 
@@ -151,7 +151,7 @@ For each page:
 
 | Key | Value (JSON) | is_public | Description |
 |-----|--------------|-----------|-------------|
-| site_title | `"Art Leo"` | true | Site name |
+| site_title | `"Monynha Softwares"` | true | Site name |
 | site_tagline | `"Digital Artist..."` | true | Tagline |
 | bio | `"Artist statement..."` | true | About bio |
 | social_links | `{"instagram": "..."}` | true | Social URLs |
@@ -211,7 +211,7 @@ WHERE user_id = '<user-id>' AND role = 'admin';
 
 ---
 
-**Project note:** Art Leo is now decoupled from third-party site builders—content changes flow entirely through Supabase tables or future in-house tooling.
+**Project note:** Monynha Softwares is now decoupled from third-party site builders—content changes flow entirely through Supabase tables or future in-house tooling.
 
 
 > Project decoupled from external builders; no proprietary site-builder dependencies.

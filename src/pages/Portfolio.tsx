@@ -92,7 +92,7 @@ const Portfolio = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Search artworks, projects, and tags..."
+                placeholder="Search creative works, projects, and tags..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="h-12 rounded-full border-border bg-surface-1 shadow-sm pl-10"
