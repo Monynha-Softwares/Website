@@ -15,6 +15,7 @@ import { format } from "date-fns";
 import type { BlogPost, ContentStatus, TablesInsert, TablesUpdate } from "@/integrations/supabase/supabase.types";
 import { AdminFormDialog } from "@/components/admin/AdminFormDialog";
 import { useAdminForm } from "@/hooks/useAdminForm"; // Import the new hook
+import { Badge } from "@/components/ui/badge"; // Added missing import for Badge
 
 const BlogPostsManager = () => {
   const { isAdmin, isLoading } = useAuth();
