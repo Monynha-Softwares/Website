@@ -12,6 +12,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import type { Exhibition } from "@/integrations/supabase/supabase.types"; // Import centralized type
+import { AdminFormDialog } from "@/components/admin/AdminFormDialog"; // Import AdminFormDialog
+import { useAdminForm } from "@/hooks/useAdminForm"; // Import useAdminForm
 
 const ExhibitionsManager = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -40,6 +42,7 @@ const ExhibitionsManager = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-exhibitions"] });
+      queryClient.invalidateQueries({ queryKey: ["exhibitions"] }); // Invalidate public cache
       toast.success("Exhibition deleted successfully");
     },
     onError: () => {
@@ -66,27 +69,22 @@ const ExhibitionsManager = () => {
             </Link>
             <h1 className="text-4xl font-bold">Manage Exhibitions</h1>
           </div>
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={() => setEditingExhibition(null)}>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Exhibition
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl">
-              <DialogHeader>
-                <DialogTitle>{editingExhibition ? "Edit" : "Add"} Exhibition</DialogTitle>
-              </DialogHeader>
-              <ExhibitionForm
-                exhibition={editingExhibition}
-                onSuccess={() => {
-                  setIsDialogOpen(false);
-                  setEditingExhibition(null);
-                  queryClient.invalidateQueries({ queryKey: ["admin-exhibitions"] });
-                }}
-              />
-            </DialogContent>
-          </Dialog>
+          <AdminFormDialog
+            title="Exhibition"
+            triggerLabel="Add Exhibition"
+            isOpen={isDialogOpen}
+            onOpenChange={setIsDialogOpen}
+            onTriggerClick={() => setEditingExhibition(null)}
+            isEditing={!!editingExhibition}
+          >
+            <ExhibitionForm
+              exhibition={editingExhibition}
+              onSuccess={() => {
+                setIsDialogOpen(false);
+                setEditingExhibition(null);
+              }}
+            />
+          </AdminFormDialog>
         </div>
 
         <div className="grid gap-4">
@@ -136,53 +134,41 @@ interface ExhibitionFormProps {
   onSuccess: () => void;
 }
 
+interface ExhibitionFormData {
+  title: string;
+  description: string;
+  location: string;
+  date: string;
+  year: string;
+  type: string;
+  display_order: number;
+}
+
 const ExhibitionForm = ({ exhibition, onSuccess }: ExhibitionFormProps) => {
-  const [formData, setFormData] = useState({
-    title: exhibition?.title || "",
-    description: exhibition?.description || "",
-    location: exhibition?.location || "",
-    date: exhibition?.date || "",
-    year: exhibition?.year?.toString() || new Date().getFullYear().toString(),
-    type: exhibition?.type || "group",
-    display_order: exhibition?.display_order || 0,
+  const { formData, setFormData, handleSubmit, isPending } = useAdminForm<ExhibitionFormData, "exhibitions">({
+    tableName: "exhibitions",
+    id: exhibition?.id,
+    initialData: {
+      title: exhibition?.title || "",
+      description: exhibition?.description || "",
+      location: exhibition?.location || "",
+      date: exhibition?.date || "",
+      year: exhibition?.year?.toString() || new Date().getFullYear().toString(),
+      type: exhibition?.type || "group",
+      display_order: exhibition?.display_order || 0,
+    },
+    transformToPayload: (data) => ({
+      title: data.title,
+      description: data.description || null,
+      location: data.location || null,
+      date: data.date || null,
+      year: parseInt(data.year),
+      type: data.type,
+      display_order: data.display_order,
+    }),
+    queryKeysToInvalidate: ["admin-exhibitions", "exhibitions"],
+    onSuccessCallback: onSuccess,
   });
-
-  const mutation = useMutation<void, Error, typeof formData>({ // Specify generic types
-    mutationFn: async (data: typeof formData) => {
-      const payload: Omit<Exhibition, "id" | "created_at" | "updated_at"> = { // Omit auto-generated fields
-        title: data.title,
-        description: data.description || null,
-        location: data.location || null,
-        date: data.date || null,
-        year: parseInt(data.year),
-        type: data.type,
-        display_order: data.display_order,
-      };
-
-      if (exhibition) {
-        const { error } = await supabase
-          .from("exhibitions")
-          .update(payload)
-          .eq("id", exhibition.id);
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.from("exhibitions").insert([payload]);
-        if (error) throw error;
-      }
-    },
-    onSuccess: () => {
-      toast.success(`Exhibition ${exhibition ? "updated" : "created"} successfully`);
-      onSuccess();
-    },
-    onError: () => {
-      toast.error(`Failed to ${exhibition ? "update" : "create"} exhibition`);
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    mutation.mutate(formData);
-  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -260,8 +246,8 @@ const ExhibitionForm = ({ exhibition, onSuccess }: ExhibitionFormProps) => {
         />
       </div>
 
-      <Button type="submit" disabled={mutation.isPending}>
-        {mutation.isPending ? "Saving..." : exhibition ? "Update" : "Create"}
+      <Button type="submit" disabled={isPending}>
+        {isPending ? "Saving..." : exhibition ? "Update" : "Create"}
       </Button>
     </form>
   );
