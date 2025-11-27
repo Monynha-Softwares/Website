@@ -12,8 +12,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import { format } from "date-fns";
-import type { BlogPost, ContentStatus } from "@/integrations/supabase/supabase.types";
-import { AdminFormDialog } from "@/components/admin/AdminFormDialog"; // Import AdminFormDialog
+import type { BlogPost, ContentStatus, TablesInsert, TablesUpdate } from "@/integrations/supabase/supabase.types";
+import { AdminFormDialog } from "@/components/admin/AdminFormDialog";
+import { useAdminForm } from "@/hooks/useAdminForm"; // Import the new hook
 
 const BlogPostsManager = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -153,55 +154,44 @@ interface BlogPostFormProps {
   onSuccess: () => void;
 }
 
+interface BlogPostFormData {
+  title: string;
+  slug: string;
+  date: string;
+  author: string;
+  tags: string;
+  excerpt: string;
+  content_html: string;
+  status: ContentStatus;
+}
+
 const BlogPostForm = ({ blogPost, onSuccess }: BlogPostFormProps) => {
-  const [formData, setFormData] = useState({
-    title: blogPost?.title || "",
-    slug: blogPost?.slug || "",
-    date: blogPost?.date ? format(new Date(blogPost.date), "yyyy-MM-dd") : format(new Date(), "yyyy-MM-dd"),
-    author: blogPost?.author || "",
-    tags: blogPost?.tags?.join(", ") || "",
-    excerpt: blogPost?.excerpt || "",
-    content_html: blogPost?.content_html || "",
-    status: blogPost?.status || "draft",
+  const { formData, setFormData, handleSubmit, isPending } = useAdminForm<BlogPostFormData, "blog_posts">({
+    tableName: "blog_posts",
+    id: blogPost?.id,
+    initialData: {
+      title: blogPost?.title || "",
+      slug: blogPost?.slug || "",
+      date: blogPost?.date ? format(new Date(blogPost.date), "yyyy-MM-dd") : format(new Date(), "yyyy-MM-dd"),
+      author: blogPost?.author || "",
+      tags: blogPost?.tags?.join(", ") || "",
+      excerpt: blogPost?.excerpt || "",
+      content_html: blogPost?.content_html || "",
+      status: blogPost?.status || "draft",
+    },
+    transformToPayload: (data) => ({
+      title: data.title,
+      slug: data.slug,
+      date: data.date,
+      author: data.author,
+      tags: data.tags.split(",").map(tag => tag.trim()).filter(tag => tag.length > 0),
+      excerpt: data.excerpt,
+      content_html: data.content_html,
+      status: data.status,
+    }),
+    queryKeysToInvalidate: ["admin-blog-posts", "blogPosts"],
+    onSuccessCallback: onSuccess,
   });
-
-  const mutation = useMutation<void, Error, typeof formData>({
-    mutationFn: async (data: typeof formData) => {
-      const payload: Omit<BlogPost, "id" | "created_at" | "updated_at"> = {
-        title: data.title,
-        slug: data.slug,
-        date: data.date,
-        author: data.author,
-        tags: data.tags.split(",").map(tag => tag.trim()).filter(tag => tag.length > 0),
-        excerpt: data.excerpt,
-        content_html: data.content_html,
-        status: data.status as ContentStatus,
-      };
-
-      if (blogPost) {
-        const { error } = await supabase
-          .from("blog_posts")
-          .update(payload)
-          .eq("id", blogPost.id);
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.from("blog_posts").insert([payload]);
-        if (error) throw error;
-      }
-    },
-    onSuccess: () => {
-      toast.success(`Blog post ${blogPost ? "updated" : "created"} successfully`);
-      onSuccess();
-    },
-    onError: (err) => {
-      toast.error(`Failed to ${blogPost ? "update" : "create"} blog post: ${err.message}`);
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    mutation.mutate(formData);
-  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -294,8 +284,8 @@ const BlogPostForm = ({ blogPost, onSuccess }: BlogPostFormProps) => {
         </Select>
       </div>
 
-      <Button type="submit" disabled={mutation.isPending}>
-        {mutation.isPending ? "Saving..." : blogPost ? "Update" : "Create"}
+      <Button type="submit" disabled={isPending}>
+        {isPending ? "Saving..." : blogPost ? "Update" : "Create"}
       </Button>
     </form>
   );
