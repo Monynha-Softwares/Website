@@ -69,7 +69,7 @@ This document provides a comprehensive analysis of issues found in the Monynha S
 - **Location**: `package.json`
 - **Impact**: Increases bundle size and potential security vulnerabilities
 - **Recommendation**: Audit and remove unused dependencies
-- **Status**: **Addressed**. Unused dependencies have been removed from `package.json`, and the `supabase` CLI package has been moved to `devDependencies`.
+- **Status**: **Addressed**. Unused dependencies have been removed from `package.json`, and the `supabase` CLI package has been moved to `devDependencies`. `next-themes` has been re-added as it is a required dependency for `sonner`.
 
 ## 4. Inconsistencies in Patterns, Styles, and Organization
 
