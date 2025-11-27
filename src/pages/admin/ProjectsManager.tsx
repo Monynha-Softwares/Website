@@ -13,8 +13,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import { ImageUpload } from "@/components/admin/ImageUpload";
-import type { Project, ContentStatus } from "@/integrations/supabase/supabase.types";
-// Removed useProjects hook import as we'll fetch directly for admin view
+import type { Project, ContentStatus, TablesInsert, TablesUpdate } from "@/integrations/supabase/supabase.types";
+import { AdminFormDialog } from "@/components/admin/AdminFormDialog";
+import { useAdminForm } from "@/hooks/useAdminForm";
 
 const ProjectsManager = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -34,6 +35,7 @@ const ProjectsManager = () => {
       if (error) throw error;
       return data || [];
     },
+    enabled: isAdmin, // Only fetch if user is an admin
   });
 
   const deleteMutation = useMutation<void, Error, string>({
@@ -70,28 +72,22 @@ const ProjectsManager = () => {
             </Link>
             <h1 className="text-4xl font-bold">Manage Projects</h1>
           </div>
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={() => setEditingProject(null)}>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Project
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>{editingProject ? "Edit" : "Add"} Project</DialogTitle>
-              </DialogHeader>
-              <ProjectForm
-                project={editingProject}
-                onSuccess={() => {
-                  setIsDialogOpen(false);
-                  setEditingProject(null);
-                  queryClient.invalidateQueries({ queryKey: ["projects"] });
-                  queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
-                }}
-              />
-            </DialogContent>
-          </Dialog>
+          <AdminFormDialog
+            title="Project"
+            triggerLabel="Add Project"
+            isOpen={isDialogOpen}
+            onOpenChange={setIsDialogOpen}
+            onTriggerClick={() => setEditingProject(null)}
+            isEditing={!!editingProject}
+          >
+            <ProjectForm
+              project={editingProject}
+              onSuccess={() => {
+                setIsDialogOpen(false);
+                setEditingProject(null);
+              }}
+            />
+          </AdminFormDialog>
         </div>
 
         <div className="grid gap-4">
@@ -153,65 +149,59 @@ interface ProjectFormProps {
   onSuccess: () => void;
 }
 
+interface ProjectFormData {
+  name: string;
+  slug: string;
+  summary: string;
+  full_description: string;
+  category: string;
+  stack: string; // Comma-separated string
+  url: string;
+  domain: string;
+  repo_url: string;
+  thumbnail: string;
+  status: ContentStatus;
+  visibility: string;
+  year: string; // Stored as string in form, parsed to number for DB
+}
+
 const ProjectForm = ({ project, onSuccess }: ProjectFormProps) => {
-  const [formData, setFormData] = useState({
-    name: project?.name || "",
-    slug: project?.slug || "",
-    summary: project?.summary || "",
-    full_description: project?.full_description || "",
-    category: project?.category || "",
-    stack: project?.stack?.join(", ") || "",
-    url: project?.url || "",
-    domain: project?.domain || "",
-    repo_url: project?.repo_url || "",
-    thumbnail: project?.thumbnail || "",
-    status: project?.status || "draft",
-    visibility: project?.visibility || "Public",
-    year: project?.year?.toString() || "",
+  const { formData, setFormData, handleSubmit, isPending } = useAdminForm<ProjectFormData, "projects">({
+    tableName: "projects",
+    id: project?.id,
+    initialData: {
+      name: project?.name || "",
+      slug: project?.slug || "",
+      summary: project?.summary || "",
+      full_description: project?.full_description || "",
+      category: project?.category || "",
+      stack: project?.stack?.join(", ") || "",
+      url: project?.url || "",
+      domain: project?.domain || "",
+      repo_url: project?.repo_url || "",
+      thumbnail: project?.thumbnail || "",
+      status: project?.status || "draft",
+      visibility: project?.visibility || "Public",
+      year: project?.year?.toString() || "",
+    },
+    transformToPayload: (data) => ({
+      name: data.name,
+      slug: data.slug,
+      summary: data.summary,
+      full_description: data.full_description || null,
+      category: data.category,
+      stack: data.stack.split(",").map(s => s.trim()).filter(s => s.length > 0),
+      url: data.url || null,
+      domain: data.domain || null,
+      repo_url: data.repo_url || null,
+      thumbnail: data.thumbnail,
+      status: data.status,
+      visibility: data.visibility || null,
+      year: data.year ? parseInt(data.year) : null,
+    }),
+    queryKeysToInvalidate: ["admin-projects", "projects"],
+    onSuccessCallback: onSuccess,
   });
-
-  const mutation = useMutation<void, Error, typeof formData>({
-    mutationFn: async (data: typeof formData) => {
-      const payload: Omit<Project, "id" | "created_at" | "updated_at"> = {
-        name: data.name,
-        slug: data.slug,
-        summary: data.summary,
-        full_description: data.full_description || null,
-        category: data.category,
-        stack: data.stack.split(",").map(s => s.trim()).filter(s => s.length > 0),
-        url: data.url || null,
-        domain: data.domain || null,
-        repo_url: data.repo_url || null,
-        thumbnail: data.thumbnail,
-        status: data.status as ContentStatus,
-        visibility: data.visibility || null,
-        year: data.year ? parseInt(data.year) : null,
-      };
-
-      if (project) {
-        const { error } = await supabase
-          .from("projects")
-          .update(payload)
-          .eq("id", project.id);
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.from("projects").insert([payload]);
-        if (error) throw error;
-      }
-    },
-    onSuccess: () => {
-      toast.success(`Project ${project ? "updated" : "created"} successfully`);
-      onSuccess();
-    },
-    onError: (err) => {
-      toast.error(`Failed to ${project ? "update" : "create"} project: ${err.message}`);
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    mutation.mutate(formData);
-  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -346,8 +336,8 @@ const ProjectForm = ({ project, onSuccess }: ProjectFormProps) => {
         </div>
       </div>
 
-      <Button type="submit" disabled={mutation.isPending}>
-        {mutation.isPending ? "Saving..." : project ? "Update Project" : "Create Project"}
+      <Button type="submit" disabled={isPending}>
+        {isPending ? "Saving..." : project ? "Update Project" : "Create Project"}
       </Button>
     </form>
   );
