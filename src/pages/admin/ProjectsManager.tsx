@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import type { Project, ContentStatus } from "@/integrations/supabase/supabase.types";
-import { useProjects } from "@/hooks/useProjects"; // Import useProjects hook
+// Removed useProjects hook import as we'll fetch directly for admin view
 
 const ProjectsManager = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -22,7 +22,19 @@ const ProjectsManager = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
 
-  const { data: projects, isLoading: projectsLoading } = useProjects({}); // Fetch all projects
+  // Fetch all projects for admin view, regardless of status
+  const { data: projects, isLoading: projectsLoading } = useQuery<Project[], Error>({
+    queryKey: ["admin-projects"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("projects")
+        .select("*")
+        .order("created_at", { ascending: false }); // Order by creation date for admin view
+      
+      if (error) throw error;
+      return data || [];
+    },
+  });
 
   const deleteMutation = useMutation<void, Error, string>({
     mutationFn: async (id: string) => {
@@ -30,7 +42,7 @@ const ProjectsManager = () => {
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({ queryKey: ["projects"] }); // Invalidate public cache
       queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
       toast.success("Project deleted successfully");
     },
@@ -295,17 +307,6 @@ const ProjectForm = ({ project, onSuccess }: ProjectFormProps) => {
             placeholder="example.com"
           />
         </div>
-      </div>
-
-      <div>
-        <Label htmlFor="repo_url">Repository URL</Label>
-        <Input
-          id="repo_url"
-          type="url"
-          value={formData.repo_url}
-          onChange={(e) => setFormData({ ...formData, repo_url: e.target.value })}
-          placeholder="https://github.com/user/repo"
-        />
       </div>
 
       <div>
