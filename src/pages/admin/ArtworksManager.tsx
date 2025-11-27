@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -9,14 +9,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"; // Keep Dialog imports for now, will remove if not needed
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft, Star } from "lucide-react";
-import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import type { Artwork, ContentStatus } from "@/integrations/supabase/supabase.types";
-import { AdminFormDialog } from "@/components/admin/AdminFormDialog"; // Import AdminFormDialog
+import type { Artwork, ContentStatus, TablesInsert, TablesUpdate } from "@/integrations/supabase/supabase.types";
+import { AdminFormDialog } from "@/components/admin/AdminFormDialog";
+import { useAdminForm } from "@/hooks/useAdminForm"; // Import the new hook
+import { ImageUpload } from "@/components/admin/ImageUpload"; // Import ImageUpload
 
 const ArtworksManager = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -24,7 +25,7 @@ const ArtworksManager = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingArtwork, setEditingArtwork] = useState<Artwork | null>(null);
   const [selectedArtworks, setSelectedArtworks] = useState<string[]>([]);
-  const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [filterStatus, setFilterStatus] = useState<string>("all"); // This state is not currently used for filtering the query, but kept for potential future use.
 
   const { data: artworks, isLoading: artworksLoading } = useQuery<Artwork[], Error>({
     queryKey: ["admin-artworks"],
@@ -46,6 +47,7 @@ const ArtworksManager = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-artworks"] });
+      queryClient.invalidateQueries({ queryKey: ["artworks"] }); // Invalidate public cache
       setSelectedArtworks([]);
       toast.success("Artwork deleted successfully");
     },
@@ -61,6 +63,7 @@ const ArtworksManager = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-artworks"] });
+      queryClient.invalidateQueries({ queryKey: ["artworks"] }); // Invalidate public cache
       setSelectedArtworks([]);
       toast.success("Artworks deleted successfully");
     },
@@ -79,6 +82,7 @@ const ArtworksManager = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-artworks"] });
+      queryClient.invalidateQueries({ queryKey: ["artworks"] }); // Invalidate public cache
       setSelectedArtworks([]);
       toast.success("Artworks updated successfully");
     },
@@ -133,7 +137,6 @@ const ArtworksManager = () => {
               onSuccess={() => {
                 setIsDialogOpen(false);
                 setEditingArtwork(null);
-                queryClient.invalidateQueries({ queryKey: ["admin-artworks"] });
               }}
             />
           </AdminFormDialog>
@@ -240,63 +243,56 @@ interface ArtworkFormProps {
   onSuccess: () => void;
 }
 
+interface ArtworkFormData {
+  title: string;
+  description: string;
+  category: string;
+  technique: string;
+  year: string;
+  cover_url: string;
+  slug: string;
+  status: ContentStatus;
+  featured: boolean;
+  display_order: number;
+  tags: string;
+  live_url: string;
+}
+
 const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
-  const [formData, setFormData] = useState({
-    title: artwork?.title || "",
-    description: artwork?.description || "",
-    category: artwork?.category || "painting",
-    technique: artwork?.technique || "",
-    year: artwork?.year?.toString() || "",
-    cover_url: artwork?.cover_url || "",
-    slug: artwork?.slug || "",
-    status: artwork?.status || "draft",
-    featured: artwork?.featured || false,
-    display_order: artwork?.display_order || 0,
-    tags: artwork?.tags?.join(", ") || "",
-    live_url: artwork?.live_url || "",
+  const { formData, setFormData, handleSubmit, isPending } = useAdminForm<ArtworkFormData, "artworks">({
+    tableName: "artworks",
+    id: artwork?.id,
+    initialData: {
+      title: artwork?.title || "",
+      description: artwork?.description || "",
+      category: artwork?.category || "painting",
+      technique: artwork?.technique || "",
+      year: artwork?.year?.toString() || "",
+      cover_url: artwork?.cover_url || "",
+      slug: artwork?.slug || "",
+      status: artwork?.status || "draft",
+      featured: artwork?.featured || false,
+      display_order: artwork?.display_order || 0,
+      tags: artwork?.tags?.join(", ") || "",
+      live_url: artwork?.live_url || "",
+    },
+    transformToPayload: (data) => ({
+      title: data.title,
+      description: data.description || null,
+      category: data.category,
+      technique: data.technique || null,
+      year: data.year ? parseInt(data.year) : null,
+      cover_url: data.cover_url,
+      slug: data.slug,
+      status: data.status,
+      featured: data.featured,
+      display_order: data.display_order,
+      tags: data.tags.split(",").map(tag => tag.trim()).filter(tag => tag.length > 0),
+      live_url: data.live_url || null,
+    }),
+    queryKeysToInvalidate: ["admin-artworks", "artworks"],
+    onSuccessCallback: onSuccess,
   });
-
-  const mutation = useMutation<void, Error, typeof formData>({
-    mutationFn: async (data: typeof formData) => {
-      const payload: Omit<Artwork, "id" | "created_at" | "updated_at" | "images"> = {
-        title: data.title,
-        description: data.description || null,
-        category: data.category,
-        technique: data.technique || null,
-        year: data.year ? parseInt(data.year) : null,
-        cover_url: data.cover_url,
-        slug: data.slug,
-        status: data.status as ContentStatus,
-        featured: data.featured,
-        display_order: data.display_order,
-        tags: data.tags.split(",").map(tag => tag.trim()).filter(tag => tag.length > 0),
-        live_url: data.live_url || null,
-      };
-
-      if (artwork) {
-        const { error } = await supabase
-          .from("artworks")
-          .update(payload)
-          .eq("id", artwork.id);
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.from("artworks").insert([payload]);
-        if (error) throw error;
-      }
-    },
-    onSuccess: () => {
-      toast.success(`Artwork ${artwork ? "updated" : "created"} successfully`);
-      onSuccess();
-    },
-    onError: () => {
-      toast.error(`Failed to ${artwork ? "update" : "create"} artwork`);
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    mutation.mutate(formData);
-  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -363,11 +359,10 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
 
       <div>
         <Label htmlFor="cover_url">Cover Image URL</Label>
-        <Input
-          id="cover_url"
-          value={formData.cover_url}
-          onChange={(e) => setFormData({ ...formData, cover_url: e.target.value })}
-          required
+        <ImageUpload
+          onUploadComplete={(url) => setFormData({ ...formData, cover_url: url })}
+          currentImage={formData.cover_url}
+          bucketName="artwork-images"
         />
       </div>
 
@@ -395,7 +390,7 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="status">Status</Label>
-          <Select value={formData.status} onValueChange={(value) => setFormData({ ...formData, status: value })}>
+          <Select value={formData.status} onValueChange={(value) => setFormData({ ...formData, status: value as ContentStatus })}>
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
@@ -429,8 +424,8 @@ const ArtworkForm = ({ artwork, onSuccess }: ArtworkFormProps) => {
         <Label htmlFor="featured">Featured</Label>
       </div>
 
-      <Button type="submit" disabled={mutation.isPending}>
-        {mutation.isPending ? "Saving..." : artwork ? "Update" : "Create"}
+      <Button type="submit" disabled={isPending}>
+        {isPending ? "Saving..." : artwork ? "Update" : "Create"}
       </Button>
     </form>
   );
