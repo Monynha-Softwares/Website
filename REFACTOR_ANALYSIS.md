@@ -101,7 +101,7 @@ This document provides a comprehensive analysis of issues found in the Monynha S
 - **Location**: Contact form logic in `src/pages/Contact.tsx` and admin forms
 - **Impact**: Increases maintenance burden and potential for inconsistencies
 - **Recommendation**: Extract common logic into reusable hooks or utility functions
-- **Status**: **Partially Addressed**. A generic `useAdminForm` hook has been created and implemented in `BlogPostForm` to centralize form state and Supabase mutation logic. Further forms will be refactored in subsequent steps.
+- **Status**: **Partially Addressed**. A generic `useAdminForm` hook has been created and implemented in `BlogPostForm`, `ArtworkForm`, and `ExhibitionForm` to centralize form state and Supabase mutation logic. Further forms will be refactored in subsequent steps.
 
 ### 5.2. Incomplete Admin Functionality
 - **Issue**: Some admin management pages lack full CRUD functionality
