@@ -38,6 +38,7 @@ const ArtworksManager = () => {
       if (error) throw error;
       return data || [];
     },
+    enabled: isAdmin, // Only fetch if user is an admin
   });
 
   const deleteMutation = useMutation<void, Error, string>({
