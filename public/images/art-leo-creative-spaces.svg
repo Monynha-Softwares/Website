@@ -1,0 +1,13 @@
+<svg width="200" height="100" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+    <linearGradient id="gradient-primary" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#A855F7" />
+        <stop offset="100%" stop-color="#6366F1" />
+    </linearGradient>
+</defs>
+<rect x="0" y="0" width="200" height="100" fill="#1A1033" rx="12"/>
+<text x="10" y="40" font-family="sans-serif" font-size="24" font-weight="bold" fill="url(#gradient-primary)">Art Leo</text>
+<text x="10" y="65" font-family="sans-serif" font-size="16" fill="#E0E0E0">Creative Spaces</text>
+<path d="M180 20 C190 30, 190 70, 180 80" stroke="url(#gradient-primary)" stroke-width="3" fill="none"/>
+<path d="M170 25 C175 35, 175 65, 170 75" stroke="url(#gradient-primary)" stroke-width="2" fill="none" opacity="0.7"/>
+</svg>
