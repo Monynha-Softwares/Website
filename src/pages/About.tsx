@@ -9,7 +9,7 @@ import { TimelineSkeleton } from "@/components/TimelineSkeleton";
 import { Badge } from "@/components/ui/badge";
 import { PixelCard } from "@/components/reactbits/PixelCard";
 import { useProfile } from "@/hooks/useProfile";
-import { useExperience } from "@/hooks/useExperience";
+import { useExperiences } from "@/hooks/useExperiences"; // Updated import
 import { useSkills } from "@/hooks/useSkills";
 import { useProjects } from "@/hooks/useProjects";
 import { useSiteSetting } from "@/hooks/useSettings";
@@ -17,7 +17,7 @@ import { useSiteSetting } from "@/hooks/useSettings";
 const About = () => {
   const { data: exhibitions = [], isLoading: exhibitionsLoading, error: exhibitionsError } = useExhibitions();
   const { data: profile, isLoading: profileLoading, error: profileError } = useProfile();
-  const { data: experience = [], isLoading: experienceLoading, error: experienceError } = useExperience();
+  const { data: experiences = [], isLoading: experienceLoading, error: experienceError } = useExperiences(); // Updated hook usage
   const { data: skills = [], isLoading: skillsLoading, error: skillsError } = useSkills();
   const { data: projects = [], isLoading: projectsLoading, error: projectsError } = useProjects({ limit: 6 });
   
@@ -28,7 +28,7 @@ const About = () => {
   const isLoading = exhibitionsLoading || profileLoading || experienceLoading || skillsLoading || projectsLoading;
   const error = exhibitionsError || profileError || experienceError || skillsError || projectsError;
 
-  const experienceTimeline = experience.map((exp) => ({
+  const experienceTimeline = experiences.map((exp) => ({ // Updated to use 'experiences'
     title: exp.role,
     subtitle: `${exp.organization} · ${exp.location} (${exp.start_date} - ${exp.end_date || "Present"})`,
     description: exp.highlights?.join(" • ") || "",

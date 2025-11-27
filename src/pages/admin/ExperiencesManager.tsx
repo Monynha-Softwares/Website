@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import type { Experience } from "@/integrations/supabase/supabase.types";
+import { useExperiences } from "@/hooks/useExperiences"; // Updated import
 
 const ExperiencesManager = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -19,19 +20,7 @@ const ExperiencesManager = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingExperience, setEditingExperience] = useState<Experience | null>(null);
 
-  const { data: experiences, isLoading: experiencesLoading } = useQuery<Experience[], Error>({
-    queryKey: ["admin-experiences"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("experiences")
-        .select("*")
-        .order("start_date", { ascending: false })
-        .order("display_order", { ascending: true });
-      
-      if (error) throw error;
-      return data || [];
-    },
-  });
+  const { data: experiences, isLoading: experiencesLoading } = useExperiences(); // Updated hook usage
 
   const deleteMutation = useMutation<void, Error, string>({
     mutationFn: async (id: string) => {
@@ -40,7 +29,7 @@ const ExperiencesManager = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-experiences"] });
-      queryClient.invalidateQueries({ queryKey: ["experience"] }); // Invalidate public cache
+      queryClient.invalidateQueries({ queryKey: ["experiences"] }); // Invalidate public cache
       toast.success("Experience entry deleted successfully");
     },
     onError: () => {
@@ -84,7 +73,7 @@ const ExperiencesManager = () => {
                   setIsDialogOpen(false);
                   setEditingExperience(null);
                   queryClient.invalidateQueries({ queryKey: ["admin-experiences"] });
-                  queryClient.invalidateQueries({ queryKey: ["experience"] });
+                  queryClient.invalidateQueries({ queryKey: ["experiences"] });
                 }}
               />
             </DialogContent>
