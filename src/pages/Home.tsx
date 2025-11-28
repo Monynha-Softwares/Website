@@ -10,7 +10,7 @@ import { PixelCard } from "@/components/reactbits/PixelCard";
 import { usePages } from "@/hooks/usePages";
 import { useSiteSetting } from "@/hooks/useSettings";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { ProjectSkeleton } from "@/components/ProjectSkeleton"; // Corrected import from ArtworkSkeleton
+import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
 import { useProfile } from "@/hooks/useProfile";
 import type { Page } from "@/integrations/supabase/supabase.types";
 import { defaultFeaturedDisciplines, ICON_MAP } from "@/config/site"; // Import from site config
@@ -141,7 +141,7 @@ const Home = () => {
             {projectsLoading ? (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
                 {[1, 2, 3].map((i) => (
-                  <ProjectSkeleton key={i} />
+                  <ArtworkSkeleton key={i} />
                 ))}
               </div>
             ) : featuredProjects && featuredProjects.length > 0 ? (
