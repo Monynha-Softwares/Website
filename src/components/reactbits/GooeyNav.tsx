@@ -9,16 +9,16 @@ import { Button } from "@/components/ui/button";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { BrandMark } from "@/components/brand/BrandMark";
 import { useSiteSetting } from "@/hooks/useSettings";
-import { defaultNavLinks } from "@/config/site"; // Import defaultNavLinks
-import { useBrandIdentity } from "@/hooks/useBrandIdentity"; // Import new hook
-import { LanguageSwitcher } from "@/components/LanguageSwitcher"; // Import LanguageSwitcher
-import { useTranslation } from "react-i18next"; // Import useTranslation
+import { defaultNavLinks } from "@/config/site";
+import { useBrandIdentity } from "@/hooks/useBrandIdentity";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 interface NavLink {
-  href?: string; // Make href optional for buttons
+  href?: string;
   label: string;
   accent: string;
-  onClick?: () => void; // Add onClick for auth actions
+  onClick?: () => void;
 }
 
 export const GooeyNav = () => {
@@ -173,10 +173,10 @@ export const GooeyNav = () => {
     }
     mobileMenuItems.push({
       label: t("common.logout"),
-      accent: "linear-gradient(135deg, rgba(239, 68, 68, 0.7), rgba(252, 165, 165, 0.7))", // Red accent for logout
+      accent: "linear-gradient(135deg, rgba(239, 68, 68, 0.7), rgba(252, 165, 165, 0.7))",
       onClick: () => {
         signOut();
-        closeMenu(); // Close menu after logout
+        closeMenu();
       },
     });
   } else {
@@ -188,7 +188,7 @@ export const GooeyNav = () => {
   }
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 sm:pt-6">
+    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6">
       <div className="mx-auto w-full max-w-5xl">
         <div className="relative">
           <nav
@@ -204,14 +204,13 @@ export const GooeyNav = () => {
               aria-label={`${siteName} home`}
             >
               <BrandMark className="h-10 w-10 text-foreground md:hidden" />
-              {/* Adjusted width for BrandLogo on desktop */}
               <div className="hidden h-8 w-[200px] md:block">
                 <BrandLogo className="h-full w-full" />
               </div>
               <span className="sr-only">{siteName}</span>
             </Link>
             <div className="ml-auto flex items-center gap-3">
-              <div className="hidden items-center gap-3 md:flex">
+              <div className="hidden items-center gap-3 md:flex"> {/* Desktop nav links */}
                 {dynamicLinks.map((link) => (
                   <motion.div key={link.href} className="relative">
                     <Link
@@ -236,29 +235,29 @@ export const GooeyNav = () => {
                 ))}
 
                 {/* Language Switcher for Desktop */}
-                <LanguageSwitcher className="ml-2" />
+                <LanguageSwitcher isIconOnly={true} className="ml-2" />
 
                 {/* Auth Section */}
                 {user ? (
                   <div className="ml-2 flex items-center gap-2 border-l border-border/50 pl-2">
                     {isAdmin && (
                       <Link to="/admin">
-                        <Button variant="ghost" size="sm" className="gap-2">
+                        <Button variant="ghost" size="icon" className="rounded-full">
                           <User className="h-4 w-4" />
-                          {t("common.admin")}
+                          <span className="sr-only">{t("common.admin")}</span>
                         </Button>
                       </Link>
                     )}
-                    <Button variant="ghost" size="sm" onClick={() => signOut()} className="gap-2">
+                    <Button variant="ghost" size="icon" className="rounded-full" onClick={() => signOut()}>
                       <LogOut className="h-4 w-4" />
-                      {t("common.logout")}
+                      <span className="sr-only">{t("common.logout")}</span>
                     </Button>
                   </div>
                 ) : (
                   <Link to="/auth" className="ml-2 border-l border-border/50 pl-2">
-                    <Button variant="ghost" size="sm" className="gap-2">
+                    <Button variant="ghost" size="icon" className="rounded-full">
                       <LogIn className="h-4 w-4" />
-                      {t("common.login")}
+                      <span className="sr-only">{t("common.login")}</span>
                     </Button>
                   </Link>
                 )}
@@ -296,7 +295,7 @@ export const GooeyNav = () => {
                   {siteName} {t("common.navigation")}
                 </div>
                 <FlowingMenu
-                  items={mobileMenuItems} // Pass the constructed mobileMenuItems
+                  items={mobileMenuItems}
                   activeHref={location.pathname}
                   onItemClick={closeMenu}
                   className="shadow-[0_20px_60px_rgba(15,23,42,0.45)]"
@@ -315,8 +314,9 @@ export const GooeyNav = () => {
                     {t("common.closeMenu")}
                   </Button>
                 </div>
+                {/* Mobile Language Switcher - not icon only */}
                 <div className="flex justify-center bg-surface-1/95 px-6 pb-4 pt-3 border-t border-border/60">
-                  <LanguageSwitcher className="w-full max-w-[200px]" />
+                  <LanguageSwitcher className="w-full max-w-[200px]" isIconOnly={false} />
                 </div>
               </motion.section>
             )}

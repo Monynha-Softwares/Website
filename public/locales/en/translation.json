@@ -83,7 +83,9 @@
     "present": "Present",
     "noExperiencesYet": "No professional experience listed yet.",
     "noSkillsYet": "No skills defined yet.",
-    "noCulturalContextYet": "No cultural context defined yet."
+    "noCulturalContextYet": "No cultural context defined yet.",
+    "language": "Language",
+    "selectLanguage": "Select Language"
   },
   "homePage": {
     "tagline": "Inclusive tech that empowers",

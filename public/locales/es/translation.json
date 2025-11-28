@@ -83,7 +83,9 @@
     "present": "Presente",
     "noExperiencesYet": "Aún no hay experiencia profesional listada.",
     "noSkillsYet": "Aún no hay habilidades definidas.",
-    "noCulturalContextYet": "Aún no hay contexto cultural definido."
+    "noCulturalContextYet": "Aún no hay contexto cultural definido.",
+    "language": "Idioma",
+    "selectLanguage": "Seleccionar Idioma"
   },
   "homePage": {
     "tagline": "Tecnología inclusiva que empodera",

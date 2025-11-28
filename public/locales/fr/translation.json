@@ -83,7 +83,9 @@
     "present": "Présent",
     "noExperiencesYet": "Aucune expérience professionnelle listée pour l'instant.",
     "noSkillsYet": "Aucune compétence définie pour l'instant.",
-    "noCulturalContextYet": "Aucun contexte culturel défini pour l'instant."
+    "noCulturalContextYet": "Aucun contexte culturel défini pour l'instant.",
+    "language": "Langage",
+    "selectLanguage": "Sélectionner le Langage"
   },
   "homePage": {
     "tagline": "Une technologie inclusive qui autonomise",

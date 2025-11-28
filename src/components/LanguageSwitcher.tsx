@@ -9,7 +9,12 @@ import {
 import { Globe } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-export const LanguageSwitcher = ({ className }: { className?: string }) => {
+interface LanguageSwitcherProps {
+  className?: string;
+  isIconOnly?: boolean; // New prop to control icon-only display
+}
+
+export const LanguageSwitcher = ({ className, isIconOnly = false }: LanguageSwitcherProps) => {
   const { i18n } = useTranslation();
 
   const changeLanguage = (lng: string) => {
@@ -27,13 +32,15 @@ export const LanguageSwitcher = ({ className }: { className?: string }) => {
   return (
     <Select value={i18n.language} onValueChange={changeLanguage}>
       <SelectTrigger className={cn(
-        "w-fit min-w-0 border-border/70 bg-background/70 backdrop-blur-xl", // Removed fixed width, added w-fit and min-w-0
-        "flex items-center justify-center md:justify-start", // Ensure icon is centered when text is hidden
+        "w-fit min-w-0 border-border/70 bg-background/70 backdrop-blur-xl",
+        "flex items-center justify-center",
+        isIconOnly && "w-10 h-10 p-0 rounded-full", // Apply icon-only styling if prop is true
         className
       )}>
         <Globe className="h-4 w-4 text-muted-foreground" />
-        {/* Hide SelectValue on medium screens, show on larger screens */}
-        <SelectValue placeholder="Language" className="hidden lg:inline-block ml-2" /> 
+        {!isIconOnly && ( // Conditionally render SelectValue based on isIconOnly prop
+          <SelectValue placeholder="Language" className="ml-2" />
+        )}
       </SelectTrigger>
       <SelectContent className="bg-surface-1 border-border/70">
         {languages.map((lang) => (
