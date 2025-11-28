@@ -14,10 +14,24 @@ import { useSiteSetting } from "@/hooks/useSettings";
 import { useBrandIdentity } from "@/hooks/useBrandIdentity";
 import { useNarrativeBlock } from "@/hooks/useNarrativeBlocks";
 import { useCulturalContext } from "@/hooks/useCulturalContext";
-import { useTranslation } from "react-i18next"; // Import useTranslation
+import { usePages } from "@/hooks/usePages"; // Import usePages
+import { useTranslation } from "react-i18next";
+import type { Page } from "@/integrations/supabase/supabase.types";
+
+// Define the expected structure for the 'about' page content JSON
+interface AboutPageContent {
+  bio?: string;
+  profile_image?: string;
+  exhibitions_title?: string;
+  skills_title?: string;
+}
 
 const About = () => {
   const { t } = useTranslation();
+  const { data: aboutPageData, isLoading: pageLoading } = usePages("about"); // Fetch 'about' page content
+  const aboutPage = aboutPageData as Page | null;
+  const pageContent = (aboutPage?.content || {}) as AboutPageContent;
+
   const { data: exhibitions = [], isLoading: exhibitionsLoading, error: exhibitionsError } = useExhibitions();
   const { data: profile, isLoading: profileLoading, error: profileError } = useProfile();
   const { data: experiences = [], isLoading: experienceLoading, error: experienceError } = useExperiences();
@@ -38,9 +52,12 @@ const About = () => {
     indicator: exp.start_date.split('-')[0],
   })) || [];
 
+  // Use page data, falling back to narrative blocks, profile, or translations
+  const pageTitle = aboutPage?.title || t("aboutPage.title");
   const aboutIntroParagraph = aboutIntroBlock?.content || t("aboutPage.introParagraph");
   const founderName = profile?.full_name || brandIdentity?.name || t("aboutPage.meetFounder", { founderName: "Founder" });
-  const founderBio = profile?.bio || brandIdentity?.description || t("common.loading");
+  const founderBio = pageContent.bio || profile?.bio || brandIdentity?.description || t("common.loading");
+  const founderAvatarUrl = pageContent.profile_image || profile?.avatar_url || "/avatar.jpg";
   const founderInstagram = contactInfo?.instagram || "https://instagram.com/marcelo.santos.027";
   const founderEmail = contactInfo?.email || "contact@monynha.com";
 
@@ -55,8 +72,8 @@ const About = () => {
     );
   }
 
-  // If profile is loading, show a generic page skeleton
-  if (profileLoading) {
+  // If profile or page content is loading, show a generic page skeleton
+  if (profileLoading || pageLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center pt-24 pb-16">
         <div className="text-center">
@@ -74,7 +91,7 @@ const About = () => {
         <SectionReveal>
           <div className="mb-14 text-center">
             <h1 className="mb-4 text-[clamp(2rem,7vw,3.5rem)] font-bold leading-tight text-balance">
-              {t("aboutPage.title").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("aboutPage.title").split(' ').slice(1).join(' ')}</span>
+              {pageTitle.split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{pageTitle.split(' ').slice(1).join(' ')}</span>
             </h1>
             <p className="mx-auto max-w-2xl text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed text-balance">
               {aboutIntroParagraph}
@@ -121,7 +138,7 @@ const About = () => {
             <div className="relative">
               <div className="aspect-square overflow-hidden rounded-2xl border border-border bg-gradient-mesh shadow-lg">
                 <img
-                  src={profile?.avatar_url || "/avatar.jpg"}
+                  src={founderAvatarUrl}
                   alt={`${founderName}, Founder of Monynha Softwares`}
                   className="h-full w-full object-cover"
                 />
@@ -135,7 +152,7 @@ const About = () => {
         <SectionReveal delay={0.3}>
           <div className="mx-auto max-w-3xl mb-20">
             <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-              {t("aboutPage.professionalExperience").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("aboutPage.professionalExperience").split(' ').slice(1).join(' ')}</span>
+              {pageContent.exhibitions_title || t("aboutPage.professionalExperience").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{pageContent.exhibitions_title ? "" : t("aboutPage.professionalExperience").split(' ').slice(1).join(' ')}</span>
             </h2>
             {experienceLoading ? (
               <TimelineSkeleton />
@@ -151,7 +168,7 @@ const About = () => {
         <SectionReveal delay={0.4}>
           <div className="mx-auto max-w-4xl mb-20">
             <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-              {t("aboutPage.technicalSkills").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("aboutPage.technicalSkills").split(' ').slice(1).join(' ')}</span>
+              {pageContent.skills_title || t("aboutPage.technicalSkills").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{pageContent.skills_title ? "" : t("aboutPage.technicalSkills").split(' ').slice(1).join(' ')}</span>
             </h2>
             {skillsLoading ? (
               <div className="flex flex-wrap justify-center gap-3">
