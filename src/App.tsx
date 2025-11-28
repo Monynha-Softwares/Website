@@ -1,15 +1,15 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"; // Changed to BrowserRouter
+import { AuthProvider, useAuth } from "./contexts/AuthContext"; // Import useAuth
 import { Navigation } from "./components/Navigation";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { Footer } from "./components/layout/Footer";
 import Home from "./pages/Home";
 import Portfolio from "./pages/Portfolio";
 import ArtworkDetail from "./pages/ArtworkDetail";
-import About from "./pages/About"; // Corrected import path
+import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Repositories from "./pages/Repositories";
 import RepositoryDetail from "./pages/RepositoryDetail";
@@ -17,7 +17,7 @@ import Thoughts from "./pages/Thoughts";
 import ThoughtDetail from "./pages/ThoughtDetail";
 import LegalPageDetail from "./pages/LegalPageDetail";
 import Auth from "./pages/Auth";
-import PasswordReset from "./pages/PasswordReset";
+import PasswordReset from "./pages/PasswordReset"; // Import new PasswordReset page
 import Dashboard from "./pages/admin/Dashboard";
 import ArtworksManager from "./pages/admin/ArtworksManager";
 import ExhibitionsManager from "./pages/admin/ExhibitionsManager";
@@ -29,7 +29,7 @@ import SkillsManager from "./pages/admin/SkillsManager";
 import BlogPostsManager from "./pages/admin/BlogPostsManager";
 import LegalPagesManager from "./pages/admin/LegalPagesManager";
 import NotFound from "./pages/NotFound";
-import { ReactNode } from "react";
+import { ReactNode } from "react"; // Import ReactNode
 
 // ProtectedRoute component to guard private routes
 const ProtectedRoute = ({ children, adminOnly = false }: { children: ReactNode; adminOnly?: boolean }) => {
@@ -62,7 +62,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter> {/* Changed from HashRouter */}
         <ScrollToTop />
         <Navigation />
         <Routes>
@@ -77,8 +77,8 @@ const App = () => (
           <Route path="/thoughts/:slug" element={<ThoughtDetail />} />
           <Route path="/legal/:slug" element={<LegalPageDetail />} />
           <Route path="/auth" element={<Auth />} />
-          <Route path="/reset-password" element={<PasswordReset />} />
-          <Route path="/register" element={<Navigate to="/auth" replace />} />
+          <Route path="/reset-password" element={<PasswordReset />} /> {/* New password reset route */}
+          <Route path="/register" element={<Navigate to="/auth" replace />} /> {/* Redirect /register to /auth */}
 
           {/* Admin Routes - Protected */}
           <Route

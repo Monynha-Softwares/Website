@@ -132,7 +132,7 @@ This document provides a comprehensive analysis of issues found in the Monynha S
 - **Location**: Various interactive components
 - **Impact**: Poor accessibility for users with disabilities
 - **Recommendation**: Implement proper accessibility attributes and semantic HTML
-- **Status**: **Pending**. This will be addressed in a future step.
+- **Status**: **Addressed**. Interactive components like `PixelCard`, `GlassIcon`, and `ImageUpload` have been updated with appropriate `aria-label` attributes and redundant nested interactive elements have been removed to improve accessibility.
 
 ### 7.3. Performance Concerns
 - **Issue**: Some components load unnecessary resources or have inefficient rendering
