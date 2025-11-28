@@ -101,21 +101,21 @@ This document provides a comprehensive analysis of issues found in the Monynha S
 - **Location**: Contact form logic in `src/pages/Contact.tsx` and admin forms
 - **Impact**: Increases maintenance burden and potential for inconsistencies
 - **Recommendation**: Extract common logic into reusable hooks or utility functions
-- **Status**: **Partially Addressed**. A generic `useAdminForm` hook has been created and implemented in `BlogPostForm`, `ArtworkForm`, and `ExhibitionForm` to centralize form state and Supabase mutation logic. `ExperiencesManager`, `SkillsManager`, and `SettingsManager` have also been refactored to use `useAdminForm`.
+- **Status**: **Addressed**. A generic `useAdminForm` hook has been created and implemented in `BlogPostForm`, `ArtworkForm`, `ExhibitionForm`, `ExperiencesManager`, `SkillsManager`, `LegalPagesManager`, and `SettingsManager` to centralize form state and Supabase mutation logic.
 
 ### 5.2. Incomplete Admin Functionality
 - **Issue**: Some admin management pages lack full CRUD functionality
 - **Location**: Various admin pages in `src/pages/admin/`
 - **Impact**: Incomplete administrative capabilities
 - **Recommendation**: Implement complete CRUD operations for all admin entities
-- **Status**: **Addressed**. `ExperiencesManager`, `SkillsManager`, `LegalPagesManager`, and `SettingsManager` now use `useAdminForm`, completing the refactoring for admin CRUD operations.
+- **Status**: **Addressed**. All admin management pages (`ArtworksManager`, `BlogPostsManager`, `ExhibitionsManager`, `ExperiencesManager`, `LegalPagesManager`, `ProjectsManager`, `SettingsManager`, `SkillsManager`) now use `useAdminForm` for consistent CRUD operations.
 
 ### 5.3. Broken Navigation Patterns
 - **Issue**: Inconsistent navigation patterns between mobile and desktop
 - **Location**: `src/components/reactbits/GooeyNav.tsx` and responsive components
 - **Impact**: Inconsistent user experience across devices
 - **Recommendation**: Standardize navigation patterns with consistent mobile/desktop behavior
-- **Status**: **Pending**. This will be addressed in a future step.
+- **Status**: **Addressed**. The active link styling in `FlowingMenu` has been updated to use a `motion.span` with a glow effect, aligning its visual language with the desktop navigation for a more consistent user experience.
 
 ## 7. Specific Technical Issues
 

@@ -42,16 +42,17 @@ const Portfolio = () => {
   }
 
   const categoryMenuItems = useMemo(() => {
-    const allCategories = [{ href: "#all", label: "All", accent: "hsl(var(--primary))" }, ...categories.map(cat => ({
+    const allCategories = [{ href: "#all", label: "All", accent: "hsl(var(--primary))" }];
+    const dynamicCategories = categories.map(cat => ({
       href: `#${cat.toLowerCase().replace(/\s/g, '-')}`, // Use hash for internal navigation
       label: cat,
       accent: "hsl(var(--secondary))" // Example accent color
-    }))];
-    return allCategories;
+    }));
+    return [...allCategories, ...dynamicCategories];
   }, [categories]);
 
-  const handleCategoryClick = (itemLabel: string) => {
-    setSelectedCategory(itemLabel === "All" ? "all" : itemLabel);
+  const handleCategoryClick = (item: { label: string }) => { // Updated to accept item object
+    setSelectedCategory(item.label === "All" ? "all" : item.label);
   };
 
   return (
@@ -108,7 +109,7 @@ const Portfolio = () => {
               <FlowingMenu
                 items={categoryMenuItems}
                 activeHref={`#${selectedCategory.toLowerCase().replace(/\s/g, '-')}`}
-                onItemClick={(item) => handleCategoryClick(item.label)}
+                onItemClick={handleCategoryClick} // Pass the updated handler
                 className="max-w-full overflow-x-auto"
                 menuLabel="Artwork Categories"
                 itemRole="button" // Use button role for filter items

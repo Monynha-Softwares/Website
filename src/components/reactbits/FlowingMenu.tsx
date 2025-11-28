@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import React from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion"; // Import motion for the active indicator
 
 interface FlowingMenuItem {
   href: string;
@@ -13,7 +14,7 @@ interface FlowingMenuItem {
 interface FlowingMenuProps {
   items: FlowingMenuItem[];
   activeHref?: string;
-  onItemClick?: () => void;
+  onItemClick?: (item: FlowingMenuItem) => void; // Changed type to pass the item
   className?: string;
   menuLabel?: string;
   itemRole?: React.AriaRole;
@@ -39,7 +40,7 @@ const findClosestEdge = (
 interface MenuItemProps extends FlowingMenuItem {
   isActive: boolean;
   reduceMotion: boolean;
-  onItemClick?: () => void;
+  onItemClick?: (item: FlowingMenuItem) => void;
   role?: React.AriaRole;
 }
 
@@ -108,25 +109,30 @@ const MenuItem: React.FC<MenuItemProps> = ({ href, label, accent, isActive, redu
       ref={itemRef}
       className={cn(
         "group relative flex-1 overflow-hidden bg-surface-0 text-center shadow-inset transition-colors",
-        isActive
-          ? "bg-surface-2 shadow-[0_-8px_24px_rgba(99,102,241,0.35)] before:pointer-events-none before:absolute before:inset-x-6 before:top-0 before:h-1 before:bg-[linear-gradient(to_bottom,rgba(255,255,255,0.45),transparent)] before:content-['']"
-          : undefined,
+        // Removed isActive styling from here, will use motion.span inside Link
       )}
     >
       <Link
         to={href}
         className={cn(
-          "flex h-full min-h-[64px] w-full items-center justify-center px-6 py-4 text-lg font-semibold uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-          isActive ? "text-foreground" : "text-foreground/80 hover:text-foreground",
+          "relative flex h-full min-h-[64px] w-full items-center justify-center px-6 py-4 text-lg font-semibold uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          isActive ? "text-primary" : "text-foreground/80 hover:text-foreground", // Ensure text is primary when active
         )}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
-        onClick={onItemClick}
+        onClick={() => onItemClick?.({ href, label, accent })} // Pass the entire item
         aria-current={isActive ? "page" : undefined}
         role={role}
         data-menu-item
       >
         {label}
+        {isActive && (
+          <motion.span
+            layoutId="gooey-active-mobile" // Use a different layoutId for mobile to avoid conflicts
+            className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-primary/30 via-secondary/20 to-primary/30 blur-xl"
+            transition={{ type: "spring", stiffness: 260, damping: 28 }}
+          />
+        )}
       </Link>
       <div
         ref={marqueeRef}
@@ -149,7 +155,7 @@ export const FlowingMenu = React.forwardRef<HTMLDivElement, FlowingMenuProps>(
   const handleAuthClick = () => {
     if (authAction?.onClick) {
       authAction.onClick();
-      onItemClick?.();
+      onItemClick?.({ href: "#", label: authAction.label }); // Pass a dummy item for auth action
     }
   };
 
