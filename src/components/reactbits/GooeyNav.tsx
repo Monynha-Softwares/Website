@@ -155,7 +155,14 @@ export const GooeyNav = () => {
 
   const isActive = (href: string) => location.pathname === href;
 
-  const toggleMenu = () => setOpen((prev) => !prev);
+  const toggleMenu = () => {
+    console.log("Hamburger clicked. Current menu open state:", open);
+    setOpen((prev) => {
+      const newState = !prev;
+      console.log("Setting menu open state to:", newState);
+      return newState;
+    });
+  };
   const closeMenu = () => setOpen(false);
 
   // Construct mobile menu items including auth actions
@@ -295,6 +302,7 @@ export const GooeyNav = () => {
                   {siteName} {t("common.navigation")}
                 </div>
                 <FlowingMenu
+                  key={open ? "open-flowing-menu" : "closed-flowing-menu"}
                   items={mobileMenuItems}
                   activeHref={location.pathname}
                   onItemClick={closeMenu}
