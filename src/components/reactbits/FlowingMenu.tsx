@@ -1,27 +1,23 @@
-import { useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { gsap } from "gsap";
 import React from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion"; // Import motion for the active indicator
 
 interface FlowingMenuItem {
-  href: string;
+  href?: string; // Make href optional
   label: string;
   accent?: string;
+  onClick?: () => void; // Add optional onClick
 }
 
 interface FlowingMenuProps {
   items: FlowingMenuItem[];
   activeHref?: string;
-  onItemClick?: (item: FlowingMenuItem) => void; // Changed type to pass the item
+  onItemClick?: (item: FlowingMenuItem) => void;
   className?: string;
   menuLabel?: string;
   itemRole?: React.AriaRole;
-  authAction?: {
-    label: string;
-    onClick: () => void;
-  };
 }
 
 const animationDefaults: gsap.TweenVars = { duration: 0.6, ease: "expo" };
@@ -46,12 +42,12 @@ interface MenuItemProps extends FlowingMenuItem {
 
 const defaultAccent = "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)";
 
-const MenuItem: React.FC<MenuItemProps> = ({ href, label, accent, isActive, reduceMotion, onItemClick, role }) => {
+const MenuItem: React.FC<MenuItemProps> = ({ href, label, accent, isActive, reduceMotion, onItemClick, role, onClick }) => {
   const itemRef = React.useRef<HTMLDivElement>(null);
   const marqueeRef = React.useRef<HTMLDivElement>(null);
   const marqueeInnerRef = React.useRef<HTMLDivElement>(null);
 
-  const handleEnter = (ev: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleEnter = (ev: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
     if (reduceMotion) return;
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;
     const rect = itemRef.current.getBoundingClientRect();
@@ -63,7 +59,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ href, label, accent, isActive, redu
       .to([marqueeRef.current, marqueeInnerRef.current], { y: "0%" });
   };
 
-  const handleLeave = (ev: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLeave = (ev: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
     if (reduceMotion) return;
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;
     const rect = itemRef.current.getBoundingClientRect();
@@ -104,35 +100,83 @@ const MenuItem: React.FC<MenuItemProps> = ({ href, label, accent, isActive, redu
     [accentStyle, label],
   );
 
+  const commonClasses = cn(
+    "relative flex h-full min-h-[64px] w-full items-center justify-center px-6 py-4 text-lg font-semibold uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+    isActive ? "text-primary" : "text-foreground/80 hover:text-foreground",
+  );
+
+  const innerContent = (
+    <>
+      {label}
+      {isActive && (
+        <motion.span
+          layoutId="gooey-active-mobile"
+          className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-primary/30 via-secondary/20 to-primary/30 blur-xl"
+          transition={{ type: "spring", stiffness: 260, damping: 28 }}
+        />
+      )}
+    </>
+  );
+
+  const handleItemInteraction = (item: FlowingMenuItem) => {
+    if (item.onClick) {
+      item.onClick();
+    }
+    onItemClick?.(item); // Always call onItemClick to close the menu
+  };
+
+  if (onClick) {
+    return (
+      <div
+        ref={itemRef}
+        className={cn(
+          "group relative flex-1 overflow-hidden bg-surface-0 text-center shadow-inset transition-colors",
+          "border-t border-border/60", // Add border for separation
+        )}
+      >
+        <button
+          onClick={() => handleItemInteraction({ href, label, accent, onClick })}
+          className={commonClasses}
+          onMouseEnter={handleEnter}
+          onMouseLeave={handleLeave}
+          role={role}
+          data-menu-item
+        >
+          {innerContent}
+        </button>
+        <div
+          ref={marqueeRef}
+          className="pointer-events-none absolute inset-0 translate-y-[101%] bg-white text-foreground transition-transform duration-500 ease-out"
+        >
+          <div ref={marqueeInnerRef} className="flex h-full w-[200%]">
+            <div className="flex h-full w-[200%] items-center animate-marquee">
+              {repeatedMarqueeContent}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       ref={itemRef}
       className={cn(
         "group relative flex-1 overflow-hidden bg-surface-0 text-center shadow-inset transition-colors",
-        // Removed isActive styling from here, will use motion.span inside Link
+        "border-t border-border/60", // Add border for separation
       )}
     >
       <Link
-        to={href}
-        className={cn(
-          "relative flex h-full min-h-[64px] w-full items-center justify-center px-6 py-4 text-lg font-semibold uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-          isActive ? "text-primary" : "text-foreground/80 hover:text-foreground", // Ensure text is primary when active
-        )}
+        to={href || '#'}
+        className={commonClasses}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
-        onClick={() => onItemClick?.({ href, label, accent })} // Pass the entire item
+        onClick={() => handleItemInteraction({ href, label, accent })}
         aria-current={isActive ? "page" : undefined}
         role={role}
         data-menu-item
       >
-        {label}
-        {isActive && (
-          <motion.span
-            layoutId="gooey-active-mobile" // Use a different layoutId for mobile to avoid conflicts
-            className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-primary/30 via-secondary/20 to-primary/30 blur-xl"
-            transition={{ type: "spring", stiffness: 260, damping: 28 }}
-          />
-        )}
+        {innerContent}
       </Link>
       <div
         ref={marqueeRef}
@@ -149,15 +193,8 @@ const MenuItem: React.FC<MenuItemProps> = ({ href, label, accent, isActive, redu
 };
 
 export const FlowingMenu = React.forwardRef<HTMLDivElement, FlowingMenuProps>(
-  ({ items, activeHref, onItemClick, className, menuLabel = "Mobile navigation", itemRole = "menuitem", authAction }, ref) => {
+  ({ items, activeHref, onItemClick, className, menuLabel = "Mobile navigation", itemRole = "menuitem" }, ref) => {
   const reduceMotion = useReducedMotion();
-
-  const handleAuthClick = () => {
-    if (authAction?.onClick) {
-      authAction.onClick();
-      onItemClick?.({ href: "#", label: authAction.label }); // Pass a dummy item for auth action
-    }
-  };
 
   return (
     <div ref={ref} className={cn("w-full overflow-hidden", className)}>
@@ -167,9 +204,9 @@ export const FlowingMenu = React.forwardRef<HTMLDivElement, FlowingMenuProps>(
         role="menu"
         aria-orientation="vertical"
       >
-        {items.map((item) => (
+        {items.map((item, index) => (
           <MenuItem
-            key={item.href}
+            key={item.href || item.label} // Use label as fallback key
             {...item}
             isActive={activeHref === item.href}
             reduceMotion={reduceMotion}
@@ -177,17 +214,6 @@ export const FlowingMenu = React.forwardRef<HTMLDivElement, FlowingMenuProps>(
             role={itemRole}
           />
         ))}
-        {authAction && (
-          <div className="group relative flex-1 overflow-hidden bg-surface-0 text-center shadow-inset transition-colors border-t border-border/60">
-            <button
-              onClick={handleAuthClick}
-              className="flex h-full min-h-[64px] w-full items-center justify-center px-6 py-4 text-lg font-semibold uppercase transition-colors text-foreground/80 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              role={itemRole}
-            >
-              {authAction.label}
-            </button>
-          </div>
-        )}
       </nav>
     </div>
   );

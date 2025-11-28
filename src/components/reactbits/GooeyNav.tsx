@@ -15,9 +15,10 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher"; // Import Lang
 import { useTranslation } from "react-i18next"; // Import useTranslation
 
 interface NavLink {
-  href: string;
-  label: string; // Changed to string for translation key
-  accent: string; // CSS gradient string or color
+  href?: string; // Make href optional for buttons
+  label: string;
+  accent: string;
+  onClick?: () => void; // Add onClick for auth actions
 }
 
 export const GooeyNav = () => {
@@ -25,10 +26,9 @@ export const GooeyNav = () => {
   const location = useLocation();
   const reduceMotion = useReducedMotion();
   const { user, isAdmin, signOut } = useAuth();
-  const { data: brandIdentity } = useBrandIdentity(); // Fetch brand identity
-  const { t } = useTranslation(); // Initialize useTranslation hook
+  const { data: brandIdentity } = useBrandIdentity();
+  const { t } = useTranslation();
 
-  // Fetch navigation links dynamically, using defaultNavLinks as fallback
   const dynamicLinks = useSiteSetting<NavLink[]>('site_navigation_links', defaultNavLinks);
   const siteName = brandIdentity?.name || "Monynha Softwares";
 
@@ -158,6 +158,35 @@ export const GooeyNav = () => {
   const toggleMenu = () => setOpen((prev) => !prev);
   const closeMenu = () => setOpen(false);
 
+  // Construct mobile menu items including auth actions
+  const mobileMenuItems: NavLink[] = [
+    ...dynamicLinks.map(link => ({ ...link, label: t(link.label) })),
+  ];
+
+  if (user) {
+    if (isAdmin) {
+      mobileMenuItems.push({
+        href: "/admin",
+        label: t("common.admin"),
+        accent: "linear-gradient(135deg, rgba(99, 102, 241, 0.7), rgba(168, 85, 247, 0.7))",
+      });
+    }
+    mobileMenuItems.push({
+      label: t("common.logout"),
+      accent: "linear-gradient(135deg, rgba(239, 68, 68, 0.7), rgba(252, 165, 165, 0.7))", // Red accent for logout
+      onClick: () => {
+        signOut();
+        closeMenu(); // Close menu after logout
+      },
+    });
+  } else {
+    mobileMenuItems.push({
+      href: "/auth",
+      label: t("common.login"),
+      accent: "linear-gradient(135deg, rgba(99, 102, 241, 0.7), rgba(168, 85, 247, 0.7))",
+    });
+  }
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 sm:pt-6">
       <div className="mx-auto w-full max-w-5xl">
@@ -186,17 +215,17 @@ export const GooeyNav = () => {
                 {dynamicLinks.map((link) => (
                   <motion.div key={link.href} className="relative">
                     <Link
-                      to={link.href}
+                      to={link.href || '#'}
                       className={cn(
                         "relative inline-flex items-center rounded-full px-4 py-2 text-sm font-medium transition-colors",
-                        isActive(link.href)
+                        isActive(link.href || '#')
                           ? "text-primary"
                           : "text-muted-foreground hover:text-foreground",
                       )}
                     >
                       {t(link.label)}
                     </Link>
-                    {isActive(link.href) && (
+                    {isActive(link.href || '#') && (
                       <motion.span
                         layoutId="gooey-active"
                         className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-primary/30 via-secondary/20 to-primary/30 blur-xl"
@@ -267,22 +296,13 @@ export const GooeyNav = () => {
                   {siteName} {t("common.navigation")}
                 </div>
                 <FlowingMenu
-                  items={[
-                    ...dynamicLinks.map(link => ({ ...link, label: t(link.label) })),
-                    ...(user
-                      ? isAdmin
-                        ? [{ href: "/admin", label: t("common.admin"), accent: "linear-gradient(135deg, rgba(99, 102, 241, 0.7), rgba(168, 85, 247, 0.7))" }]
-                        : []
-                      : [{ href: "/auth", label: t("common.login"), accent: "linear-gradient(135deg, rgba(99, 102, 241, 0.7), rgba(168, 85, 247, 0.7))" }]),
-                  ]}
+                  items={mobileMenuItems} // Pass the constructed mobileMenuItems
                   activeHref={location.pathname}
                   onItemClick={closeMenu}
                   className="shadow-[0_20px_60px_rgba(15,23,42,0.45)]"
                   menuLabel={t("common.mobileNavigation")}
                   itemRole="menuitem"
-                  authAction={user ? { label: t("common.logout"), onClick: signOut } : undefined}
                 />
-                {/* Moved the close button div BEFORE the Language Switcher div */}
                 <div className="flex justify-end bg-surface-1/95 px-6 pb-4 pt-3">
                   <Button
                     type="button"
@@ -295,7 +315,6 @@ export const GooeyNav = () => {
                     {t("common.closeMenu")}
                   </Button>
                 </div>
-                {/* Language Switcher for Mobile - now at the very bottom */}
                 <div className="flex justify-center bg-surface-1/95 px-6 pb-4 pt-3 border-t border-border/60">
                   <LanguageSwitcher className="w-full max-w-[200px]" />
                 </div>
