@@ -13,9 +13,10 @@ import { useExperiences } from "@/hooks/useExperiences";
 import { useSkills } from "@/hooks/useSkills";
 import { useProjects } from "@/hooks/useProjects";
 import { useSiteSetting } from "@/hooks/useSettings";
-import { useBrandIdentity } from "@/hooks/useBrandIdentity"; // Import new hook
-import { useNarrativeBlock } from "@/hooks/useNarrativeBlocks"; // Import new hook
-import { useCulturalContext } from "@/hooks/useCulturalContext"; // Import new hook
+import { useBrandIdentity } from "@/hooks/useBrandIdentity";
+import { useNarrativeBlock } from "@/hooks/useNarrativeBlocks";
+import { useCulturalContext } from "@/hooks/useCulturalContext";
+import { ArtworkSkeleton } from "@/components/ArtworkSkeleton"; // Import ArtworkSkeleton for projects
 
 const About = () => {
   const { data: exhibitions = [], isLoading: exhibitionsLoading, error: exhibitionsError } = useExhibitions();
@@ -23,13 +24,13 @@ const About = () => {
   const { data: experiences = [], isLoading: experienceLoading, error: experienceError } = useExperiences();
   const { data: skills = [], isLoading: skillsLoading, error: skillsError } = useSkills();
   const { data: projects = [], isLoading: projectsLoading, error: projectsError } = useProjects({ limit: 6 });
-  const { data: brandIdentity } = useBrandIdentity(); // Fetch brand identity
-  const { data: aboutIntroBlock } = useNarrativeBlock("about_intro_paragraph"); // Fetch specific narrative block
-  const { data: culturalContext } = useCulturalContext(); // Fetch cultural context
+  const { data: brandIdentity } = useBrandIdentity();
+  const { data: aboutIntroBlock } = useNarrativeBlock("about_intro_paragraph");
+  const { data: culturalContext, isLoading: culturalContextLoading } = useCulturalContext();
 
   const contactInfo = useSiteSetting<{ email?: string; instagram?: string; availability?: string; note?: string }>('contact_info', {});
   
-  const isLoading = exhibitionsLoading || profileLoading || experienceLoading || skillsLoading || projectsLoading;
+  // Aggregate errors
   const error = exhibitionsError || profileError || experienceError || skillsError || projectsError;
 
   const experienceTimeline = experiences.map((exp) => ({
@@ -42,19 +43,8 @@ const About = () => {
   const aboutIntroParagraph = aboutIntroBlock?.content || "Monynha Softwares was born from a collective dream: to prove that technology and affection can coexist, that innovation also comes from the margins, and that the web can be a space of welcoming, creation, and resistance.";
   const founderName = profile?.full_name || brandIdentity?.name || "Our Founder";
   const founderBio = profile?.bio || brandIdentity?.description || "Loading biography...";
-  const founderInstagram = contactInfo?.instagram || "https://instagram.com/marcelo.santos.027"; // Fallback to hardcoded if not in settings
-  const founderEmail = contactInfo?.email || "contact@monynha.com"; // Fallback to hardcoded if not in settings
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center pt-24 pb-16">
-        <div className="text-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="mt-4 text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    );
-  }
+  const founderInstagram = contactInfo?.instagram || "https://instagram.com/marcelo.santos.027";
+  const founderEmail = contactInfo?.email || "contact@monynha.com";
 
   if (error) {
     return (
@@ -62,6 +52,18 @@ const About = () => {
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">Error Loading Content</h2>
           <p className="text-muted-foreground">{error.message}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If profile is loading, show a generic page skeleton
+  if (profileLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center pt-24 pb-16">
+        <div className="text-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="mt-4 text-muted-foreground">Loading...</p>
         </div>
       </div>
     );
@@ -132,24 +134,32 @@ const About = () => {
         </div>
 
         {/* Experience Timeline */}
-        {experienceTimeline.length > 0 && (
-          <SectionReveal delay={0.3}>
-            <div className="mx-auto max-w-3xl mb-20">
-              <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-                Professional <span className="bg-gradient-primary bg-clip-text text-transparent">Experience</span>
-              </h2>
+        <SectionReveal delay={0.3}>
+          <div className="mx-auto max-w-3xl mb-20">
+            <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
+              Professional <span className="bg-gradient-primary bg-clip-text text-transparent">Experience</span>
+            </h2>
+            {experienceLoading ? (
+              <TimelineSkeleton />
+            ) : experienceTimeline.length > 0 ? (
               <StepperTimeline steps={experienceTimeline} />
-            </div>
-          </SectionReveal>
-        )}
+            ) : (
+              <p className="text-center text-muted-foreground">No professional experience listed yet.</p>
+            )}
+          </div>
+        </SectionReveal>
 
         {/* Skills Section */}
-        {skills && skills.length > 0 && (
-          <SectionReveal delay={0.4}>
-            <div className="mx-auto max-w-4xl mb-20">
-              <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-                Technical <span className="bg-gradient-primary bg-clip-text text-transparent">Skills</span>
-              </h2>
+        <SectionReveal delay={0.4}>
+          <div className="mx-auto max-w-4xl mb-20">
+            <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
+              Technical <span className="bg-gradient-primary bg-clip-text text-transparent">Skills</span>
+            </h2>
+            {skillsLoading ? (
+              <div className="flex flex-wrap justify-center gap-3">
+                {[1, 2, 3, 4, 5].map(i => <div key={i} className="h-8 w-24 rounded-full bg-surface-2 animate-pulse" />)}
+              </div>
+            ) : skills && skills.length > 0 ? (
               <div className="flex flex-wrap justify-center gap-3">
                 {skills.map((skill, index) => (
                   <Badge
@@ -161,17 +171,23 @@ const About = () => {
                   </Badge>
                 ))}
               </div>
-            </div>
-          </SectionReveal>
-        )}
+            ) : (
+              <p className="text-center text-muted-foreground">No skills defined yet.</p>
+            )}
+          </div>
+        </SectionReveal>
 
         {/* Cultural Context Section */}
-        {culturalContext && culturalContext.length > 0 && (
-          <SectionReveal delay={0.5}>
-            <div className="mx-auto max-w-4xl mb-20">
-              <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-                Our <span className="bg-gradient-primary bg-clip-text text-transparent">Cultural Context</span>
-              </h2>
+        <SectionReveal delay={0.5}>
+          <div className="mx-auto max-w-4xl mb-20">
+            <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
+              Our <span className="bg-gradient-primary bg-clip-text text-transparent">Cultural Context</span>
+            </h2>
+            {culturalContextLoading ? (
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                {[1, 2].map(i => <div key={i} className="h-32 rounded-lg border border-border/70 bg-surface-2/60 animate-pulse" />)}
+              </div>
+            ) : culturalContext && culturalContext.length > 0 ? (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 {culturalContext.map((context, index) => (
                   <div key={context.id} className="rounded-lg border border-border/70 bg-surface-2/60 p-6 backdrop-blur-xl">
@@ -180,17 +196,23 @@ const About = () => {
                   </div>
                 ))}
               </div>
-            </div>
-          </SectionReveal>
-        )}
+            ) : (
+              <p className="text-center text-muted-foreground">No cultural context defined yet.</p>
+            )}
+          </div>
+        </SectionReveal>
 
         {/* Company Projects Section */}
-        {projects && projects.length > 0 && (
-          <SectionReveal delay={0.6}>
-            <div className="mx-auto max-w-6xl">
-              <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-                Our <span className="bg-gradient-primary bg-clip-text text-transparent">Projects</span>
-              </h2>
+        <SectionReveal delay={0.6}>
+          <div className="mx-auto max-w-6xl">
+            <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
+              Our <span className="bg-gradient-primary bg-clip-text text-transparent">Projects</span>
+            </h2>
+            {projectsLoading ? (
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {[1, 2, 3].map(i => <ArtworkSkeleton key={i} />)}
+              </div>
+            ) : projects && projects.length > 0 ? (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project, index) => (
                   <SectionReveal key={project.slug} delay={index * 0.05}>
@@ -225,19 +247,22 @@ const About = () => {
                   </SectionReveal>
                 ))}
               </div>
-              {projects.length > 6 && (
-                <div className="mt-12 text-center">
-                  <Link to="/repositories">
-                    <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                      View All Projects
-                      <ArrowRight className="h-5 w-5 ml-2" />
-                    </Button>
-                  </Link>
-                </div>
-              )}
-            </div>
-          </SectionReveal>
-        )}
+            ) : (
+              <p className="text-center text-muted-foreground">No projects listed yet.</p>
+            )}
+            
+            {projects.length > 6 && (
+              <div className="mt-12 text-center">
+                <Link to="/repositories">
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                    View All Projects
+                    <ArrowRight className="h-5 w-5 ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            )}
+          </div>
+        </SectionReveal>
       </div>
     </div>
   );

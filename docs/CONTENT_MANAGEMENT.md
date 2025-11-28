@@ -74,7 +74,7 @@ https://<project>.supabase.co/storage/v1/object/public/artwork-images/image-name
 1. Table Editor → `exhibitions`
 2. Insert new row:
    - **title**: Exhibition name
-   - **location**: Venue (optional)
+   - **location**: Venue location (optional)
    - **date**: Display date (flexible text, e.g., `March 2024`)
    - **year**: Year for sorting (required)
    - **type**: `solo` or `group`
@@ -104,16 +104,16 @@ To reorder, adjust `display_order` values (0 = default auto-sort by year).
 ```json
 {
   "hero": {
-    "title": "Leonardo Silva",
-    "subtitle": "Crafting Visual Stories",
-    "description": "Exploring the intersection...",
-    "tagline": "Digital Artist & Creative Developer"
+    "title": "Monynha Softwares",
+    "subtitle": "Inclusive tech that empowers",
+    "description": "We build accessible, human-centered digital experiences so every person can participate, create, and thrive.",
+    "tagline": "Software & Digital Experiences"
   },
   "featured_disciplines": [
     {
-      "title": "Motion Design",
-      "description": "Dynamic visual narratives",
-      "icon": "Palette"
+      "title": "Product Discovery",
+      "description": "Defining human-centered solutions",
+      "icon": "Sparkles"
     }
   ]
 }
@@ -126,9 +126,9 @@ To reorder, adjust `display_order` values (0 = default auto-sort by year).
 
 ```json
 {
-  "bio": "Your bio text here...",
-  "profile_image": "https://...",
-  "skills": ["3D Modeling", "Animation", "..."]
+  "bio": "Monynha Softwares was born from a collective dream: to prove that technology and affection can coexist, that innovation also comes from the margins, and that the web can be a space of welcoming, creation, and resistance.",
+  "profile_image": "/avatar.jpg",
+  "skills": ["React", "Supabase", "3D Motion"]
 }
 ```
 
@@ -152,8 +152,8 @@ For each page:
 | Key | Value (JSON) | is_public | Description |
 |-----|--------------|-----------|-------------|
 | site_title | `"Monynha Softwares"` | true | Site name |
-| site_tagline | `"Digital Artist..."` | true | Tagline |
-| bio | `"Artist statement..."` | true | About bio |
+| site_tagline | `"Inclusive tech that empowers"` | true | Tagline |
+| bio | `"We build accessible, human-centered digital experiences..."` | true | About bio |
 | social_links | `{"instagram": "..."}` | true | Social URLs |
 
 ### Add New Setting

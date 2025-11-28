@@ -1,4 +1,4 @@
-import { Palette, Eye, Sparkles, type LucideIcon } from "lucide-react";
+import { Palette, Eye, Sparkles, type LucideIcon, Code, Layers } from "lucide-react";
 
 // --- Navigation Links ---
 interface NavLink {
@@ -26,13 +26,15 @@ export const ICON_MAP: { [key: string]: LucideIcon } = {
   Palette: Palette,
   Eye: Eye,
   Sparkles: Sparkles,
+  Code: Code,
+  Layers: Layers,
   // Add other icons as needed
 };
 
 export const defaultFeaturedDisciplines: FeaturedDiscipline[] = [
-  { icon: "Palette", title: "Motion Design", desc: "Dynamic visual narratives" },
-  { icon: "Eye", title: "3D Art", desc: "Immersive spatial experiences" },
-  { icon: "Sparkles", title: "Interactive", desc: "Engaging digital installations" },
+  { icon: "Code", title: "Software Development", desc: "Building robust, scalable applications" },
+  { icon: "Layers", title: "Product Strategy", desc: "Defining human-centered solutions" },
+  { icon: "Sparkles", title: "Inclusive Design", desc: "Ensuring accessibility for all users" },
 ];
 
 // --- Footer Links ---
