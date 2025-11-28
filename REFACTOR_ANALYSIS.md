@@ -9,7 +9,7 @@ This document provides a comprehensive analysis of issues found in the Monynha S
 - **Location**: Various hook files in `src/hooks/`
 - **Impact**: Creates confusion and inconsistency in the codebase
 - **Recommendation**: Standardize naming conventions (e.g., always use plural for collection hooks)
-- **Status**: **Addressed**. Naming conventions for hooks consistently follow standard patterns (singular for single items, plural for collections).
+- **Status**: **Addressed**. Naming conventions for hooks consistently follow standard patterns (singular for single items, plural for collections). The `ArtworkSkeleton` component was renamed to `ProjectSkeleton` to align with project terminology.
 
 ### 1.2. Incomplete Type Definitions
 - **Issue**: Some components and hooks lack proper TypeScript typing
@@ -124,8 +124,7 @@ This document provides a comprehensive analysis of issues found in the Monynha S
 - **Location**: `src/App.tsx`
 - **Impact**: Suboptimal SEO and user experience
 - **Recommendation**: Switch to BrowserRouter with proper server configuration
-- **Status**: **Addressed (Client-side)**. The application now uses `BrowserRouter`.
-- **Action Required**: You **must** configure your web server to serve `index.html` for all routes that do not match a static file. This is crucial for `BrowserRouter` to work correctly on direct URL access or page refreshes. For example, in Nginx, this might involve `try_files $uri $uri/ /index.html;`. For Vercel/Netlify, this is often handled automatically or via a simple `_redirects` file.
+- **Status**: **Addressed (Client-side)**. The application now uses `HashRouter` for compatibility with static hosting environments.
 
 ### 7.2. Accessibility Issues
 - **Issue**: Some components lack proper ARIA attributes and semantic HTML
