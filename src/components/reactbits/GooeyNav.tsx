@@ -16,8 +16,8 @@ import { useTranslation } from "react-i18next"; // Import useTranslation
 
 interface NavLink {
   href: string;
-  label: string;
-  accent: string;
+  label: string; // Changed to string for translation key
+  accent: string; // CSS gradient string or color
 }
 
 export const GooeyNav = () => {
@@ -240,7 +240,7 @@ export const GooeyNav = () => {
                 aria-controls={menuId}
                 aria-expanded={open}
                 aria-haspopup="dialog"
-                aria-label={open ? t("common.closeMenu") : t("common.openNavigation")} {/* Use translation keys */}
+                aria-label={open ? t("common.closeMenu") : t("common.openNavigation")}
                 ref={triggerRef}
               >
                 {open ? <X /> : <Menu />}
