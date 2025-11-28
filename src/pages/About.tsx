@@ -7,16 +7,13 @@ import { StepperTimeline } from "@/components/reactbits/StepperTimeline";
 import { useExhibitions } from "@/hooks/useExhibitions";
 import { TimelineSkeleton } from "@/components/TimelineSkeleton";
 import { Badge } from "@/components/ui/badge";
-import { PixelCard } from "@/components/reactbits/PixelCard";
 import { useProfile } from "@/hooks/useProfile";
 import { useExperiences } from "@/hooks/useExperiences";
 import { useSkills } from "@/hooks/useSkills";
-import { useProjects } from "@/hooks/useProjects";
 import { useSiteSetting } from "@/hooks/useSettings";
 import { useBrandIdentity } from "@/hooks/useBrandIdentity";
 import { useNarrativeBlock } from "@/hooks/useNarrativeBlocks";
 import { useCulturalContext } from "@/hooks/useCulturalContext";
-import { ProjectSkeleton } from "@/components/ProjectSkeleton"; // Updated import
 import { useTranslation } from "react-i18next"; // Import useTranslation
 
 const About = () => {
@@ -25,7 +22,6 @@ const About = () => {
   const { data: profile, isLoading: profileLoading, error: profileError } = useProfile();
   const { data: experiences = [], isLoading: experienceLoading, error: experienceError } = useExperiences();
   const { data: skills = [], isLoading: skillsLoading, error: skillsError } = useSkills();
-  const { data: projects = [], isLoading: projectsLoading, error: projectsError } = useProjects({ limit: 6 });
   const { data: brandIdentity } = useBrandIdentity();
   const { data: aboutIntroBlock } = useNarrativeBlock("about_intro_paragraph");
   const { data: culturalContext, isLoading: culturalContextLoading } = useCulturalContext();
@@ -33,7 +29,7 @@ const About = () => {
   const contactInfo = useSiteSetting<{ email?: string; instagram?: string; availability?: string; note?: string }>('contact_info', {});
   
   // Aggregate errors
-  const error = exhibitionsError || profileError || experienceError || skillsError || projectsError;
+  const error = exhibitionsError || profileError || experienceError || skillsError;
 
   const experienceTimeline = experiences.map((exp) => ({
     title: exp.role,
@@ -200,68 +196,6 @@ const About = () => {
               </div>
             ) : (
               <p className="text-center text-muted-foreground">{t("common.noCulturalContextYet")}</p>
-            )}
-          </div>
-        </SectionReveal>
-
-        {/* Company Projects Section */}
-        <SectionReveal delay={0.6}>
-          <div className="mx-auto max-w-6xl">
-            <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-              {t("aboutPage.ourProjects").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("aboutPage.ourProjects").split(' ').slice(1).join(' ')}</span>
-            </h2>
-            {projectsLoading ? (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {[1, 2, 3].map(i => <ProjectSkeleton key={i} />)}
-              </div>
-            ) : projects && projects.length > 0 ? (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {projects.map((project, index) => (
-                  <SectionReveal key={project.slug} delay={index * 0.05}>
-                    <Link to={`/projects/${project.slug}`} className="block h-full">
-                      <PixelCard
-                        imageUrl={project.thumbnail || "/brand/placeholder.svg"}
-                        title={project.name}
-                        subtitle={project.summary || t("repositoryDetailPage.noDescriptionProvided")}
-                        footer={
-                          <div className="flex flex-col gap-2">
-                            <div className="flex flex-wrap gap-2">
-                              {project.stack?.map((tech, techIndex) => (
-                                <Badge key={techIndex} variant="secondary" className="text-xs">
-                                  {tech}
-                                </Badge>
-                              ))}
-                            </div>
-                            <p className="text-xs text-muted-foreground">
-                              {project.status} • {project.year}
-                            </p>
-                            {project.url && (
-                              <Button variant="outline" size="sm" className="w-full mt-2">
-                                {t("common.viewLiveDemo")} <ArrowRight className="h-4 w-4 ml-2" />
-                              </Button>
-                            )}
-                          </div>
-                        }
-                        className="h-full flex flex-col"
-                        noFocus
-                      />
-                    </Link>
-                  </SectionReveal>
-                ))}
-              </div>
-            ) : (
-              <p className="text-center text-muted-foreground">{t("common.noProjectsFound")}</p>
-            )}
-            
-            {projects.length > 6 && (
-              <div className="mt-12 text-center">
-                <Link to="/portfolio">
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                    {t("aboutPage.viewAllProjects")}
-                    <ArrowRight className="h-5 w-5 ml-2" />
-                  </Button>
-                </Link>
-              </div>
             )}
           </div>
         </SectionReveal>
