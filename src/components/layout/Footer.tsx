@@ -4,6 +4,7 @@ import { BrandLogo } from "@/components/brand/BrandLogo";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
 import { useSiteSetting } from "@/hooks/useSettings";
 import { defaultFooterLinks } from "@/config/site"; // Import defaultFooterLinks
+import { useBrandIdentity } from "@/hooks/useBrandIdentity"; // Import new hook
 
 interface FooterLink {
   name: string;
@@ -20,6 +21,11 @@ export const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { data: blogPosts } = useBlogPosts();
   const showThoughtsLink = blogPosts && blogPosts.length > 0;
+  const { data: brandIdentity } = useBrandIdentity(); // Fetch brand identity
+
+  // Use brandIdentity name and description, falling back to defaults
+  const siteName = brandIdentity?.name || "Monynha Softwares";
+  const siteDescription = brandIdentity?.description || "Inclusive technology for everyone. Built with pride, coffee and open-source.";
 
   // Use defaultFooterLinks as fallback for site_links
   const siteLinks = useSiteSetting<SiteLinks>('site_links', defaultFooterLinks);
@@ -30,14 +36,14 @@ export const Footer = () => {
         <div className="grid grid-cols-1 gap-12 md:grid-cols-4 lg:grid-cols-5">
           {/* Brand Logo */}
           <div className="col-span-full md:col-span-1 lg:col-span-2">
-            <Link to="/" aria-label="Monynha Softwares home">
+            <Link to="/" aria-label={`${siteName} home`}>
               {/* Adjusted width for BrandLogo in footer */}
               <div className="h-10 w-[220px]">
                 <BrandLogo className="h-full w-full" />
               </div>
             </Link>
             <p className="mt-4 text-sm text-muted-foreground max-w-xs">
-              Inclusive technology for everyone. Built with pride, coffee and open-source.
+              {siteDescription}
             </p>
           </div>
 
@@ -114,7 +120,7 @@ export const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-border/50 text-center text-sm text-muted-foreground">
-          <p>&copy; {currentYear} Monynha Softwares. All rights reserved.</p>
+          <p>&copy; {currentYear} {siteName}. All rights reserved.</p>
         </div>
       </div>
     </footer>

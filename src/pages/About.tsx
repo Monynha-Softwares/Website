@@ -9,31 +9,41 @@ import { TimelineSkeleton } from "@/components/TimelineSkeleton";
 import { Badge } from "@/components/ui/badge";
 import { PixelCard } from "@/components/reactbits/PixelCard";
 import { useProfile } from "@/hooks/useProfile";
-import { useExperiences } from "@/hooks/useExperiences"; // Updated import
+import { useExperiences } from "@/hooks/useExperiences";
 import { useSkills } from "@/hooks/useSkills";
 import { useProjects } from "@/hooks/useProjects";
 import { useSiteSetting } from "@/hooks/useSettings";
+import { useBrandIdentity } from "@/hooks/useBrandIdentity"; // Import new hook
+import { useNarrativeBlock } from "@/hooks/useNarrativeBlocks"; // Import new hook
+import { useCulturalContext } from "@/hooks/useCulturalContext"; // Import new hook
 
 const About = () => {
   const { data: exhibitions = [], isLoading: exhibitionsLoading, error: exhibitionsError } = useExhibitions();
   const { data: profile, isLoading: profileLoading, error: profileError } = useProfile();
-  const { data: experiences = [], isLoading: experienceLoading, error: experienceError } = useExperiences(); // Updated hook usage
+  const { data: experiences = [], isLoading: experienceLoading, error: experienceError } = useExperiences();
   const { data: skills = [], isLoading: skillsLoading, error: skillsError } = useSkills();
   const { data: projects = [], isLoading: projectsLoading, error: projectsError } = useProjects({ limit: 6 });
-  
-  const contactInfo = useSiteSetting<{ email?: string; instagram?: string; availability?: string; note?: string }>('contact_info', {});
-  const siteTitle = useSiteSetting<string>('site_title', 'Monynha Softwares');
-  const siteDescription = useSiteSetting<string>('site_description', '');
+  const { data: brandIdentity } = useBrandIdentity(); // Fetch brand identity
+  const { data: aboutIntroBlock } = useNarrativeBlock("about_intro_paragraph"); // Fetch specific narrative block
+  const { data: culturalContext } = useCulturalContext(); // Fetch cultural context
 
+  const contactInfo = useSiteSetting<{ email?: string; instagram?: string; availability?: string; note?: string }>('contact_info', {});
+  
   const isLoading = exhibitionsLoading || profileLoading || experienceLoading || skillsLoading || projectsLoading;
   const error = exhibitionsError || profileError || experienceError || skillsError || projectsError;
 
-  const experienceTimeline = experiences.map((exp) => ({ // Updated to use 'experiences'
+  const experienceTimeline = experiences.map((exp) => ({
     title: exp.role,
     subtitle: `${exp.organization} · ${exp.location} (${exp.start_date} - ${exp.end_date || "Present"})`,
     description: exp.highlights?.join(" • ") || "",
     indicator: exp.start_date.split('-')[0],
   })) || [];
+
+  const aboutIntroParagraph = aboutIntroBlock?.content || "Monynha Softwares was born from a collective dream: to prove that technology and affection can coexist, that innovation also comes from the margins, and that the web can be a space of welcoming, creation, and resistance.";
+  const founderName = profile?.full_name || brandIdentity?.name || "Our Founder";
+  const founderBio = profile?.bio || brandIdentity?.description || "Loading biography...";
+  const founderInstagram = contactInfo?.instagram || "https://instagram.com/marcelo.santos.027"; // Fallback to hardcoded if not in settings
+  const founderEmail = contactInfo?.email || "contact@monynha.com"; // Fallback to hardcoded if not in settings
 
   if (isLoading) {
     return (
@@ -67,7 +77,7 @@ const About = () => {
               Our <span className="bg-gradient-primary bg-clip-text text-transparent">Story</span>
             </h1>
             <p className="mx-auto max-w-2xl text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed text-balance">
-              Monynha Softwares was born from a collective dream: to prove that technology and affection can coexist, that innovation also comes from the margins, and that the web can be a space of welcoming, creation, and resistance.
+              {aboutIntroParagraph}
             </p>
           </div>
         </SectionReveal>
@@ -76,15 +86,15 @@ const About = () => {
           {/* Bio */}
           <SectionReveal delay={0.1}>
             <div className="space-y-6">
-              <h2 className="text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">Meet {profile?.full_name || siteTitle || "Our Founder"}</h2>
+              <h2 className="text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">Meet {founderName}</h2>
               <TextType
                 className="text-[clamp(1rem,3.3vw,1.1rem)] leading-relaxed"
-                text={profile?.bio ?? siteDescription ?? "Loading biography..."}
+                text={founderBio}
               />
               <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:flex-wrap">
-                {contactInfo?.instagram && (
+                {founderInstagram && (
                   <a
-                    href={contactInfo.instagram}
+                    href={founderInstagram}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -94,8 +104,8 @@ const About = () => {
                     </Button>
                   </a>
                 )}
-                {contactInfo?.email && (
-                  <a href={`mailto:${contactInfo.email}`}>
+                {founderEmail && (
+                  <a href={`mailto:${founderEmail}`}>
                     <Button variant="hero" size="lg" className="w-full sm:w-auto">
                       <Mail className="mr-2 h-5 w-5" />
                       Email Marcelo
@@ -112,7 +122,7 @@ const About = () => {
               <div className="aspect-square overflow-hidden rounded-2xl border border-border bg-gradient-mesh shadow-lg">
                 <img
                   src={profile?.avatar_url || "/avatar.jpg"}
-                  alt={`${profile?.full_name || "Founder"}, Founder of Monynha Softwares`}
+                  alt={`${founderName}, Founder of Monynha Softwares`}
                   className="h-full w-full object-cover"
                 />
               </div>
@@ -155,9 +165,28 @@ const About = () => {
           </SectionReveal>
         )}
 
+        {/* Cultural Context Section */}
+        {culturalContext && culturalContext.length > 0 && (
+          <SectionReveal delay={0.5}>
+            <div className="mx-auto max-w-4xl mb-20">
+              <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
+                Our <span className="bg-gradient-primary bg-clip-text text-transparent">Cultural Context</span>
+              </h2>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                {culturalContext.map((context, index) => (
+                  <div key={context.id} className="rounded-lg border border-border/70 bg-surface-2/60 p-6 backdrop-blur-xl">
+                    <h3 className="mb-2 text-fluid-lg font-semibold text-foreground">{context.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{context.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </SectionReveal>
+        )}
+
         {/* Company Projects Section */}
         {projects && projects.length > 0 && (
-          <SectionReveal delay={0.5}>
+          <SectionReveal delay={0.6}>
             <div className="mx-auto max-w-6xl">
               <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
                 Our <span className="bg-gradient-primary bg-clip-text text-transparent">Projects</span>

@@ -12,10 +12,12 @@ import { useContactForm, contactSchema, ContactFormData } from "@/hooks/useConta
 import { useSiteSetting } from "@/hooks/useSettings";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNarrativeBlock } from "@/hooks/useNarrativeBlocks"; // Import new hook
 
 const Contact = () => {
   const { toast } = useToast();
   const { mutate: submitContact, isPending } = useContactForm();
+  const { data: contactPageIntroBlock } = useNarrativeBlock("contact_page_intro"); // Fetch specific narrative block
 
   const contactInfo = useSiteSetting<{ email?: string; instagram?: string; availability?: string; note?: string }>('contact_info', {});
   const formMessages = useSiteSetting<{ success?: string; error?: string }>('contact_form_messages', {});
@@ -26,6 +28,8 @@ const Contact = () => {
   const successMessage = formMessages?.success || 'Message sent successfully! I\'ll get back to you soon 🌈';
   const errorMessage = formMessages?.error || 'Oops! Something went wrong. Please try again later 💜';
   const instagramLink = contactInfo?.instagram;
+
+  const contactPageIntro = contactPageIntroBlock?.content || "Monynha Softwares is dedicated to democratizing technology and fostering an inclusive digital culture. Whether you're planning a new platform, seeking product discovery, or want to improve accessibility, our team is ready to help.";
 
   const {
     register,
@@ -70,7 +74,7 @@ const Contact = () => {
               Get in <span className="bg-gradient-primary bg-clip-text text-transparent">Touch</span>
             </h1>
             <p className="mx-auto max-w-2xl text-[clamp(1rem,3.4vw,1.15rem)] text-white/90 leading-relaxed text-balance drop-shadow-[0_10px_24px_rgba(5,6,20,0.55)]">
-              Monynha Softwares is dedicated to democratizing technology and fostering an inclusive digital culture. Whether you're planning a new platform, seeking product discovery, or want to improve accessibility, our team is ready to help.
+              {contactPageIntro}
             </p>
           </div>
         </SectionReveal>

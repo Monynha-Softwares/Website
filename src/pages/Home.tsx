@@ -15,6 +15,9 @@ import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
 import { useProfile } from "@/hooks/useProfile";
 import type { Page } from "@/integrations/supabase/supabase.types";
 import { defaultFeaturedDisciplines, ICON_MAP } from "@/config/site"; // Import from site config
+import { useBrandIdentity } from "@/hooks/useBrandIdentity"; // Import new hook
+import { useNarrativeBlock } from "@/hooks/useNarrativeBlocks"; // Import new hook
+import { useValues } from "@/hooks/useValues"; // Import new hook
 
 interface FeaturedDiscipline {
   icon: keyof typeof ICON_MAP; // Use keyof typeof ICON_MAP for type safety
@@ -25,19 +28,25 @@ interface FeaturedDiscipline {
 const Home = () => {
   const { data: homePageData } = usePages("home");
   const homePage = homePageData as Page | null;
-  const tagline = useSiteSetting("site_tagline", "Inclusive technology for everyone");
+  const { data: brandIdentity } = useBrandIdentity(); // Fetch brand identity
+  const { data: heroDescriptionBlock } = useNarrativeBlock("home_hero_description"); // Fetch specific narrative block
+  const { data: brandValues } = useValues(); // Fetch brand values for featured disciplines
   const { data: featuredArtworks, isLoading: artworksLoading } = useArtworks({ featured: true });
   const { data: profile } = useProfile();
-  // Use defaultFeaturedDisciplines as fallback for site_settings
-  const featuredDisciplines = useSiteSetting<FeaturedDiscipline[]>('featured_disciplines', defaultFeaturedDisciplines);
 
-  // Extract content from homePage if available
-  const heroContent = homePage?.content?.hero || {};
-  const heroTitle = heroContent.title || (profile?.full_name || "Monynha Softwares");
-  const heroSubtitle = heroContent.subtitle || (profile?.headline || "Inclusive tech that empowers");
-  const heroDescription = heroContent.description || (profile?.bio || "We build accessible, human-centered digital experiences so every person can participate, create, and thrive.");
-  const heroTagline = heroContent.tagline || tagline;
+  // Use brandIdentity data, falling back to profile or hardcoded defaults
+  const siteName = brandIdentity?.name || profile?.full_name || "Monynha Softwares";
+  const siteTagline = brandIdentity?.tagline || profile?.headline || "Inclusive tech that empowers";
+  const heroDescription = heroDescriptionBlock?.content || profile?.bio || "We build accessible, human-centered digital experiences so every person can participate, create, and thrive.";
 
+  // Use brandValues for featured disciplines, falling back to defaultFeaturedDisciplines
+  const featuredDisciplines = brandValues && brandValues.length > 0
+    ? brandValues.map(value => ({
+        icon: (value.icon || "Sparkles") as keyof typeof ICON_MAP, // Default icon if not set
+        title: value.title,
+        desc: value.description || "",
+      }))
+    : defaultFeaturedDisciplines;
 
   return (
     <div className="min-h-screen overflow-x-hidden">
@@ -61,13 +70,13 @@ const Home = () => {
             >
               <span className="inline-flex flex-wrap items-center gap-2 rounded-full border border-border/50 bg-surface-1/50 px-3 py-1 text-[clamp(0.85rem,3.2vw,0.95rem)] text-muted-foreground backdrop-blur-md whitespace-normal">
                 <Sparkles className="h-4 w-4 text-primary" />
-                {heroTagline}
+                {siteTagline}
               </span>
             </motion.div>
 
             <SplitText
               as="h1"
-              text={[heroTitle, heroSubtitle].join("\n")}
+              text={[siteName, siteTagline].join("\n")}
               className="mb-6 text-[clamp(2.25rem,8vw,3.75rem)] font-bold leading-[1.1] break-words text-balance items-center"
             />
 

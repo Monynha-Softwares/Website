@@ -10,6 +10,7 @@ import { BrandLogo } from "@/components/brand/BrandLogo";
 import { BrandMark } from "@/components/brand/BrandMark";
 import { useSiteSetting } from "@/hooks/useSettings";
 import { defaultNavLinks } from "@/config/site"; // Import defaultNavLinks
+import { useBrandIdentity } from "@/hooks/useBrandIdentity"; // Import new hook
 
 interface NavLink {
   href: string;
@@ -22,9 +23,11 @@ export const GooeyNav = () => {
   const location = useLocation();
   const reduceMotion = useReducedMotion();
   const { user, isAdmin, signOut } = useAuth();
+  const { data: brandIdentity } = useBrandIdentity(); // Fetch brand identity
 
   // Fetch navigation links dynamically, using defaultNavLinks as fallback
   const dynamicLinks = useSiteSetting<NavLink[]>('site_navigation_links', defaultNavLinks);
+  const siteName = brandIdentity?.name || "Monynha Softwares";
 
   const menuId = "mobile-navigation";
   const menuLabelId = "mobile-navigation-title";
@@ -166,14 +169,14 @@ export const GooeyNav = () => {
             <Link
               to="/"
               className="flex min-w-0 items-center gap-2 py-2"
-              aria-label="Monynha Softwares home"
+              aria-label={`${siteName} home`}
             >
               <BrandMark className="h-10 w-10 text-foreground md:hidden" />
               {/* Adjusted width for BrandLogo on desktop */}
               <div className="hidden h-8 w-[200px] md:block">
                 <BrandLogo className="h-full w-full" />
               </div>
-              <span className="sr-only">Monynha Softwares</span>
+              <span className="sr-only">{siteName}</span>
             </Link>
             <div className="ml-auto flex items-center gap-3">
               <div className="hidden items-center gap-3 md:flex">
@@ -255,7 +258,7 @@ export const GooeyNav = () => {
                 aria-labelledby={menuLabelId}
               >
                 <div className="sr-only" id={menuLabelId}>
-                  Monynha Softwares navigation
+                  {siteName} navigation
                 </div>
                 <FlowingMenu
                   items={[
