@@ -11,8 +11,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
-import type { Experience } from "@/integrations/supabase/supabase.types";
-import { useExperiences } from "@/hooks/useExperiences"; // Updated import
+import type { Experience, TablesInsert, TablesUpdate } from "@/integrations/supabase/supabase.types";
+import { useExperiences } from "@/hooks/useExperiences";
+import { AdminFormDialog } from "@/components/admin/AdminFormDialog"; // Import AdminFormDialog
+import { useAdminForm } from "@/hooks/useAdminForm"; // Import useAdminForm
 
 const ExperiencesManager = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -20,7 +22,7 @@ const ExperiencesManager = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingExperience, setEditingExperience] = useState<Experience | null>(null);
 
-  const { data: experiences, isLoading: experiencesLoading } = useExperiences(); // Updated hook usage
+  const { data: experiences, isLoading: experiencesLoading } = useExperiences();
 
   const deleteMutation = useMutation<void, Error, string>({
     mutationFn: async (id: string) => {
@@ -56,28 +58,24 @@ const ExperiencesManager = () => {
             </Link>
             <h1 className="text-4xl font-bold">Manage Experiences</h1>
           </div>
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={() => setEditingExperience(null)}>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Experience
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>{editingExperience ? "Edit" : "Add"} Experience</DialogTitle>
-              </DialogHeader>
-              <ExperienceForm
-                experience={editingExperience}
-                onSuccess={() => {
-                  setIsDialogOpen(false);
-                  setEditingExperience(null);
-                  queryClient.invalidateQueries({ queryKey: ["admin-experiences"] });
-                  queryClient.invalidateQueries({ queryKey: ["experiences"] });
-                }}
-              />
-            </DialogContent>
-          </Dialog>
+          <AdminFormDialog
+            title="Experience"
+            triggerLabel="Add Experience"
+            isOpen={isDialogOpen}
+            onOpenChange={setIsDialogOpen}
+            onTriggerClick={() => setEditingExperience(null)}
+            isEditing={!!editingExperience}
+          >
+            <ExperienceForm
+              experience={editingExperience}
+              onSuccess={() => {
+                setIsDialogOpen(false);
+                setEditingExperience(null);
+                queryClient.invalidateQueries({ queryKey: ["admin-experiences"] });
+                queryClient.invalidateQueries({ queryKey: ["experiences"] });
+              }}
+            />
+          </AdminFormDialog>
         </div>
 
         <div className="grid gap-4">
@@ -136,53 +134,41 @@ interface ExperienceFormProps {
   onSuccess: () => void;
 }
 
+interface ExperienceFormData {
+  role: string;
+  organization: string;
+  location: string;
+  start_date: string;
+  end_date: string;
+  highlights: string;
+  display_order: number;
+}
+
 const ExperienceForm = ({ experience, onSuccess }: ExperienceFormProps) => {
-  const [formData, setFormData] = useState({
-    role: experience?.role || "",
-    organization: experience?.organization || "",
-    location: experience?.location || "",
-    start_date: experience?.start_date || "",
-    end_date: experience?.end_date || "",
-    highlights: experience?.highlights?.join("\n") || "",
-    display_order: experience?.display_order || 0,
+  const { formData, setFormData, handleSubmit, isPending } = useAdminForm<ExperienceFormData, "experiences">({
+    tableName: "experiences",
+    id: experience?.id,
+    initialData: {
+      role: experience?.role || "",
+      organization: experience?.organization || "",
+      location: experience?.location || "",
+      start_date: experience?.start_date || "",
+      end_date: experience?.end_date || "",
+      highlights: experience?.highlights?.join("\n") || "",
+      display_order: experience?.display_order || 0,
+    },
+    transformToPayload: (data) => ({
+      role: data.role,
+      organization: data.organization,
+      location: data.location,
+      start_date: data.start_date,
+      end_date: data.end_date || null,
+      highlights: data.highlights.split("\n").map(h => h.trim()).filter(h => h.length > 0),
+      display_order: data.display_order,
+    }),
+    queryKeysToInvalidate: ["admin-experiences", "experiences"],
+    onSuccessCallback: onSuccess,
   });
-
-  const mutation = useMutation<void, Error, typeof formData>({
-    mutationFn: async (data: typeof formData) => {
-      const payload: Omit<Experience, "id" | "created_at" | "updated_at"> = {
-        role: data.role,
-        organization: data.organization,
-        location: data.location,
-        start_date: data.start_date,
-        end_date: data.end_date || null,
-        highlights: data.highlights.split("\n").map(h => h.trim()).filter(h => h.length > 0),
-        display_order: data.display_order,
-      };
-
-      if (experience) {
-        const { error } = await supabase
-          .from("experiences")
-          .update(payload)
-          .eq("id", experience.id);
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.from("experiences").insert([payload]);
-        if (error) throw error;
-      }
-    },
-    onSuccess: () => {
-      toast.success(`Experience ${experience ? "updated" : "created"} successfully`);
-      onSuccess();
-    },
-    onError: (err) => {
-      toast.error(`Failed to ${experience ? "update" : "create"} experience: ${err.message}`);
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    mutation.mutate(formData);
-  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -259,8 +245,8 @@ const ExperienceForm = ({ experience, onSuccess }: ExperienceFormProps) => {
         />
       </div>
 
-      <Button type="submit" disabled={mutation.isPending}>
-        {mutation.isPending ? "Saving..." : experience ? "Update" : "Create"}
+      <Button type="submit" disabled={isPending}>
+        {isPending ? "Saving..." : experience ? "Update" : "Create"}
       </Button>
     </form>
   );
