@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import type { TablesInsert, TablesUpdate } from "@/integrations/supabase/supabase.types";
+import type { TablesInsert, TablesUpdate, Database } from "@/integrations/supabase/supabase.types";
 
 interface UseAdminFormOptions<TForm, TTable extends keyof Database['public']['Tables']> {
   tableName: TTable;
@@ -23,29 +23,32 @@ export const useAdminForm = <TForm, TTable extends keyof Database['public']['Tab
   const mutation = useMutation<void, Error, TForm>({
     mutationFn: async (data: TForm) => {
       const payload = transformToPayload(data);
+      const table = tableName as string; // Cast TTable to string for supabase.from()
 
       if (id) {
         // Update operation
         const { error } = await supabase
-          .from(tableName)
+          .from(table)
           .update(payload as TablesUpdate<TTable>)
           .eq("id", id);
         if (error) throw error;
       } else {
         // Insert operation
-        const { error } = await supabase.from(tableName).insert([payload as TablesInsert<TTable>]);
+        const { error } = await supabase.from(table).insert([payload as TablesInsert<TTable>]);
         if (error) throw error;
       }
     },
     onSuccess: () => {
-      toast.success(`${tableName.slice(0, -1)} ${id ? "updated" : "created"} successfully`);
+      const table = tableName as string;
+      toast.success(`${table.slice(0, -1)} ${id ? "updated" : "created"} successfully`);
       queryKeysToInvalidate.forEach(key => {
         queryClient.invalidateQueries({ queryKey: [key] });
       });
       onSuccessCallback?.();
     },
     onError: (err) => {
-      toast.error(`Failed to ${id ? "update" : "create"} ${tableName.slice(0, -1)}: ${err.message}`);
+      const table = tableName as string;
+      toast.error(`Failed to ${id ? "update" : "create"} ${table.slice(0, -1)}: ${err.message}`);
     },
   });
 

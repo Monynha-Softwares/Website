@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import { format } from "date-fns";
-import type { BlogPost, ContentStatus, TablesInsert, TablesUpdate } from "@/integrations/supabase/supabase.types";
+import type { BlogPost, ContentStatus } from "@/integrations/supabase/supabase.types";
 import { AdminFormDialog } from "@/components/admin/AdminFormDialog";
 import { useAdminForm } from "@/hooks/useAdminForm"; // Import the new hook
 import { Badge } from "@/components/ui/badge"; // Added missing import for Badge
