@@ -34,7 +34,7 @@ export const LanguageSwitcher = ({ className, isIconOnly = false }: LanguageSwit
       <SelectTrigger className={cn(
         "w-fit min-w-0 border-border/70 bg-background/70 backdrop-blur-xl",
         "flex items-center justify-center",
-        isIconOnly && "w-10 h-10 p-0 rounded-full", // Apply icon-only styling if prop is true
+        isIconOnly && "w-10 h-10 p-0 rounded-md", // Changed from rounded-full to rounded-md
         className
       )}>
         <Globe className="h-4 w-4 text-muted-foreground" />
