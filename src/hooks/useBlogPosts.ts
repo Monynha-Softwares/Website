@@ -1,15 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { BlogPost } from "@/integrations/supabase/supabase.types";
+import { useTranslation } from "react-i18next"; // Import useTranslation
 
 export const useBlogPosts = (slug?: string) => {
+  const { i18n } = useTranslation();
+  const currentLocale = i18n.language;
+
   return useQuery<BlogPost[], Error>({
-    queryKey: ["blogPosts", slug],
+    queryKey: ["blogPosts", slug, currentLocale], // Add currentLocale to queryKey
     queryFn: async () => {
+      // Set the locale for RLS policies
+      await supabase.rpc('set_current_locale', { locale_code: currentLocale });
+
       let query = supabase
         .from("blog_posts")
         .select("*")
-        .order("date", { ascending: false });
+        .order("date", { ascending: false })
+        .eq("locale", currentLocale); // Filter by locale
 
       if (slug) {
         query = query.eq("slug", slug);
@@ -30,13 +38,20 @@ export const useBlogPosts = (slug?: string) => {
 };
 
 export const useBlogPost = (slug: string) => {
+  const { i18n } = useTranslation();
+  const currentLocale = i18n.language;
+
   return useQuery<BlogPost | null, Error>({
-    queryKey: ["blogPost", slug],
+    queryKey: ["blogPost", slug, currentLocale], // Add currentLocale to queryKey
     queryFn: async () => {
+      // Set the locale for RLS policies
+      await supabase.rpc('set_current_locale', { locale_code: currentLocale });
+
       const { data, error } = await supabase
         .from("blog_posts")
         .select("*")
         .eq("slug", slug)
+        .eq("locale", currentLocale) // Filter by locale
         .maybeSingle();
 
       if (error) throw error;

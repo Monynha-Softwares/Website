@@ -1,18 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Page } from "@/integrations/supabase/supabase.types"; // Import centralized type
+import { useTranslation } from "react-i18next"; // Import useTranslation
 
 type PagesQueryResult = Page[] | (Page | null);
 
 export const usePages = (slug?: string) => {
+  const { i18n } = useTranslation();
+  const currentLocale = i18n.language;
+
   return useQuery<PagesQueryResult>({
-    queryKey: ["pages", slug],
+    queryKey: ["pages", slug, currentLocale], // Add currentLocale to queryKey
     queryFn: async () => {
+      // Set the locale for RLS policies
+      await supabase.rpc('set_current_locale', { locale_code: currentLocale });
+
       if (!slug) {
         const { data, error } = await supabase
           .from("pages")
           .select("*")
-          .eq("status", "published");
+          .eq("status", "published")
+          .eq("locale", currentLocale); // Filter by locale
 
         if (error) throw error;
         return data as Page[];
@@ -23,6 +31,7 @@ export const usePages = (slug?: string) => {
         .select("*")
         .eq("slug", slug)
         .eq("status", "published")
+        .eq("locale", currentLocale) // Filter by locale
         .maybeSingle();
 
       if (error) throw error;
