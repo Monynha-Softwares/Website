@@ -76,7 +76,10 @@
     "yourEmail": "votre.email@exemple.com",
     "tellAboutProject": "Parlez-moi de votre projet ou de votre demande...",
     "messageSentSuccess": "Message envoyé avec succès ! Je vous recontacterai bientôt 🌈",
-    "messageSentError": "Oups ! Quelque chose s'est mal passé. Veuillez réessayer plus tard 💜"
+    "messageSentError": "Oups ! Quelque chose s'est mal passé. Veuillez réessayer plus tard 💜",
+    "openNavigation": "Ouvrir la navigation",
+    "closeMenu": "Fermer le menu",
+    "mobileNavigation": "Navigation mobile"
   },
   "homePage": {
     "tagline": "Une technologie inclusive qui autonomise",

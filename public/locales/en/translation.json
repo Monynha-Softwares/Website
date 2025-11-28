@@ -76,7 +76,10 @@
     "yourEmail": "your.email@example.com",
     "tellAboutProject": "Tell me about your project or inquiry...",
     "messageSentSuccess": "Message sent successfully! I'll get back to you soon 🌈",
-    "messageSentError": "Oops! Something went wrong. Please try again later 💜"
+    "messageSentError": "Oops! Something went wrong. Please try again later 💜",
+    "openNavigation": "Open navigation",
+    "closeMenu": "Close menu",
+    "mobileNavigation": "Mobile navigation"
   },
   "homePage": {
     "tagline": "Inclusive tech that empowers",
@@ -326,6 +329,6 @@
     "company": "Company",
     "legal": "Legal",
     "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service"
+    "termsOf Service": "Terms of Service"
   }
 }

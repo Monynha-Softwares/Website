@@ -76,7 +76,10 @@
     "yourEmail": "seu.email@exemplo.com",
     "tellAboutProject": "Fale-me sobre seu projeto ou consulta...",
     "messageSentSuccess": "Mensagem enviada com sucesso! Entrarei em contato em breve 🌈",
-    "messageSentError": "Ops! Algo deu errado. Por favor, tente novamente mais tarde 💜"
+    "messageSentError": "Ops! Algo deu errado. Por favor, tente novamente mais tarde 💜",
+    "openNavigation": "Abrir navegação",
+    "closeMenu": "Fechar menu",
+    "mobileNavigation": "Navegação móvel"
   },
   "homePage": {
     "tagline": "Tecnologia inclusiva que empodera",

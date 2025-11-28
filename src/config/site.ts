@@ -3,16 +3,16 @@ import { Palette, Eye, Sparkles, type LucideIcon } from "lucide-react";
 // --- Navigation Links ---
 interface NavLink {
   href: string;
-  label: string;
+  label: string; // Changed to string for translation key
   accent: string; // CSS gradient string or color
 }
 
 export const defaultNavLinks: NavLink[] = [
-  { href: "/", label: "Home", accent: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)" },
-  { href: "/portfolio", label: "Portfolio", accent: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)" },
-  { href: "/about", label: "About", accent: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)" },
-  { href: "/contact", label: "Contact", accent: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)" },
-  { href: "/repositories", label: "Repositories", accent: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)" },
+  { href: "/", label: "common.home", accent: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)" },
+  { href: "/portfolio", label: "common.portfolio", accent: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)" },
+  { href: "/about", label: "common.about", accent: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)" },
+  { href: "/contact", label: "common.contact", accent: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)" },
+  { href: "/repositories", label: "common.repositories", accent: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)" },
 ];
 
 // --- Featured Disciplines (for Home page) ---
