@@ -148,7 +148,7 @@ const Home = () => {
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
                 {featuredProjects.slice(0, 3).map((project, index) => (
                   <SectionReveal key={project.id} delay={index * 0.1}>
-                    <Link to={project.url || project.repo_url || "#"} target="_blank" rel="noopener noreferrer" className="block h-full">
+                    <Link to={`/projects/${project.slug}`} className="block h-full">
                       <PixelCard
                         title={project.name}
                         imageUrl={project.thumbnail || "/brand/placeholder.svg"}

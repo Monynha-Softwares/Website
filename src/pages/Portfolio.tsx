@@ -72,7 +72,7 @@ const Portfolio = () => {
         {/* Header */}
         <SectionReveal>
           <div className="mb-10 text-center">
-            <h1 className="mb-4 text-[clamp(2rem,7vw,3.5rem)] font-bold leading-tight text-balance">
+            <h1 className="mb-4 text-[clamp(2rem,7vw,3.5rem)] font-bold leading-tight text-balance drop-shadow-[0_12px_32px_rgba(6,10,28,0.65)]">
               <span className="bg-gradient-primary bg-clip-text text-transparent">{t("common.portfolio")}</span>
             </h1>
             <p className="mx-auto max-w-2xl text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed text-balance">
@@ -89,7 +89,7 @@ const Portfolio = () => {
                 title: item.name,
                 subtitle: item.category,
                 imageUrl: item.thumbnail || "/brand/placeholder.svg",
-                href: item.url || item.repo_url || "#", // Link to live URL or repo
+                href: `/projects/${item.slug}`, // Internal link
                 footer: <span className="text-sm">{item.year}</span>,
               }))}
               speed={24}
@@ -122,7 +122,7 @@ const Portfolio = () => {
                 activeHref={`#${selectedCategory.toLowerCase().replace(/\s/g, '-')}`}
                 onItemClick={handleCategoryClick}
                 className="max-w-full overflow-x-auto"
-                menuLabel={t("portfolioPage.artworkCategories")} // Reusing translation key for now
+                menuLabel={t("portfolioPage.projectCategories")}
                 itemRole="button"
               />
             </div>
@@ -149,7 +149,7 @@ const Portfolio = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
               >
-                <Link to={project.url || project.repo_url || "#"} target="_blank" rel="noopener noreferrer" className="block h-full">
+                <Link to={`/projects/${project.slug}`} className="block h-full">
                   <PixelCard
                     imageUrl={project.thumbnail || "/brand/placeholder.svg"}
                     title={project.name}
@@ -171,7 +171,7 @@ const Portfolio = () => {
                           <span>{project.year}</span>
                         </div>
                         <Button variant="outline" size="sm" className="w-full mt-2">
-                          {project.url ? t("common.viewLiveDemo") : t("common.viewDetails")}
+                          {t("common.viewDetails")}
                           <Globe className="h-4 w-4 ml-2" />
                         </Button>
                       </div>
@@ -187,7 +187,7 @@ const Portfolio = () => {
           <SectionReveal>
             <div className="text-center py-16">
               <p className="text-fluid-lg text-muted-foreground">
-                {t("portfolioPage.noArtworksFound")}
+                {t("common.noProjectsFound")}
               </p>
             </div>
           </SectionReveal>
