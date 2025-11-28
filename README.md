@@ -98,7 +98,7 @@ Linting ensures TypeScript, React, and accessibility conventions stay consistent
 ├── public/                # Static assets served as-is
 ├── src/
 │   ├── components/
-│   │   ├── reactbits/     # Custom animated UI primitives (FlowingMenu, SilkBackground, ...)
+│   │   ├── reactbits/     # Custom animated UI primitives (FlowingMenu, LiquidEther, ...)
 │   │   ├── ui/            # shadcn/ui components
 │   │   ├── brand/         # Branding components (BrandLogo, BrandMark)
 │   │   └── ...            # Other reusable components
@@ -121,14 +121,14 @@ Linting ensures TypeScript, React, and accessibility conventions stay consistent
 - **Motion Safeguards:** All animated components check `prefers-reduced-motion`, fall back gracefully, and avoid excessive GPU load.
 - **State Safety:** The contact form clears pending timeouts during unmount to prevent memory leaks when navigating away mid-submit.
 - **Typed Data Models:** Portfolio listings declare explicit TypeScript types, improving maintainability as the data source evolves.
-- **Blog Integration:** Markdown blog posts are parsed and displayed via new `/thoughts` routes.
+- **Blog Integration:** Blog posts are fetched from the Supabase `blog_posts` table.
 - **GitHub Repositories:** Integration to display open-source projects from GitHub.
 
 ## Extending The Project
 
 - Update the imagery and copywriting in `src/pages/Home.tsx`, `About.tsx`, and `Contact.tsx` to match your brand voice.
 -- Explore additional React Bits-inspired components inside `src/components/reactbits/` to enrich future sections.
-- Add new blog posts via Supabase: insert rows into the `blog_posts` table (use the admin UI or the `supabase` CLI). See `docs/CONTENT_MANAGEMENT.md` for seeding examples and the developer workflow. Local Markdown files are deprecated.
+- Add new blog posts via the Admin Dashboard or Supabase: insert rows into the `blog_posts` table. See `docs/CONTENT_MANAGEMENT.md` for details.
 
 ## License
 

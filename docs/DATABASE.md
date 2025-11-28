@@ -236,6 +236,10 @@ Automatically updates `updated_at` timestamp on row modification.
 
 Creates profile entry when new user signs up via auth.
 
+### `set_current_locale(locale_code text) RETURNS void`
+
+Sets the session variable for the current locale, used by RLS policies for multilingual content filtering.
+
 ---
 
 ## Storage Buckets
@@ -277,7 +281,7 @@ To create a new migration:
 
 To regenerate TypeScript types after schema changes:
 ```bash
-npx supabase gen types typescript --schema public > src/integrations/supabase/types.ts
+npx supabase gen types typescript --schema public > src/integrations/supabase/types_db.ts
 ```
 
 ---

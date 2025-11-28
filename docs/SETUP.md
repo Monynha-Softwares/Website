@@ -37,12 +37,12 @@ Migrations live in `supabase/migrations/` and can be applied via the Supabase CL
 supabase db reset
 ```
 
-This command recreates the local database, runs migrations, and seeds any sample data defined in `supabase/seed.sql`.
+This command recreates the local database and runs migrations.
 
 **Regenerate Supabase Types:**
 After any schema changes or `supabase db reset`, ensure your TypeScript types are up-to-date by running:
 ```bash
-npx supabase gen types typescript --schema public > src/integrations/supabase/types.ts
+npx supabase gen types typescript --schema public > src/integrations/supabase/types_db.ts
 ```
 
 ### 4. Create First Admin User
