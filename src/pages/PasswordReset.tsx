@@ -16,7 +16,7 @@ const PasswordReset = () => {
   const [isSessionValid, setIsSessionValid] = useState(false);
 
   useEffect(() => {
-    // Supabase automatically handles the session from the URL hash
+    // Supabase automatically handles the session from the URL, no need for hash-specific logic
     // We just need to check if a user is currently logged in (meaning the token was processed)
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();

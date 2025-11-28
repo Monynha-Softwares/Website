@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { HashRouter, Routes, Route, Navigate } from "react-router-dom"; // Changed to HashRouter
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"; // Changed to BrowserRouter
 import { AuthProvider, useAuth } from "./contexts/AuthContext"; // Import useAuth
 import { Navigation } from "./components/Navigation";
 import { ScrollToTop } from "./components/ScrollToTop";
@@ -9,7 +9,7 @@ import { Footer } from "./components/layout/Footer";
 import Home from "./pages/Home";
 import Portfolio from "./pages/Portfolio";
 import ArtworkDetail from "./pages/ArtworkDetail";
-import About from "./pages/About";
+import About from "./pages/pages/About";
 import Contact from "./pages/Contact";
 import Repositories from "./pages/Repositories";
 import RepositoryDetail from "./pages/RepositoryDetail";
@@ -62,7 +62,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <HashRouter>
+      <BrowserRouter> {/* Changed from HashRouter */}
         <ScrollToTop />
         <Navigation />
         <Routes>
@@ -165,7 +165,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
-      </HashRouter>
+      </BrowserRouter>
     </TooltipProvider>
   </AuthProvider>
 );

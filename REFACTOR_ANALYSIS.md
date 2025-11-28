@@ -124,7 +124,8 @@ This document provides a comprehensive analysis of issues found in the Monynha S
 - **Location**: `src/App.tsx`
 - **Impact**: Suboptimal SEO and user experience
 - **Recommendation**: Switch to BrowserRouter with proper server configuration
-- **Status**: **Identified**. This is a design choice with known implications. Further action depends on project priorities.
+- **Status**: **Addressed (Client-side)**. The application now uses `BrowserRouter`.
+- **Action Required**: You **must** configure your web server to serve `index.html` for all routes that do not match a static file. This is crucial for `BrowserRouter` to work correctly on direct URL access or page refreshes. For example, in Nginx, this might involve `try_files $uri $uri/ /index.html;`. For Vercel/Netlify, this is often handled automatically or via a simple `_redirects` file.
 
 ### 7.2. Accessibility Issues
 - **Issue**: Some components lack proper ARIA attributes and semantic HTML
