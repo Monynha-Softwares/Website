@@ -14,7 +14,8 @@ import { useSiteSetting } from "@/hooks/useSettings";
 import { useBrandIdentity } from "@/hooks/useBrandIdentity";
 import { useNarrativeBlock } from "@/hooks/useNarrativeBlocks";
 import { useCulturalContext } from "@/hooks/useCulturalContext";
-import { usePages } from "@/hooks/usePages"; // Import usePages
+import { usePages } from "@/hooks/usePages";
+import { useMissionStatements } from "@/hooks/useMissionStatements"; // NEW IMPORT
 import { useTranslation } from "react-i18next";
 import type { Page } from "@/integrations/supabase/supabase.types";
 
@@ -28,7 +29,7 @@ interface AboutPageContent {
 
 const About = () => {
   const { t } = useTranslation();
-  const { data: aboutPageData, isLoading: pageLoading } = usePages("about"); // Fetch 'about' page content
+  const { data: aboutPageData, isLoading: pageLoading } = usePages("about");
   const aboutPage = aboutPageData as Page | null;
   const pageContent = (aboutPage?.content || {}) as AboutPageContent;
 
@@ -39,6 +40,7 @@ const About = () => {
   const { data: brandIdentity } = useBrandIdentity();
   const { data: aboutIntroBlock } = useNarrativeBlock("about_intro_paragraph");
   const { data: culturalContext, isLoading: culturalContextLoading } = useCulturalContext();
+  const { data: missionStatements = [], isLoading: missionLoading } = useMissionStatements(); // NEW FETCH
 
   const contactInfo = useSiteSetting<{ email?: string; instagram?: string; availability?: string; note?: string }>('contact_info', {});
   
@@ -191,9 +193,33 @@ const About = () => {
             )}
           </div>
         </SectionReveal>
+        
+        {/* Mission Statements Section */}
+        <SectionReveal delay={0.5}>
+          <div className="mx-auto max-w-4xl mb-20">
+            <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
+              {t("aboutPage.ourMission").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("aboutPage.ourMission").split(' ').slice(1).join(' ')}</span>
+            </h2>
+            {missionLoading ? (
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                {[1, 2, 3].map(i => <div key={i} className="h-20 rounded-lg border border-border/70 bg-surface-2/60 animate-pulse" />)}
+              </div>
+            ) : missionStatements && missionStatements.length > 0 ? (
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                {missionStatements.map((mission, index) => (
+                  <div key={mission.id} className="rounded-lg border border-border/70 bg-surface-2/60 p-6 backdrop-blur-xl">
+                    <p className="text-fluid-lg font-semibold text-foreground">{mission.statement}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-muted-foreground">{t("common.noMissionStatementsYet")}</p>
+            )}
+          </div>
+        </SectionReveal>
 
         {/* Cultural Context Section */}
-        <SectionReveal delay={0.5}>
+        <SectionReveal delay={0.6}>
           <div className="mx-auto max-w-4xl mb-20">
             <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
               {t("aboutPage.culturalContext").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("aboutPage.culturalContext").split(' ').slice(1).join(' ')}</span>

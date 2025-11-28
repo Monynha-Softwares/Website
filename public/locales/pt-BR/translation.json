@@ -84,6 +84,7 @@
     "noExperiencesYet": "Nenhuma experiência profissional listada ainda.",
     "noSkillsYet": "Nenhuma habilidade definida ainda.",
     "noCulturalContextYet": "Nenhum contexto cultural definido ainda.",
+    "noMissionStatementsYet": "Nenhuma declaração de missão definida ainda.",
     "language": "Idioma",
     "selectLanguage": "Selecionar Idioma"
   },
@@ -115,6 +116,7 @@
     "professionalExperience": "Experiência Profissional",
     "technicalSkills": "Habilidades Técnicas",
     "culturalContext": "Nosso Contexto Cultural",
+    "ourMission": "Nossa Missão",
     "ourProjects": "Nossos Projetos",
     "viewAllProjects": "Ver Todos os Projetos",
     "followMarcelo": "Seguir Marcelo",
