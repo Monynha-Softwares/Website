@@ -79,7 +79,11 @@
     "messageSentError": "Oups ! Quelque chose s'est mal passé. Veuillez réessayer plus tard 💜",
     "openNavigation": "Ouvrir la navigation",
     "closeMenu": "Fermer le menu",
-    "mobileNavigation": "Navigation mobile"
+    "mobileNavigation": "Navigation mobile",
+    "present": "Présent",
+    "noExperiencesYet": "Aucune expérience professionnelle listée pour l'instant.",
+    "noSkillsYet": "Aucune compétence définie pour l'instant.",
+    "noCulturalContextYet": "Aucun contexte culturel défini pour l'instant."
   },
   "homePage": {
     "tagline": "Une technologie inclusive qui autonomise",
@@ -92,7 +96,7 @@
     "motionDesignTitle": "Conception de Mouvement",
     "motionDesignDesc": "Narratives visuelles dynamiques",
     "3dArtTitle": "Art 3D",
-    "3dArtDesc": "Expériences spatiales immersives",
+    "3dArtDesc": "Expériences spatiales inmersives",
     "interactiveTitle": "Interactif",
     "interactiveDesc": "Installations numériques engageantes"
   },

@@ -79,7 +79,11 @@
     "messageSentError": "Oops! Something went wrong. Please try again later 💜",
     "openNavigation": "Open navigation",
     "closeMenu": "Close menu",
-    "mobileNavigation": "Mobile navigation"
+    "mobileNavigation": "Mobile navigation",
+    "present": "Present",
+    "noExperiencesYet": "No professional experience listed yet.",
+    "noSkillsYet": "No skills defined yet.",
+    "noCulturalContextYet": "No cultural context defined yet."
   },
   "homePage": {
     "tagline": "Inclusive tech that empowers",

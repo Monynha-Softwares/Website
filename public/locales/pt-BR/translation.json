@@ -79,7 +79,11 @@
     "messageSentError": "Ops! Algo deu errado. Por favor, tente novamente mais tarde 💜",
     "openNavigation": "Abrir navegação",
     "closeMenu": "Fechar menu",
-    "mobileNavigation": "Navegação móvel"
+    "mobileNavigation": "Navegação móvel",
+    "present": "Presente",
+    "noExperiencesYet": "Nenhuma experiência profissional listada ainda.",
+    "noSkillsYet": "Nenhuma habilidade definida ainda.",
+    "noCulturalContextYet": "Nenhum contexto cultural definido ainda."
   },
   "homePage": {
     "tagline": "Tecnologia inclusiva que empodera",

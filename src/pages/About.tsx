@@ -16,9 +16,11 @@ import { useSiteSetting } from "@/hooks/useSettings";
 import { useBrandIdentity } from "@/hooks/useBrandIdentity";
 import { useNarrativeBlock } from "@/hooks/useNarrativeBlocks";
 import { useCulturalContext } from "@/hooks/useCulturalContext";
-import { ArtworkSkeleton } from "@/components/ArtworkSkeleton"; // Import ArtworkSkeleton for projects
+import { ProjectSkeleton } from "@/components/ProjectSkeleton"; // Updated import
+import { useTranslation } from "react-i18next"; // Import useTranslation
 
 const About = () => {
+  const { t } = useTranslation();
   const { data: exhibitions = [], isLoading: exhibitionsLoading, error: exhibitionsError } = useExhibitions();
   const { data: profile, isLoading: profileLoading, error: profileError } = useProfile();
   const { data: experiences = [], isLoading: experienceLoading, error: experienceError } = useExperiences();
@@ -35,14 +37,14 @@ const About = () => {
 
   const experienceTimeline = experiences.map((exp) => ({
     title: exp.role,
-    subtitle: `${exp.organization} · ${exp.location} (${exp.start_date} - ${exp.end_date || "Present"})`,
+    subtitle: `${exp.organization} · ${exp.location} (${exp.start_date} - ${exp.end_date || t("common.present")})`,
     description: exp.highlights?.join(" • ") || "",
     indicator: exp.start_date.split('-')[0],
   })) || [];
 
-  const aboutIntroParagraph = aboutIntroBlock?.content || "Monynha Softwares was born from a collective dream: to prove that technology and affection can coexist, that innovation also comes from the margins, and that the web can be a space of welcoming, creation, and resistance.";
-  const founderName = profile?.full_name || brandIdentity?.name || "Our Founder";
-  const founderBio = profile?.bio || brandIdentity?.description || "Loading biography...";
+  const aboutIntroParagraph = aboutIntroBlock?.content || t("aboutPage.introParagraph");
+  const founderName = profile?.full_name || brandIdentity?.name || t("aboutPage.meetFounder", { founderName: "Founder" });
+  const founderBio = profile?.bio || brandIdentity?.description || t("common.loading");
   const founderInstagram = contactInfo?.instagram || "https://instagram.com/marcelo.santos.027";
   const founderEmail = contactInfo?.email || "contact@monynha.com";
 
@@ -50,7 +52,7 @@ const About = () => {
     return (
       <div className="min-h-screen flex items-center justify-center pt-24 pb-16 px-4">
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-2">Error Loading Content</h2>
+          <h2 className="text-2xl font-bold mb-2">{t("common.errorLoadingContent")}</h2>
           <p className="text-muted-foreground">{error.message}</p>
         </div>
       </div>
@@ -63,7 +65,7 @@ const About = () => {
       <div className="min-h-screen flex items-center justify-center pt-24 pb-16">
         <div className="text-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="mt-4 text-muted-foreground">Loading...</p>
+          <p className="mt-4 text-muted-foreground">{t("common.loading")}</p>
         </div>
       </div>
     );
@@ -76,7 +78,7 @@ const About = () => {
         <SectionReveal>
           <div className="mb-14 text-center">
             <h1 className="mb-4 text-[clamp(2rem,7vw,3.5rem)] font-bold leading-tight text-balance">
-              Our <span className="bg-gradient-primary bg-clip-text text-transparent">Story</span>
+              {t("aboutPage.title").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("aboutPage.title").split(' ').slice(1).join(' ')}</span>
             </h1>
             <p className="mx-auto max-w-2xl text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed text-balance">
               {aboutIntroParagraph}
@@ -88,7 +90,7 @@ const About = () => {
           {/* Bio */}
           <SectionReveal delay={0.1}>
             <div className="space-y-6">
-              <h2 className="text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">Meet {founderName}</h2>
+              <h2 className="text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">{t("aboutPage.meetFounder", { founderName })}</h2>
               <TextType
                 className="text-[clamp(1rem,3.3vw,1.1rem)] leading-relaxed"
                 text={founderBio}
@@ -102,7 +104,7 @@ const About = () => {
                   >
                     <Button variant="outline" size="lg" className="w-full sm:w-auto">
                       <Instagram className="mr-2 h-5 w-5" />
-                      Follow Marcelo
+                      {t("aboutPage.followMarcelo")}
                     </Button>
                   </a>
                 )}
@@ -110,7 +112,7 @@ const About = () => {
                   <a href={`mailto:${founderEmail}`}>
                     <Button variant="hero" size="lg" className="w-full sm:w-auto">
                       <Mail className="mr-2 h-5 w-5" />
-                      Email Marcelo
+                      {t("aboutPage.emailMarcelo")}
                     </Button>
                   </a>
                 )}
@@ -137,14 +139,14 @@ const About = () => {
         <SectionReveal delay={0.3}>
           <div className="mx-auto max-w-3xl mb-20">
             <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-              Professional <span className="bg-gradient-primary bg-clip-text text-transparent">Experience</span>
+              {t("aboutPage.professionalExperience").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("aboutPage.professionalExperience").split(' ').slice(1).join(' ')}</span>
             </h2>
             {experienceLoading ? (
               <TimelineSkeleton />
             ) : experienceTimeline.length > 0 ? (
               <StepperTimeline steps={experienceTimeline} />
             ) : (
-              <p className="text-center text-muted-foreground">No professional experience listed yet.</p>
+              <p className="text-center text-muted-foreground">{t("common.noExperiencesYet")}</p>
             )}
           </div>
         </SectionReveal>
@@ -153,7 +155,7 @@ const About = () => {
         <SectionReveal delay={0.4}>
           <div className="mx-auto max-w-4xl mb-20">
             <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-              Technical <span className="bg-gradient-primary bg-clip-text text-transparent">Skills</span>
+              {t("aboutPage.technicalSkills").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("aboutPage.technicalSkills").split(' ').slice(1).join(' ')}</span>
             </h2>
             {skillsLoading ? (
               <div className="flex flex-wrap justify-center gap-3">
@@ -172,7 +174,7 @@ const About = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-center text-muted-foreground">No skills defined yet.</p>
+              <p className="text-center text-muted-foreground">{t("common.noSkillsYet")}</p>
             )}
           </div>
         </SectionReveal>
@@ -181,7 +183,7 @@ const About = () => {
         <SectionReveal delay={0.5}>
           <div className="mx-auto max-w-4xl mb-20">
             <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-              Our <span className="bg-gradient-primary bg-clip-text text-transparent">Cultural Context</span>
+              {t("aboutPage.culturalContext").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("aboutPage.culturalContext").split(' ').slice(1).join(' ')}</span>
             </h2>
             {culturalContextLoading ? (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -197,7 +199,7 @@ const About = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-center text-muted-foreground">No cultural context defined yet.</p>
+              <p className="text-center text-muted-foreground">{t("common.noCulturalContextYet")}</p>
             )}
           </div>
         </SectionReveal>
@@ -206,21 +208,21 @@ const About = () => {
         <SectionReveal delay={0.6}>
           <div className="mx-auto max-w-6xl">
             <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-              Our <span className="bg-gradient-primary bg-clip-text text-transparent">Projects</span>
+              {t("aboutPage.ourProjects").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("aboutPage.ourProjects").split(' ').slice(1).join(' ')}</span>
             </h2>
             {projectsLoading ? (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {[1, 2, 3].map(i => <ArtworkSkeleton key={i} />)}
+                {[1, 2, 3].map(i => <ProjectSkeleton key={i} />)}
               </div>
             ) : projects && projects.length > 0 ? (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project, index) => (
                   <SectionReveal key={project.slug} delay={index * 0.05}>
-                    <Link to={project.url || project.repo_url || "#"} target="_blank" rel="noopener noreferrer" className="block h-full">
+                    <Link to={`/projects/${project.slug}`} className="block h-full">
                       <PixelCard
                         imageUrl={project.thumbnail || "/brand/placeholder.svg"}
                         title={project.name}
-                        subtitle={project.summary || "No summary provided."}
+                        subtitle={project.summary || t("repositoryDetailPage.noDescriptionProvided")}
                         footer={
                           <div className="flex flex-col gap-2">
                             <div className="flex flex-wrap gap-2">
@@ -235,7 +237,7 @@ const About = () => {
                             </p>
                             {project.url && (
                               <Button variant="outline" size="sm" className="w-full mt-2">
-                                View Live <ArrowRight className="h-4 w-4 ml-2" />
+                                {t("common.viewLiveDemo")} <ArrowRight className="h-4 w-4 ml-2" />
                               </Button>
                             )}
                           </div>
@@ -248,14 +250,14 @@ const About = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-center text-muted-foreground">No projects listed yet.</p>
+              <p className="text-center text-muted-foreground">{t("common.noProjectsFound")}</p>
             )}
             
             {projects.length > 6 && (
               <div className="mt-12 text-center">
-                <Link to="/repositories">
+                <Link to="/portfolio">
                   <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                    View All Projects
+                    {t("aboutPage.viewAllProjects")}
                     <ArrowRight className="h-5 w-5 ml-2" />
                   </Button>
                 </Link>

@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Search, Globe, Code } from "lucide-react"; // Added Code icon
 import { RollingGallery } from "@/components/reactbits/RollingGallery";
 import { PixelCard } from "@/components/reactbits/PixelCard";
-import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
+import { ProjectSkeleton } from "@/components/ProjectSkeleton"; // Updated import
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { FlowingMenu } from "@/components/reactbits/FlowingMenu";
@@ -133,7 +133,7 @@ const Portfolio = () => {
         {projectsLoading ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <ArtworkSkeleton key={i} />
+              <ProjectSkeleton key={i} />
             ))}
           </div>
         ) : projects.length > 0 ? (
