@@ -26,10 +26,24 @@ export interface Repository {
   owner_login: string;
 }
 
+const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_API_TOKEN;
+
 const fetchGitHubRepos = async (org: string): Promise<GitHubRepo[]> => {
-  const response = await fetch(`https://api.github.com/users/${org}/repos?per_page=100`);
+  const headers: HeadersInit = {};
+  if (GITHUB_TOKEN) {
+    headers['Authorization'] = `token ${GITHUB_TOKEN}`;
+  }
+
+  const response = await fetch(`https://api.github.com/users/${org}/repos?per_page=100`, { headers });
   if (!response.ok) {
-    throw new Error(`Failed to fetch repositories from ${org}`);
+    // Check if it's a rate limit error specifically
+    if (response.status === 403) {
+      const errorBody = await response.json();
+      if (errorBody.message.includes("rate limit exceeded")) {
+        throw new Error(`GitHub API rate limit exceeded. Please use a VITE_GITHUB_API_TOKEN.`);
+      }
+    }
+    throw new Error(`Failed to fetch repositories from ${org}: ${response.statusText}`);
   }
   return response.json();
 };
@@ -38,7 +52,7 @@ interface UseRepositoriesOptions {
   owner?: "marcelo-m7" | "Monynha-Softwares" | "all";
 }
 
-export const useRepositories = (options?: UseRepositoriesOptions) => {
+export const useRepositories = (options: UseRepositoriesOptions = {}) => {
   return useQuery<Repository[], Error>({
     queryKey: ["githubRepositories", options?.owner],
     queryFn: async () => {

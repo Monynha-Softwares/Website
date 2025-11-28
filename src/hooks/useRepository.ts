@@ -38,10 +38,24 @@ export interface RepositoryDetailData {
   ownerHtmlUrl: string;
 }
 
+const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_API_TOKEN;
+
 const fetchGitHubRepoDetail = async (owner: string, repoName: string): Promise<GitHubRepoDetail> => {
-  const response = await fetch(`https://api.github.com/repos/${owner}/${repoName}`);
+  const headers: HeadersInit = {};
+  if (GITHUB_TOKEN) {
+    headers['Authorization'] = `token ${GITHUB_TOKEN}`;
+  }
+
+  const response = await fetch(`https://api.github.com/repos/${owner}/${repoName}`, { headers });
   if (!response.ok) {
-    throw new Error(`Failed to fetch repository details for ${owner}/${repoName}`);
+    // Check if it's a rate limit error specifically
+    if (response.status === 403) {
+      const errorBody = await response.json();
+      if (errorBody.message.includes("rate limit exceeded")) {
+        throw new Error(`GitHub API rate limit exceeded. Please use a VITE_GITHUB_API_TOKEN.`);
+      }
+    }
+    throw new Error(`Failed to fetch repository details for ${owner}/${repoName}: ${response.statusText}`);
   }
   return response.json();
 };
