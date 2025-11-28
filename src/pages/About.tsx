@@ -15,7 +15,7 @@ import { useBrandIdentity } from "@/hooks/useBrandIdentity";
 import { useNarrativeBlock } from "@/hooks/useNarrativeBlocks";
 import { useCulturalContext } from "@/hooks/useCulturalContext";
 import { usePages } from "@/hooks/usePages";
-import { useMissionStatements } from "@/hooks/useMissionStatements"; // NEW IMPORT
+import { useMissionStatements } from "@/hooks/useMissionStatements";
 import { useTranslation } from "react-i18next";
 import type { Page } from "@/integrations/supabase/supabase.types";
 
@@ -39,8 +39,8 @@ const About = () => {
   const { data: skills = [], isLoading: skillsLoading, error: skillsError } = useSkills();
   const { data: brandIdentity } = useBrandIdentity();
   const { data: aboutIntroBlock } = useNarrativeBlock("about_intro_paragraph");
-  const { data: culturalContext, isLoading: culturalContextLoading } = useCulturalContext();
-  const { data: missionStatements = [], isLoading: missionLoading } = useMissionStatements(); // NEW FETCH
+  const { data: culturalContext = [], isLoading: culturalContextLoading } = useCulturalContext();
+  const { data: missionStatements = [], isLoading: missionLoading } = useMissionStatements();
 
   const contactInfo = useSiteSetting<{ email?: string; instagram?: string; availability?: string; note?: string }>('contact_info', {});
   
@@ -151,97 +151,97 @@ const About = () => {
         </div>
 
         {/* Experience Timeline */}
-        <SectionReveal delay={0.3}>
-          <div className="mx-auto max-w-3xl mb-20">
-            <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-              {pageContent.exhibitions_title || t("aboutPage.professionalExperience").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{pageContent.exhibitions_title ? "" : t("aboutPage.professionalExperience").split(' ').slice(1).join(' ')}</span>
-            </h2>
-            {experienceLoading ? (
-              <TimelineSkeleton />
-            ) : experienceTimeline.length > 0 ? (
-              <StepperTimeline steps={experienceTimeline} />
-            ) : (
-              <p className="text-center text-muted-foreground">{t("common.noExperiencesYet")}</p>
-            )}
-          </div>
-        </SectionReveal>
+        {(experienceLoading || (experiences && experiences.length > 0)) && (
+          <SectionReveal delay={0.3}>
+            <div className="mx-auto max-w-3xl mb-20">
+              <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
+                {pageContent.exhibitions_title || t("aboutPage.professionalExperience").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{pageContent.exhibitions_title ? "" : t("aboutPage.professionalExperience").split(' ').slice(1).join(' ')}</span>
+              </h2>
+              {experienceLoading ? (
+                <TimelineSkeleton />
+              ) : (
+                <StepperTimeline steps={experienceTimeline} />
+              )}
+            </div>
+          </SectionReveal>
+        )}
 
         {/* Skills Section */}
-        <SectionReveal delay={0.4}>
-          <div className="mx-auto max-w-4xl mb-20">
-            <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-              {pageContent.skills_title || t("aboutPage.technicalSkills").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{pageContent.skills_title ? "" : t("aboutPage.technicalSkills").split(' ').slice(1).join(' ')}</span>
-            </h2>
-            {skillsLoading ? (
-              <div className="flex flex-wrap justify-center gap-3">
-                {[1, 2, 3, 4, 5].map(i => <div key={i} className="h-8 w-24 rounded-full bg-surface-2 animate-pulse" />)}
-              </div>
-            ) : skills && skills.length > 0 ? (
-              <div className="flex flex-wrap justify-center gap-3">
-                {skills.map((skill, index) => (
-                  <Badge
-                    key={index}
-                    variant="secondary"
-                    className="px-4 py-2 text-sm font-medium rounded-full"
-                  >
-                    {skill.name} ({skill.level})
-                  </Badge>
-                ))}
-              </div>
-            ) : (
-              <p className="text-center text-muted-foreground">{t("common.noSkillsYet")}</p>
-            )}
-          </div>
-        </SectionReveal>
+        {(skillsLoading || (skills && skills.length > 0)) && (
+          <SectionReveal delay={0.4}>
+            <div className="mx-auto max-w-4xl mb-20">
+              <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
+                {pageContent.skills_title || t("aboutPage.technicalSkills").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{pageContent.skills_title ? "" : t("aboutPage.technicalSkills").split(' ').slice(1).join(' ')}</span>
+              </h2>
+              {skillsLoading ? (
+                <div className="flex flex-wrap justify-center gap-3">
+                  {[1, 2, 3, 4, 5].map(i => <div key={i} className="h-8 w-24 rounded-full bg-surface-2 animate-pulse" />)}
+                </div>
+              ) : (
+                <div className="flex flex-wrap justify-center gap-3">
+                  {skills.map((skill, index) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="px-4 py-2 text-sm font-medium rounded-full"
+                    >
+                      {skill.name} ({skill.level})
+                    </Badge>
+                  ))}
+                </div>
+              )}
+            </div>
+          </SectionReveal>
+        )}
         
         {/* Mission Statements Section */}
-        <SectionReveal delay={0.5}>
-          <div className="mx-auto max-w-4xl mb-20">
-            <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-              {t("aboutPage.ourMission").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("aboutPage.ourMission").split(' ').slice(1).join(' ')}</span>
-            </h2>
-            {missionLoading ? (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                {[1, 2, 3].map(i => <div key={i} className="h-20 rounded-lg border border-border/70 bg-surface-2/60 animate-pulse" />)}
-              </div>
-            ) : missionStatements && missionStatements.length > 0 ? (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                {missionStatements.map((mission, index) => (
-                  <div key={mission.id} className="rounded-lg border border-border/70 bg-surface-2/60 p-6 backdrop-blur-xl">
-                    <p className="text-fluid-lg font-semibold text-foreground">{mission.statement}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-center text-muted-foreground">{t("common.noMissionStatementsYet")}</p>
-            )}
-          </div>
-        </SectionReveal>
+        {(missionLoading || (missionStatements && missionStatements.length > 0)) && (
+          <SectionReveal delay={0.5}>
+            <div className="mx-auto max-w-4xl mb-20">
+              <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
+                {t("aboutPage.ourMission").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("aboutPage.ourMission").split(' ').slice(1).join(' ')}</span>
+              </h2>
+              {missionLoading ? (
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                  {[1, 2, 3].map(i => <div key={i} className="h-20 rounded-lg border border-border/70 bg-surface-2/60 animate-pulse" />)}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                  {missionStatements.map((mission, index) => (
+                    <div key={mission.id} className="rounded-lg border border-border/70 bg-surface-2/60 p-6 backdrop-blur-xl">
+                      <p className="text-fluid-lg font-semibold text-foreground">{mission.statement}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </SectionReveal>
+        )}
 
         {/* Cultural Context Section */}
-        <SectionReveal delay={0.6}>
-          <div className="mx-auto max-w-4xl mb-20">
-            <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
-              {t("aboutPage.culturalContext").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("aboutPage.culturalContext").split(' ').slice(1).join(' ')}</span>
-            </h2>
-            {culturalContextLoading ? (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                {[1, 2].map(i => <div key={i} className="h-32 rounded-lg border border-border/70 bg-surface-2/60 animate-pulse" />)}
-              </div>
-            ) : culturalContext && culturalContext.length > 0 ? (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                {culturalContext.map((context, index) => (
-                  <div key={context.id} className="rounded-lg border border-border/70 bg-surface-2/60 p-6 backdrop-blur-xl">
-                    <h3 className="mb-2 text-fluid-lg font-semibold text-foreground">{context.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{context.description}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-center text-muted-foreground">{t("common.noCulturalContextYet")}</p>
-            )}
-          </div>
-        </SectionReveal>
+        {(culturalContextLoading || (culturalContext && culturalContext.length > 0)) && (
+          <SectionReveal delay={0.6}>
+            <div className="mx-auto max-w-4xl mb-20">
+              <h2 className="mb-8 text-center text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">
+                {t("aboutPage.culturalContext").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("aboutPage.culturalContext").split(' ').slice(1).join(' ')}</span>
+              </h2>
+              {culturalContextLoading ? (
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                  {[1, 2].map(i => <div key={i} className="h-32 rounded-lg border border-border/70 bg-surface-2/60 animate-pulse" />)}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                  {culturalContext.map((context, index) => (
+                    <div key={context.id} className="rounded-lg border border-border/70 bg-surface-2/60 p-6 backdrop-blur-xl">
+                      <h3 className="mb-2 text-fluid-lg font-semibold text-foreground">{context.title}</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{context.description}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </SectionReveal>
+        )}
       </div>
     </div>
   );
