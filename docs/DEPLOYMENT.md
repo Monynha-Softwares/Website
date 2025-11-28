@@ -84,31 +84,7 @@ Vercel offers frictionless builds for Vite + React projects.
 
 1. Run `npm run build`
 2. Upload the generated `dist/` directory to your preferred static host.
-3. **Important**: Since `BrowserRouter` is used, the server **must** be configured to serve `index.html` for all routes that do not match a static file (history fallback).
-
-#### Nginx Configuration for Static Hosting (BrowserRouter)
-
-```nginx
-server {
-    listen 80;
-    server_name yourdomain.com;
-
-    # Set the root directory to your built application files (e.g., /var/www/monynha/dist)
-    root /path/to/your/dist; 
-    index index.html;
-
-    location / {
-        # If the file or directory does not exist, fall back to index.html
-        try_files $uri $uri/ /index.html;
-    }
-
-    # Optional: Cache static assets for better performance
-    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
-        expires 1y;
-        log_not_found off;
-    }
-}
-```
+3. **Note**: Since HashRouter is used, no special server configuration is required for routing.
 
 ---
 
@@ -118,8 +94,8 @@ server {
 - ✅ Environment variables are present in production
 - ✅ Supabase database and Storage policies permit your domain
 - ✅ Lighthouse reports no missing favicon/manifest warnings
-- ✅ Server is configured for history fallback (e.g., `try_files $uri $uri/ /index.html;` in Nginx)
+- ✅ Routing works correctly using hash URLs (e.g., `/index.html#/about`)
 
 ---
 
-**Project note:** Monynha Softwares website uses `BrowserRouter` for cleaner URLs and better SEO. Ensure your hosting environment supports history fallback.
+**Project note:** Monynha Softwares website uses `HashRouter` for compatibility with simple static hosting environments.
