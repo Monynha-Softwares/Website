@@ -80,13 +80,38 @@ Vercel offers frictionless builds for Vite + React projects.
 
 ---
 
-### Option 3: Static File Hosting (Any CDN)
+### Option 3: Static File Hosting (Any CDN / Nginx)
 
 1. Run `npm run build`
-2. Upload the generated `dist/` directory to your preferred static host (Cloudflare Pages, S3 + CloudFront, Render, etc.)
-3. **Important for `HashRouter` (current setup)**: No special server configuration is needed as all routes will be prefixed with `#`.
-4. **If using `BrowserRouter` (requires server configuration)**: Ensure the host serves `index.html` for all SPA routes (fallback routing). This means any request that doesn't match a static file should fall back to serving `index.html`.
-5. Set the same Supabase environment variables on the hosting platform
+2. Upload the generated `dist/` directory to your preferred static host.
+3. **Crucial for BrowserRouter**: You must configure the server to serve `index.html` for all SPA routes (history fallback).
+
+#### Nginx Configuration for SPA Fallback
+
+If you are using Nginx, you must include the `try_files` directive in your server block:
+
+```nginx
+server {
+    listen 80;
+    server_name yourdomain.com;
+
+    # Set the root directory to your built application files (e.g., /var/www/monynha/dist)
+    root /path/to/your/dist; 
+    index index.html;
+
+    location / {
+        # This directive checks for a file ($uri), then a directory ($uri/), 
+        # and if neither is found, it falls back to serving /index.html.
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Optional: Cache static assets for better performance
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+        expires 1y;
+        log_not_found off;
+    }
+}
+```
 
 ---
 
