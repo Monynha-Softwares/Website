@@ -194,7 +194,7 @@ export const GooeyNav = () => {
                           : "text-muted-foreground hover:text-foreground",
                       )}
                     >
-                      {t(link.label)} {/* Use translation key */}
+                      {t(link.label)}
                     </Link>
                     {isActive(link.href) && (
                       <motion.span
@@ -216,20 +216,20 @@ export const GooeyNav = () => {
                       <Link to="/admin">
                         <Button variant="ghost" size="sm" className="gap-2">
                           <User className="h-4 w-4" />
-                          {t("common.admin")} {/* Use translation key */}
+                          {t("common.admin")}
                         </Button>
                       </Link>
                     )}
                     <Button variant="ghost" size="sm" onClick={() => signOut()} className="gap-2">
                       <LogOut className="h-4 w-4" />
-                      {t("common.logout")} {/* Use translation key */}
+                      {t("common.logout")}
                     </Button>
                   </div>
                 ) : (
                   <Link to="/auth" className="ml-2 border-l border-border/50 pl-2">
                     <Button variant="ghost" size="sm" className="gap-2">
                       <LogIn className="h-4 w-4" />
-                      {t("common.login")} {/* Use translation key */}
+                      {t("common.login")}
                     </Button>
                   </Link>
                 )}
@@ -268,7 +268,7 @@ export const GooeyNav = () => {
                 </div>
                 <FlowingMenu
                   items={[
-                    ...dynamicLinks.map(link => ({ ...link, label: t(link.label) })), // Translate labels for FlowingMenu
+                    ...dynamicLinks.map(link => ({ ...link, label: t(link.label) })),
                     ...(user
                       ? isAdmin
                         ? [{ href: "/admin", label: t("common.admin"), accent: "linear-gradient(135deg, rgba(99, 102, 241, 0.7), rgba(168, 85, 247, 0.7))" }]
@@ -282,10 +282,7 @@ export const GooeyNav = () => {
                   itemRole="menuitem"
                   authAction={user ? { label: t("common.logout"), onClick: signOut } : undefined}
                 />
-                {/* Language Switcher for Mobile */}
-                <div className="flex justify-center bg-surface-1/95 px-6 pt-3">
-                  <LanguageSwitcher className="w-full max-w-[200px]" />
-                </div>
+                {/* Moved the close button div BEFORE the Language Switcher div */}
                 <div className="flex justify-end bg-surface-1/95 px-6 pb-4 pt-3">
                   <Button
                     type="button"
@@ -295,8 +292,12 @@ export const GooeyNav = () => {
                     onClick={closeMenu}
                   >
                     <X className="h-4 w-4" aria-hidden="true" />
-                    {t("common.closeMenu")} {/* Use translation key */}
+                    {t("common.closeMenu")}
                   </Button>
+                </div>
+                {/* Language Switcher for Mobile - now at the very bottom */}
+                <div className="flex justify-center bg-surface-1/95 px-6 pb-4 pt-3 border-t border-border/60">
+                  <LanguageSwitcher className="w-full max-w-[200px]" />
                 </div>
               </motion.section>
             )}
