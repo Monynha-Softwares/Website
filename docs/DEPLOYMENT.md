@@ -48,7 +48,7 @@ Vercel offers frictionless builds for Vite + React projects.
 
 5.  **Deploy**
     - Click **Deploy**
-    - Vercel builds and deploys automatically
+    - Vercel builds and deploys automatically (Vercel automatically handles history fallback for SPAs)
     - Access the site at `<project>.vercel.app`
 
 6.  **Custom domain (optional)**
@@ -73,7 +73,7 @@ Vercel offers frictionless builds for Vite + React projects.
 
 4.  **Deploy**
     - Trigger a deploy from the UI or push to the default branch
-    - Netlify serves the static build from its CDN
+    - Netlify serves the static build from its CDN (Netlify automatically handles history fallback for SPAs)
 
 5.  **Domain management**
     - Use Netlify DNS or configure external DNS for a custom domain
@@ -84,11 +84,9 @@ Vercel offers frictionless builds for Vite + React projects.
 
 1. Run `npm run build`
 2. Upload the generated `dist/` directory to your preferred static host.
-3. **Note**: Since `HashRouter` is used, no special server configuration is required for routing stability. The server only needs to serve `index.html` for the root path (`/`).
+3. **Important**: Since `BrowserRouter` is used, the server **must** be configured to serve `index.html` for all routes that do not match a static file (history fallback).
 
-#### Nginx Configuration for Static Hosting (HashRouter)
-
-If you are using Nginx, the configuration is simpler as the hash (`#`) is ignored by the server:
+#### Nginx Configuration for Static Hosting (BrowserRouter)
 
 ```nginx
 server {
@@ -100,7 +98,7 @@ server {
     index index.html;
 
     location / {
-        # Ensure index.html is served for the root path
+        # If the file or directory does not exist, fall back to index.html
         try_files $uri $uri/ /index.html;
     }
 
@@ -120,8 +118,8 @@ server {
 - ✅ Environment variables are present in production
 - ✅ Supabase database and Storage policies permit your domain
 - ✅ Lighthouse reports no missing favicon/manifest warnings
-- ✅ Error monitoring (Sentry, Logtail, etc.) is connected if required
+- ✅ Server is configured for history fallback (e.g., `try_files $uri $uri/ /index.html;` in Nginx)
 
 ---
 
-**Project note:** Monynha Softwares website uses `HashRouter` for routing stability across various hosting environments. Deployments mirror standard Vite static site workflows across Vercel, Netlify, and other CDNs.
+**Project note:** Monynha Softwares website uses `BrowserRouter` for cleaner URLs and better SEO. Ensure your hosting environment supports history fallback.

@@ -3,13 +3,9 @@ import { supabase } from "@/integrations/supabase/client";
 import type { BlogPost } from "@/integrations/supabase/supabase.types";
 
 export const useBlogPosts = (slug?: string) => {
-  // Removed useTranslation and locale logic to fetch all posts regardless of language
-
   return useQuery<BlogPost[], Error>({
-    queryKey: ["blogPosts", slug], // Removed currentLocale from key
+    queryKey: ["blogPosts", slug],
     queryFn: async () => {
-      // Removed supabase.rpc('set_current_locale', ...) call
-
       let query = supabase
         .from("blog_posts")
         .select("*")
@@ -34,13 +30,9 @@ export const useBlogPosts = (slug?: string) => {
 };
 
 export const useBlogPost = (slug: string) => {
-  // Removed useTranslation and locale logic to fetch all posts regardless of language
-
   return useQuery<BlogPost | null, Error>({
-    queryKey: ["blogPost", slug], // Removed currentLocale from key
+    queryKey: ["blogPost", slug],
     queryFn: async () => {
-      // Removed supabase.rpc('set_current_locale', ...) call
-
       const { data, error } = await supabase
         .from("blog_posts")
         .select("*")
