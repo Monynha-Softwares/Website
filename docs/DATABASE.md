@@ -248,13 +248,13 @@ Sets the session variable for the current locale, used by RLS policies for multi
 ### `artwork-images`
 
 - **Public**: Yes
-- **Purpose**: Creative works cover images and galleries
+- **Purpose**: Legacy bucket for creative works cover images and galleries
 - **RLS**: Public SELECT, admin-only INSERT/UPDATE/DELETE
 
 ### `general-media`
 
 - **Public**: Yes  
-- **Purpose**: Other site assets (icons, backgrounds, etc.)
+- **Purpose**: Project thumbnails and other site assets (icons, backgrounds, etc.)
 - **RLS**: Public SELECT, admin-only INSERT/UPDATE/DELETE
 
 ---

@@ -6,6 +6,7 @@ This guide will help you set up the Monynha Softwares corporate website locally 
 
 - Node.js 18+ and npm
 - Supabase project (database + auth already provisioned)
+- Supabase CLI installed locally
 
 ## Local Development Setup
 
@@ -34,10 +35,9 @@ VITE_SUPABASE_PROJECT_ID=<your-project-id>
 Migrations live in `supabase/migrations/` and can be applied via the Supabase CLI:
 
 ```bash
+# Resets local database and applies all migrations and seeds
 supabase db reset
 ```
-
-This command recreates the local database and runs migrations.
 
 **Regenerate Supabase Types:**
 After any schema changes or `supabase db reset`, ensure your TypeScript types are up-to-date by running:
@@ -50,7 +50,7 @@ npx supabase gen types typescript --schema public > src/integrations/supabase/ty
 After signing up through the `/auth` page, manually assign the admin role:
 
 1. Sign up with your email at `/auth`
-2. Find your user ID from the `profiles` table
+2. Find your user ID from the `profiles` table (or `auth.users` table in Supabase dashboard)
 3. Run this SQL in the Supabase SQL Editor:
 
 ```sql
@@ -79,14 +79,15 @@ Configure auth settings via the Supabase dashboard:
 4. Add Redirect URLs:
    - `http://localhost:5173` (development)
    - `https://yourdomain.com` (production)
+   - `https://yourdomain.com/reset-password` (for password reset flow)
 5. Optional: Enable email confirmations for production
 
 ### Storage Buckets
 
 Two storage buckets are pre-configured:
 
-- `artwork-images`: Public bucket for portfolio images
-- `general-media`: Public bucket for other media files
+- `artwork-images`: Public bucket for legacy images (use `general-media` for new projects)
+- `general-media`: Public bucket for project thumbnails and other media files
 
 Upload images via the Supabase dashboard or the Supabase CLI. Ensure Storage policies grant public read access where needed.
 

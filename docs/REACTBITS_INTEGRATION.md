@@ -146,7 +146,7 @@ Following React Bits best practices:
 **Location:** `src/components/reactbits/RollingGallery.tsx`
 
 **Usage:**
-- **Portfolio Page** - Horizontal carousel for featured works (top section)
+- **Portfolio Page** - Horizontal carousel for featured projects (top section)
 
 **Features:**
 - Smooth horizontal scrolling
@@ -265,7 +265,7 @@ Following React Bits best practices:
 
 ### Portfolio Page (`src/pages/Portfolio.tsx`)
 **React Bits Components Used: 2**
-1. **RollingGallery** - Featured works carousel
+1. **RollingGallery** - Featured projects carousel
 2. **PixelCard** - Grid items (counts as 1 component type even with multiple instances)
 
 **Performance:** Within guideline, grid uses same component multiple times
