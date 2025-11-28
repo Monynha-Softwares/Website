@@ -20,10 +20,13 @@ import { cn } from "@/lib/utils";
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
 interface ChartTooltipProps
-  extends React.ComponentPropsWithoutRef<typeof RechartsPrimitive.Tooltip> {
+  extends React.ComponentPropsWithoutRef<"div"> { // Extend div props for the wrapper
+  active?: boolean;
+  payload?: RechartsPrimitive.TooltipProps['payload']; // Use Recharts' payload type
+  label?: RechartsPrimitive.TooltipProps['label']; // Use Recharts' label type
+  formatter?: RechartsPrimitive.TooltipProps['formatter'];
+  labelFormatter?: RechartsPrimitive.TooltipProps['labelFormatter'];
   hideIndicator?: boolean;
-  payload?: any[]; // Explicitly define payload
-  label?: any; // Explicitly define label
 }
 
 const ChartTooltipContent = React.forwardRef<
@@ -56,7 +59,7 @@ const ChartTooltipContent = React.forwardRef<
         >
           {label ? (
             <div className="mb-2 flex h-6 items-center border-b border-border pb-2 text-muted-foreground">
-              {labelFormatter ? labelFormatter(label) : label}
+              {labelFormatter ? labelFormatter(label, payload) : label}
             </div>
           ) : null}
           <div className="grid gap-2">
@@ -94,8 +97,9 @@ ChartTooltipContent.displayName = "ChartTooltipContent";
 const ChartLegend = RechartsPrimitive.Legend;
 
 interface ChartLegendProps
-  extends React.ComponentPropsWithoutRef<"div">,
-    Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> {
+  extends React.ComponentPropsWithoutRef<"div"> { // Extend div props for the wrapper
+  payload?: RechartsPrimitive.LegendProps['payload']; // Use Recharts' payload type
+  verticalAlign?: RechartsPrimitive.LegendProps['verticalAlign'];
   hideIcon?: boolean;
 }
 
