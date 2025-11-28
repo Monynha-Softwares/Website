@@ -12,6 +12,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import type { Skill } from "@/integrations/supabase/supabase.types";
+import { AdminFormDialog } from "@/components/admin/AdminFormDialog";
+import { useAdminForm } from "@/hooks/useAdminForm"; // Import useAdminForm
 
 const SkillsManager = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -67,28 +69,22 @@ const SkillsManager = () => {
             </Link>
             <h1 className="text-4xl font-bold">Manage Skills</h1>
           </div>
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={() => setEditingSkill(null)}>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Skill
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>{editingSkill ? "Edit" : "Add"} Skill</DialogTitle>
-              </DialogHeader>
-              <SkillForm
-                skill={editingSkill}
-                onSuccess={() => {
-                  setIsDialogOpen(false);
-                  setEditingSkill(null);
-                  queryClient.invalidateQueries({ queryKey: ["admin-skills"] });
-                  queryClient.invalidateQueries({ queryKey: ["skills"] });
-                }}
-              />
-            </DialogContent>
-          </Dialog>
+          <AdminFormDialog
+            title="Skill"
+            triggerLabel="Add Skill"
+            isOpen={isDialogOpen}
+            onOpenChange={setIsDialogOpen}
+            onTriggerClick={() => setEditingSkill(null)}
+            isEditing={!!editingSkill}
+          >
+            <SkillForm
+              skill={editingSkill}
+              onSuccess={() => {
+                setIsDialogOpen(false);
+                setEditingSkill(null);
+              }}
+            />
+          </AdminFormDialog>
         </div>
 
         <div className="grid gap-4">
@@ -140,47 +136,32 @@ interface SkillFormProps {
   onSuccess: () => void;
 }
 
+interface SkillFormData {
+  name: string;
+  category: string;
+  level: string;
+  display_order: number;
+}
+
 const SkillForm = ({ skill, onSuccess }: SkillFormProps) => {
-  const [formData, setFormData] = useState({
-    name: skill?.name || "",
-    category: skill?.category || "",
-    level: skill?.level || "Intermediate",
-    display_order: skill?.display_order || 0,
+  const { formData, setFormData, handleSubmit, isPending } = useAdminForm<SkillFormData, "skills">({
+    tableName: "skills",
+    id: skill?.id,
+    initialData: {
+      name: skill?.name || "",
+      category: skill?.category || "",
+      level: skill?.level || "Intermediate",
+      display_order: skill?.display_order || 0,
+    },
+    transformToPayload: (data) => ({
+      name: data.name,
+      category: data.category,
+      level: data.level,
+      display_order: data.display_order,
+    }),
+    queryKeysToInvalidate: ["admin-skills", "skills"],
+    onSuccessCallback: onSuccess,
   });
-
-  const mutation = useMutation<void, Error, typeof formData>({
-    mutationFn: async (data: typeof formData) => {
-      const payload: Omit<Skill, "id" | "created_at" | "updated_at"> = {
-        name: data.name,
-        category: data.category,
-        level: data.level,
-        display_order: data.display_order,
-      };
-
-      if (skill) {
-        const { error } = await supabase
-          .from("skills")
-          .update(payload)
-          .eq("id", skill.id);
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.from("skills").insert([payload]);
-        if (error) throw error;
-      }
-    },
-    onSuccess: () => {
-      toast.success(`Skill ${skill ? "updated" : "created"} successfully`);
-      onSuccess();
-    },
-    onError: (err) => {
-      toast.error(`Failed to ${skill ? "update" : "create"} skill: ${err.message}`);
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    mutation.mutate(formData);
-  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -229,8 +210,8 @@ const SkillForm = ({ skill, onSuccess }: SkillFormProps) => {
         />
       </div>
 
-      <Button type="submit" disabled={mutation.isPending}>
-        {mutation.isPending ? "Saving..." : skill ? "Update" : "Create"}
+      <Button type="submit" disabled={isPending}>
+        {isPending ? "Saving..." : skill ? "Update" : "Create"}
       </Button>
     </form>
   );

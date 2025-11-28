@@ -101,14 +101,14 @@ This document provides a comprehensive analysis of issues found in the Monynha S
 - **Location**: Contact form logic in `src/pages/Contact.tsx` and admin forms
 - **Impact**: Increases maintenance burden and potential for inconsistencies
 - **Recommendation**: Extract common logic into reusable hooks or utility functions
-- **Status**: **Partially Addressed**. A generic `useAdminForm` hook has been created and implemented in `BlogPostForm`, `ArtworkForm`, and `ExhibitionForm` to centralize form state and Supabase mutation logic. `ExperiencesManager` has also been refactored to use `useAdminForm`. Further forms will be refactored in subsequent steps.
+- **Status**: **Partially Addressed**. A generic `useAdminForm` hook has been created and implemented in `BlogPostForm`, `ArtworkForm`, and `ExhibitionForm` to centralize form state and Supabase mutation logic. `ExperiencesManager` and `SkillsManager` have also been refactored to use `useAdminForm`. Further forms will be refactored in subsequent steps.
 
 ### 5.2. Incomplete Admin Functionality
 - **Issue**: Some admin management pages lack full CRUD functionality
 - **Location**: Various admin pages in `src/pages/admin/`
 - **Impact**: Incomplete administrative capabilities
 - **Recommendation**: Implement complete CRUD operations for all admin entities
-- **Status**: **In Progress**. `ExperiencesManager` now uses `useAdminForm`. Next, `SkillsManager`, `LegalPagesManager`, and `SettingsManager` will be refactored.
+- **Status**: **In Progress**. `ExperiencesManager` and `SkillsManager` now use `useAdminForm`. Next, `LegalPagesManager` and `SettingsManager` will be refactored.
 
 ### 5.3. Broken Navigation Patterns
 - **Issue**: Inconsistent navigation patterns between mobile and desktop
@@ -186,6 +186,6 @@ This document provides a comprehensive analysis of issues found in the Monynha S
 - **Location**: Test files in `src/components/__tests__/` and `src/hooks/__tests__/`
 - **Impact**: Reduces confidence in the test suite
 - **Recommendation**: Fix flaky tests and improve test reliability
-- **Status**: **Pending**. This will be addressed in a future step.
+- **Status**: **Pending`. This will be addressed in a future step.
 
 This analysis identifies critical areas that need attention to ensure the Monynha Softwares website functions properly, maintains a consistent brand identity, and provides a professional user experience. Addressing these issues will significantly improve the quality, maintainability, and security of the codebase.
