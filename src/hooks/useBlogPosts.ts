@@ -52,6 +52,7 @@ export const useBlogPost = (slug: string) => {
         .select("*")
         .eq("slug", slug)
         .eq("locale", currentLocale) // Filter by locale
+        .eq("status", "published") // Explicitly enforce published status for public detail view
         .maybeSingle();
 
       if (error) throw error;
