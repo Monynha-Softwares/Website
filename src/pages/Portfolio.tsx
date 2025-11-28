@@ -3,38 +3,49 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { SectionReveal } from "@/components/SectionReveal";
 import { Input } from "@/components/ui/input";
-import { Search, Globe } from "lucide-react"; // Added Globe icon
+import { Search, Globe, Code } from "lucide-react"; // Added Code icon
 import { RollingGallery } from "@/components/reactbits/RollingGallery";
 import { PixelCard } from "@/components/reactbits/PixelCard";
-import { useArtworks } from "@/hooks/useArtworks";
 import { ArtworkSkeleton } from "@/components/ArtworkSkeleton";
-import { Button } from "@/components/ui/button"; // Import Button
-import { useIsMobile } from "@/hooks/use-mobile"; // Import useIsMobile hook
-import { FlowingMenu } from "@/components/reactbits/FlowingMenu"; // Import FlowingMenu
-import { useArtworkCategories } from "@/hooks/useArtworkCategories"; // Import useArtworkCategories
+import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { FlowingMenu } from "@/components/reactbits/FlowingMenu";
+import { useProjects } from "@/hooks/useProjects"; // Changed from useArtworks
+import { useTranslation } from "react-i18next"; // Import useTranslation
+import { Badge } from "@/components/ui/badge"; // Import Badge
 
 const Portfolio = () => {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all"); // New state for category
-  const isMobile = useIsMobile(); // Determine if on mobile
+  const [selectedCategory, setSelectedCategory] = useState("all"); // State for category filter (optional)
+  const isMobile = useIsMobile();
 
-  const { data: categories = [], isLoading: categoriesLoading } = useArtworkCategories();
-  const { data: artworks = [], isLoading: artworksLoading, error } = useArtworks({
+  // Fetch projects
+  const { data: projects = [], isLoading: projectsLoading, error } = useProjects({
     search: searchQuery,
-    category: selectedCategory, // Pass selected category to hook
+    category: selectedCategory === "all" ? undefined : selectedCategory,
   });
 
-  const featured = useMemo(() => artworks.slice(0, 4), [artworks]);
+  // Extract unique categories for filtering (client-side for simplicity)
+  const categories = useMemo(() => {
+    const uniqueCategories = new Set<string>();
+    projects.forEach(p => {
+      if (p.category) uniqueCategories.add(p.category);
+    });
+    return Array.from(uniqueCategories).sort();
+  }, [projects]);
+
+  const featured = useMemo(() => projects.filter(p => p.visibility === 'Public').slice(0, 4), [projects]);
 
   useEffect(() => {
-    document.title = "Portfolio • Monynha Softwares";
-  }, []);
+    document.title = `${t("common.portfolio")} • Monynha Softwares`;
+  }, [t]);
 
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center pt-24 pb-16 px-4">
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-2">Error Loading Portfolio</h2>
+          <h2 className="text-2xl font-bold mb-2">{t("common.errorLoadingContent")}</h2>
           <p className="text-muted-foreground">{error.message}</p>
         </div>
       </div>
@@ -42,17 +53,17 @@ const Portfolio = () => {
   }
 
   const categoryMenuItems = useMemo(() => {
-    const allCategories = [{ href: "#all", label: "All", accent: "hsl(var(--primary))" }];
+    const allCategories = [{ href: "#all", label: t("common.all"), accent: "hsl(var(--primary))" }];
     const dynamicCategories = categories.map(cat => ({
-      href: `#${cat.toLowerCase().replace(/\s/g, '-')}`, // Use hash for internal navigation
+      href: `#${cat.toLowerCase().replace(/\s/g, '-')}`,
       label: cat,
-      accent: "hsl(var(--secondary))" // Example accent color
+      accent: "hsl(var(--secondary))"
     }));
     return [...allCategories, ...dynamicCategories];
-  }, [categories]);
+  }, [categories, t]);
 
-  const handleCategoryClick = (item: { label: string }) => { // Updated to accept item object
-    setSelectedCategory(item.label === "All" ? "all" : item.label);
+  const handleCategoryClick = (item: { label: string }) => {
+    setSelectedCategory(item.label === t("common.all") ? "all" : item.label);
   };
 
   return (
@@ -62,23 +73,23 @@ const Portfolio = () => {
         <SectionReveal>
           <div className="mb-10 text-center">
             <h1 className="mb-4 text-[clamp(2rem,7vw,3.5rem)] font-bold leading-tight text-balance">
-              <span className="bg-gradient-primary bg-clip-text text-transparent">Portfolio</span>
+              <span className="bg-gradient-primary bg-clip-text text-transparent">{t("common.portfolio")}</span>
             </h1>
             <p className="mx-auto max-w-2xl text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed text-balance">
-              A collection of explorations in digital art, motion, and software development
+              {t("portfolioPage.subtitle")}
             </p>
           </div>
         </SectionReveal>
 
-        {!artworksLoading && featured.length > 0 && (
+        {!projectsLoading && featured.length > 0 && (
           <SectionReveal delay={0.05}>
             <RollingGallery
               items={featured.map((item) => ({
                 id: item.id,
-                title: item.title,
+                title: item.name,
                 subtitle: item.category,
-                imageUrl: item.cover_url,
-                href: `/art/${item.slug}`,
+                imageUrl: item.thumbnail || "/brand/placeholder.svg",
+                href: item.url || item.repo_url || "#", // Link to live URL or repo
                 footer: <span className="text-sm">{item.year}</span>,
               }))}
               speed={24}
@@ -93,7 +104,7 @@ const Portfolio = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Search creative works, projects, and tags..."
+                placeholder={t("portfolioPage.searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="h-12 rounded-full border-border bg-surface-1 shadow-sm pl-10"
@@ -103,60 +114,70 @@ const Portfolio = () => {
         </SectionReveal>
 
         {/* Category Filter (FlowingMenu) */}
-        {!categoriesLoading && categories.length > 0 && (
+        {!projectsLoading && categories.length > 0 && (
           <SectionReveal delay={0.15}>
             <div className="mb-10">
               <FlowingMenu
                 items={categoryMenuItems}
                 activeHref={`#${selectedCategory.toLowerCase().replace(/\s/g, '-')}`}
-                onItemClick={handleCategoryClick} // Pass the updated handler
+                onItemClick={handleCategoryClick}
                 className="max-w-full overflow-x-auto"
-                menuLabel="Artwork Categories"
-                itemRole="button" // Use button role for filter items
+                menuLabel={t("portfolioPage.artworkCategories")} // Reusing translation key for now
+                itemRole="button"
               />
             </div>
           </SectionReveal>
         )}
 
         {/* Gallery Grid */}
-        {artworksLoading ? (
+        {projectsLoading ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <ArtworkSkeleton key={i} />
             ))}
           </div>
-        ) : artworks.length > 0 ? (
+        ) : projects.length > 0 ? (
           <motion.div
             layout
             className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3"
           >
-            {artworks.map((artwork, index) => (
+            {projects.map((project, index) => (
               <motion.div
-                key={artwork.id}
+                key={project.id}
                 layout
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
               >
-                <Link to={`/art/${artwork.slug}`} className="block h-full">
+                <Link to={project.url || project.repo_url || "#"} target="_blank" rel="noopener noreferrer" className="block h-full">
                   <PixelCard
-                    imageUrl={artwork.cover_url}
-                    title={artwork.title}
-                    subtitle={artwork.category}
+                    imageUrl={project.thumbnail || "/brand/placeholder.svg"}
+                    title={project.name}
+                    subtitle={project.summary || t("repositoryDetailPage.noDescriptionProvided")}
                     footer={
                       <div className="flex flex-col gap-2">
-                        <span className="text-sm text-muted-foreground">{artwork.year}</span>
-                        {artwork.live_url && (
-                          <a href={artwork.live_url} target="_blank" rel="noopener noreferrer" className="block mt-2">
-                            <Button variant="outline" size="sm" className="w-full">
-                              View Live Demo <Globe className="h-4 w-4 ml-2" />
-                            </Button>
-                          </a>
-                        )}
+                        <div className="flex flex-wrap gap-2">
+                          {project.stack?.map((tech, techIndex) => (
+                            <Badge key={techIndex} variant="secondary" className="text-xs">
+                              {tech}
+                            </Badge>
+                          ))}
+                        </div>
+                        <div className="flex items-center justify-between text-sm text-muted-foreground mt-2">
+                          <span className="flex items-center gap-1">
+                            <Code className="h-4 w-4 text-primary" />
+                            {project.category}
+                          </span>
+                          <span>{project.year}</span>
+                        </div>
+                        <Button variant="outline" size="sm" className="w-full mt-2">
+                          {project.url ? t("common.viewLiveDemo") : t("common.viewDetails")}
+                          <Globe className="h-4 w-4 ml-2" />
+                        </Button>
                       </div>
                     }
                     className="h-full flex flex-col"
-                    noFocus={isMobile} // Apply noFocus conditionally for mobile
+                    noFocus={isMobile}
                   />
                 </Link>
               </motion.div>
@@ -166,7 +187,7 @@ const Portfolio = () => {
           <SectionReveal>
             <div className="text-center py-16">
               <p className="text-fluid-lg text-muted-foreground">
-                No artworks or projects found matching your criteria.
+                {t("portfolioPage.noArtworksFound")}
               </p>
             </div>
           </SectionReveal>
