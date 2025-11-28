@@ -11,7 +11,7 @@ export type Enums<T extends keyof DB['public']['Enums']> =
   DB['public']['Enums'][T];
 
 // Application-specific types derived from Supabase schema
-export type Artwork = Tables<'artworks'>; // Note: 'artworks' table does not exist in DB schema, but keeping for now if it's a legacy type.
+// export type Artwork = Tables<'artworks'>; // Removed as 'artworks' table does not exist in DB schema
 export type BlogPost = Tables<'blog_posts'>;
 export type BrandIdentity = Tables<'brand_identity'>; // New type
 export type ContactMessage = Tables<'contact_messages'>;

@@ -23,18 +23,19 @@ export const useAdminForm = <TForm, TTable extends keyof Database['public']['Tab
   const mutation = useMutation<void, Error, TForm>({
     mutationFn: async (data: TForm) => {
       const payload = transformToPayload(data);
-      const table = tableName as string; // Cast TTable to string for supabase.from()
+      // Explicitly cast tableName to the expected type for supabase.from
+      const tableKey = tableName as keyof Database['public']['Tables'];
 
       if (id) {
         // Update operation
         const { error } = await supabase
-          .from(table)
+          .from(tableKey)
           .update(payload as TablesUpdate<TTable>)
           .eq("id", id);
         if (error) throw error;
       } else {
         // Insert operation
-        const { error } = await supabase.from(table).insert([payload as TablesInsert<TTable>]);
+        const { error } = await supabase.from(tableKey).insert([payload as TablesInsert<TTable>]);
         if (error) throw error;
       }
     },
