@@ -22,5 +22,18 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Set the lang attribute on the html tag based on i18next's detected language
+      // This script runs before React mounts to ensure the attribute is set early for accessibility
+      document.addEventListener('DOMContentLoaded', () => {
+        const savedLang = localStorage.getItem('i18nextLng');
+        if (savedLang) {
+          document.documentElement.lang = savedLang;
+        } else {
+          // Fallback to navigator language or default 'en'
+          document.documentElement.lang = navigator.language || 'en';
+        }
+      });
+    </script>
   </body>
 </html>
