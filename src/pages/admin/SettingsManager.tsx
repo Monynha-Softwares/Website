@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { ArrowLeft, Save } from "lucide-react";
 import type { Setting } from "@/integrations/supabase/supabase.types"; // Import centralized type
 import type { Json } from "@/integrations/supabase/types_db"; // Import Json from generated types
+import { useAdminForm } from "@/hooks/useAdminForm"; // Import useAdminForm
 
 const SettingsManager = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -31,23 +32,8 @@ const SettingsManager = () => {
     },
   });
 
-  const updateMutation = useMutation<void, Error, { id: string; value: Json; is_public: boolean }>({ // Specify generic types
-    mutationFn: async ({ id, value, is_public }: { id: string; value: Json; is_public: boolean }) => {
-      const { error } = await supabase
-        .from("settings")
-        .update({ value, is_public })
-        .eq("id", id);
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin-settings"] });
-      queryClient.invalidateQueries({ queryKey: ["settings"] });
-      toast.success("Setting updated successfully");
-    },
-    onError: () => {
-      toast.error("Failed to update setting");
-    },
-  });
+  // The update logic will now be handled by the useAdminForm hook within SettingCard
+  // No direct mutation here anymore.
 
   if (isLoading || settingsLoading) {
     return <div className="flex min-h-screen items-center justify-center">Loading...</div>;
@@ -76,9 +62,6 @@ const SettingsManager = () => {
             <SettingCard
               key={setting.id}
               setting={setting}
-              onUpdate={(value, is_public) => 
-                updateMutation.mutate({ id: setting.id, value, is_public })
-              }
             />
           ))}
         </div>
@@ -89,42 +72,58 @@ const SettingsManager = () => {
 
 interface SettingCardProps {
   setting: Setting;
-  onUpdate: (value: Json, is_public: boolean) => void;
 }
 
-const SettingCard = ({ setting, onUpdate }: SettingCardProps) => {
-  const [value, setValue] = useState(
+interface SettingFormData {
+  value: string; // Represent value as string for form input
+  is_public: boolean;
+}
+
+const SettingCard = ({ setting }: SettingCardProps) => {
+  const [initialValueString] = useState(
     typeof setting.value === "string" ? setting.value : JSON.stringify(setting.value, null, 2)
   );
-  const [isPublic, setIsPublic] = useState(setting.is_public);
-  const [hasChanges, setHasChanges] = useState(false);
 
-  const handleValueChange = (newValue: string) => {
-    setValue(newValue);
-    setHasChanges(true);
-  };
-
-  const handlePublicChange = (checked: boolean) => {
-    setIsPublic(checked);
-    setHasChanges(true);
-  };
-
-  const handleSave = () => {
-    try {
-      let parsedValue: Json = value;
+  const { formData, setFormData, handleSubmit, isPending } = useAdminForm<SettingFormData, "settings">({
+    tableName: "settings",
+    id: setting.id,
+    initialData: {
+      value: initialValueString,
+      is_public: setting.is_public || false,
+    },
+    transformToPayload: (data) => {
+      let parsedValue: Json = data.value;
       // Try to parse as JSON if it looks like JSON
-      if (value.trim().startsWith("{") || value.trim().startsWith("[")) {
-        parsedValue = JSON.parse(value);
+      if (data.value.trim().startsWith("{") || data.value.trim().startsWith("[")) {
+        try {
+          parsedValue = JSON.parse(data.value);
+        } catch (e) {
+          // If parsing fails, keep it as a string and let Supabase handle it
+          toast.error("Invalid JSON format. Saving as plain text.");
+        }
       }
-      onUpdate(parsedValue, isPublic);
-      setHasChanges(false);
-    } catch (error) {
-      toast.error("Invalid JSON format");
+      return {
+        value: parsedValue,
+        is_public: data.is_public,
+      };
+    },
+    queryKeysToInvalidate: ["admin-settings", "settings"],
+    onSuccessCallback: () => {
+      // Re-initialize form data with the latest saved value to reset 'hasChanges' state
+      setFormData({
+        value: typeof setting.value === "string" ? setting.value : JSON.stringify(setting.value, null, 2),
+        is_public: setting.is_public || false,
+      });
     }
-  };
+  });
+
+  // Determine if there are changes by comparing current form data with initial data
+  const hasChanges = 
+    formData.value !== initialValueString || 
+    formData.is_public !== (setting.is_public || false);
 
   const isMultiline = typeof setting.value === "object" || 
-    (typeof value === "string" && value.length > 50);
+    (typeof formData.value === "string" && formData.value.length > 50);
 
   return (
     <Card>
@@ -140,33 +139,35 @@ const SettingCard = ({ setting, onUpdate }: SettingCardProps) => {
             <Label htmlFor={`public-${setting.id}`} className="text-sm">Public</Label>
             <Switch
               id={`public-${setting.id}`}
-              checked={isPublic}
-              onCheckedChange={handlePublicChange}
+              checked={formData.is_public}
+              onCheckedChange={(checked) => setFormData({ ...formData, is_public: checked })}
             />
           </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        {isMultiline ? (
-          <Textarea
-            value={value}
-            onChange={(e) => handleValueChange(e.target.value)}
-            rows={6}
-            className="font-mono text-sm"
-          />
-        ) : (
-          <Input
-            value={value}
-            onChange={(e) => handleValueChange(e.target.value)}
-          />
-        )}
-        
-        {hasChanges && (
-          <Button onClick={handleSave} size="sm">
-            <Save className="mr-2 h-4 w-4" />
-            Save Changes
-          </Button>
-        )}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {isMultiline ? (
+            <Textarea
+              value={formData.value}
+              onChange={(e) => setFormData({ ...formData, value: e.target.value })}
+              rows={6}
+              className="font-mono text-sm"
+            />
+          ) : (
+            <Input
+              value={formData.value}
+              onChange={(e) => setFormData({ ...formData, value: e.target.value })}
+            />
+          )}
+          
+          {hasChanges && (
+            <Button type="submit" size="sm" disabled={isPending}>
+              <Save className="mr-2 h-4 w-4" />
+              {isPending ? "Saving..." : "Save Changes"}
+            </Button>
+          )}
+        </form>
       </CardContent>
     </Card>
   );
