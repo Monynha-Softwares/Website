@@ -264,7 +264,7 @@ export const GooeyNav = () => {
                 aria-labelledby={menuLabelId}
               >
                 <div className="sr-only" id={menuLabelId}>
-                  {siteName} {t("common.navigation")} {/* Use translation key */}
+                  {siteName} {t("common.navigation")}
                 </div>
                 <FlowingMenu
                   items={[
@@ -278,9 +278,9 @@ export const GooeyNav = () => {
                   activeHref={location.pathname}
                   onItemClick={closeMenu}
                   className="shadow-[0_20px_60px_rgba(15,23,42,0.45)]"
-                  menuLabel={t("common.mobileNavigation")} {/* Use translation key */}
+                  menuLabel={t("common.mobileNavigation")}
                   itemRole="menuitem"
-                  authAction={user ? { label: t("common.logout"), onClick: signOut } : undefined} {/* Use translation key */}
+                  authAction={user ? { label: t("common.logout"), onClick: signOut } : undefined}
                 />
                 {/* Language Switcher for Mobile */}
                 <div className="flex justify-center bg-surface-1/95 px-6 pt-3">
