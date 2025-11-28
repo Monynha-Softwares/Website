@@ -1,16 +1,18 @@
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SectionReveal } from "@/components/SectionReveal";
-import { ArrowLeft, Calendar, Tag, Layers, Globe } from "lucide-react"; // Added Globe icon
-import { useArtwork } from "@/hooks/useArtwork";
+import { ArrowLeft, Calendar, Tag, Layers, Globe, Code } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GlassIcon } from "@/components/reactbits/GlassIcon";
 import { SpotlightCard } from "@/components/reactbits/SpotlightCard";
 import { Badge } from "@/components/ui/badge";
+import { useProject } from "@/hooks/useProject"; // Use dedicated project hook
+import { useTranslation } from "react-i18next";
 
-const ArtworkDetail = () => {
+const ProjectDetail = () => {
+  const { t } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
-  const { data: artwork, isLoading, error } = useArtwork(slug || "");
+  const { data: project, isLoading, error } = useProject(slug || "");
 
   if (isLoading) {
     return (
@@ -30,18 +32,18 @@ const ArtworkDetail = () => {
     );
   }
 
-  if (error || !artwork) {
+  if (error || !project) {
     return (
       <div className="min-h-screen overflow-x-hidden pt-24 flex items-center justify-center px-4">
         <div className="text-center">
-          <h1 className="mb-4 text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">Artwork Not Found</h1>
+          <h1 className="mb-4 text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">{t("common.projectNotFound")}</h1>
           <p className="text-muted-foreground mb-8">
-            {error?.message || "The artwork you're looking for doesn't exist."}
+            {error?.message || t("repositoryDetailPage.repositoryNotExists")}
           </p>
           <Link to="/portfolio">
             <Button variant="outline">
               <ArrowLeft className="w-5 h-5 mr-2" />
-              Back to Portfolio
+              {t("common.backToPortfolio")}
             </Button>
           </Link>
         </div>
@@ -57,7 +59,7 @@ const ArtworkDetail = () => {
           <Link to="/portfolio">
             <Button variant="ghost" className="mb-8 group">
               <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
-              Back to Portfolio
+              {t("common.backToPortfolio")}
             </Button>
           </Link>
         </SectionReveal>
@@ -68,17 +70,25 @@ const ArtworkDetail = () => {
             <div className="lg:sticky lg:top-24">
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-surface-2 shadow-lg">
                 <img
-                  src={artwork.cover_url}
-                  alt={artwork.title}
+                  src={project.thumbnail || "/brand/placeholder.svg"}
+                  alt={project.name}
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
-                {artwork.live_url && (
-                  <a href={artwork.live_url} target="_blank" rel="noopener noreferrer">
+                {project.url && (
+                  <a href={project.url} target="_blank" rel="noopener noreferrer">
                     <Button variant="hero" size="lg" className="w-full sm:w-auto">
-                      View Live Demo
+                      {t("common.viewLiveDemo")}
                       <Globe className="w-5 h-5 ml-2" />
+                    </Button>
+                  </a>
+                )}
+                {project.repo_url && (
+                  <a href={project.repo_url} target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                      {t("common.viewOnGitHub")}
+                      <Code className="w-5 h-5 ml-2" />
                     </Button>
                   </a>
                 )}
@@ -88,7 +98,7 @@ const ArtworkDetail = () => {
                     size="lg"
                     className="w-full sm:w-auto justify-center"
                   >
-                    Inquire About This Work
+                    {t("common.inquireAboutThisWork")}
                   </Button>
                 </Link>
               </div>
@@ -100,55 +110,55 @@ const ArtworkDetail = () => {
             <SectionReveal delay={0.1}>
               <div>
                 <h1 className="mb-4 text-[clamp(1.85rem,6vw,3.25rem)] font-bold leading-tight text-balance">
-                  {artwork.title}
+                  {project.name}
                 </h1>
-                {artwork.description && (
+                {project.summary && (
                   <SpotlightCard className="bg-surface-3/90 p-6 sm:p-8 mt-4">
                     <p className="text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed">
-                      {artwork.description}
+                      {project.summary}
                     </p>
                   </SpotlightCard>
+                )}
+                {project.full_description && project.full_description !== project.summary && (
+                  <div className="mt-6">
+                    <h2 className="mb-3 text-fluid-xl font-bold">{t("adminProjects.fullDescription")}</h2>
+                    <p className="text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                      {project.full_description}
+                    </p>
+                  </div>
                 )}
               </div>
             </SectionReveal>
 
             <SectionReveal delay={0.2}>
               <div className="space-y-4">
-                {artwork.year && (
+                {project.year && (
                   <GlassIcon
                     icon={<Calendar className="w-6 h-6" />}
-                    title="Year"
-                    description={String(artwork.year)}
+                    title={t("artworkDetailPage.year")}
+                    description={String(project.year)}
                   />
                 )}
 
-                {artwork.category && (
+                {project.category && (
                   <GlassIcon
                     icon={<Tag className="w-6 h-6" />}
-                    title="Category"
-                    description={artwork.category}
-                  />
-                )}
-
-                {artwork.technique && (
-                  <GlassIcon
-                    icon={<Layers className="w-6 h-6" />}
-                    title="Technique"
-                    description={artwork.technique}
+                    title={t("artworkDetailPage.category")}
+                    description={project.category}
                   />
                 )}
               </div>
             </SectionReveal>
 
-            {artwork.tags && artwork.tags.length > 0 && (
+            {project.stack && project.stack.length > 0 && (
               <SectionReveal delay={0.3}>
                 <SpotlightCard className="bg-surface-3/90 p-6 sm:p-8">
                   <div>
-                    <h3 className="mb-3 text-[clamp(1.2rem,4vw,1.6rem)] font-bold leading-tight">Tags</h3>
+                    <h3 className="mb-3 text-[clamp(1.2rem,4vw,1.6rem)] font-bold leading-tight">{t("adminProjects.techStack")}</h3>
                     <div className="flex flex-wrap gap-2">
-                      {artwork.tags.map((tag: string) => (
-                        <Badge key={tag} variant="secondary" className="text-sm">
-                          {tag}
+                      {project.stack.map((tech: string) => (
+                        <Badge key={tech} variant="secondary" className="text-sm">
+                          {tech}
                         </Badge>
                       ))}
                     </div>
@@ -163,4 +173,4 @@ const ArtworkDetail = () => {
   );
 };
 
-export default ArtworkDetail;
+export default ProjectDetail;

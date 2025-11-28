@@ -8,7 +8,7 @@ import { ScrollToTop } from "./components/ScrollToTop";
 import { Footer } from "./components/layout/Footer";
 import Home from "./pages/Home";
 import Portfolio from "./pages/Portfolio";
-import ArtworkDetail from "./pages/ArtworkDetail";
+import ProjectDetail from "./pages/ProjectDetail"; // Changed import from ArtworkDetail
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Repositories from "./pages/Repositories";
@@ -68,7 +68,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/art/:slug" element={<ArtworkDetail />} />
+          <Route path="/projects/:slug" element={<ProjectDetail />} /> {/* Updated route path and component */}
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/repositories" element={<Repositories />} />
