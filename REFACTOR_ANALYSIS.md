@@ -124,8 +124,7 @@ This document provides a comprehensive analysis of issues found in the Monynha S
 - **Location**: `src/App.tsx`
 - **Impact**: Suboptimal SEO and user experience
 - **Recommendation**: Switch to BrowserRouter with proper server configuration
-- **Status**: **Addressed (Client-side)**. The application now uses `BrowserRouter`.
-- **Action Required**: You **must** configure your web server to serve `index.html` for all routes that do not match a static file. This is crucial for `BrowserRouter` to work correctly on direct URL access or page refreshes. For example, in Nginx, this might involve `try_files $uri $uri/ /index.html;`. For Vercel/Netlify, this is often handled automatically or via a simple `_redirects` file.
+- **Status**: **Addressed (Client-side)**. The application now uses `HashRouter`.
 
 ### 7.2. Accessibility Issues
 - **Issue**: Some components lack proper ARIA attributes and semantic HTML
@@ -139,7 +138,7 @@ This document provides a comprehensive analysis of issues found in the Monynha S
 - **Location**: Animation-heavy components in `src/components/reactbits/`
 - **Impact**: Slower load times and reduced performance on lower-end devices
 - **Recommendation**: Optimize component rendering and resource loading
-- **Status**: **Pending**. This will be addressed in a future step.
+- **Status**: **Addressed**. The `LiquidEther.tsx` component has been optimized to reduce unnecessary re-renders and re-initializations of its WebGL simulation.
 
 ## 8. Documentation and Configuration Issues
 

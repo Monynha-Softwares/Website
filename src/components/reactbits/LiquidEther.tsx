@@ -3,6 +3,28 @@ import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import './LiquidEther.css';
 
+interface LiquidEtherProps {
+  mouseForce?: number;
+  cursorSize?: number;
+  isViscous?: boolean;
+  viscous?: number;
+  iterationsViscous?: number;
+  iterationsPoisson?: number;
+  dt?: number;
+  BFECC?: boolean;
+  resolution?: number;
+  isBounce?: boolean;
+  colors?: string[] | string;
+  style?: React.CSSProperties;
+  className?: string;
+  autoDemo?: boolean;
+  autoSpeed?: number;
+  autoIntensity?: number;
+  takeoverDuration?: number;
+  autoResumeDelay?: number;
+  autoRampDuration?: number;
+}
+
 const createPaletteTexture = stops => {
   let paletteStops;
   if (Array.isArray(stops) && stops.length > 0) {
@@ -55,7 +77,7 @@ export default function LiquidEther({
   takeoverDuration = 0.25,
   autoResumeDelay = 3000,
   autoRampDuration = 0.6
-}) {
+}: LiquidEtherProps) {
   const mountRef = useRef(null);
   const webglRef = useRef(null);
   const resizeObserverRef = useRef(null);
@@ -77,6 +99,43 @@ export default function LiquidEther({
     if (typeof colors === 'string') return [colors];
     return [];
   }, [paletteKey]);
+
+  // Function to update simulation options based on props
+  const updateSimulationOptions = (webglManagerInstance, currentProps) => {
+    if (!webglManagerInstance) return;
+    const sim = webglManagerInstance.output?.simulation;
+    if (!sim) return;
+
+    const prevRes = sim.options.resolution;
+
+    Object.assign(sim.options, {
+      mouse_force: currentProps.mouseForce,
+      cursor_size: currentProps.cursorSize,
+      isViscous: currentProps.isViscous,
+      viscous: currentProps.viscous,
+      iterations_viscous: currentProps.iterationsViscous,
+      iterations_poisson: currentProps.iterationsPoisson,
+      dt: currentProps.dt,
+      BFECC: currentProps.BFECC,
+      resolution: currentProps.resolution,
+      isBounce: currentProps.isBounce
+    });
+
+    if (webglManagerInstance.autoDriver) {
+      webglManagerInstance.autoDriver.enabled = currentProps.autoDemo;
+      webglManagerInstance.autoDriver.speed = currentProps.autoSpeed;
+      webglManagerInstance.autoDriver.resumeDelay = currentProps.autoResumeDelay;
+      webglManagerInstance.autoDriver.rampDurationMs = currentProps.autoRampDuration * 1000;
+      if (webglManagerInstance.autoDriver.mouse) {
+        webglManagerInstance.autoDriver.mouse.autoIntensity = currentProps.autoIntensity;
+        webglManagerInstance.autoDriver.mouse.takeoverDuration = currentProps.takeoverDuration;
+      }
+    }
+
+    if (currentProps.resolution !== prevRes) {
+      sim.resize();
+    }
+  };
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -163,7 +222,7 @@ export default function LiquidEther({
         container.addEventListener('touchstart', this._onTouchStart, false);
         container.addEventListener('touchmove', this._onTouchMove, false);
         container.addEventListener('mouseenter', this._onMouseEnter, false);
-        container.addEventListener('mouseleave', this._onMouseLeave, false);
+        container.addEventListener('mouseleave', this.onMouseLeave.bind(this), false);
         container.addEventListener('touchend', this._onTouchEnd, false);
       }
       dispose() {
@@ -172,7 +231,7 @@ export default function LiquidEther({
         this.container.removeEventListener('touchstart', this._onTouchStart, false);
         this.container.removeEventListener('touchmove', this._onTouchMove, false);
         this.container.removeEventListener('mouseenter', this._onMouseEnter, false);
-        this.container.removeEventListener('mouseleave', this._onMouseLeave, false);
+        this.container.removeEventListener('mouseleave', this.onMouseLeave.bind(this), false);
         this.container.removeEventListener('touchend', this._onTouchEnd, false);
       }
       setCoords(x, y) {
@@ -717,8 +776,8 @@ export default function LiquidEther({
             fragmentShader: pressure_frag,
             uniforms: {
               boundarySpace: { value: simProps.boundarySpace },
-              pressure: { value: simProps.src_p.texture },
-              velocity: { value: simProps.src_v.texture },
+              src_p: { value: simProps.src_p.texture },
+              src_v: { value: simProps.src_v.texture },
               px: { value: simProps.cellScale },
               dt: { value: simProps.dt }
             }
@@ -728,8 +787,8 @@ export default function LiquidEther({
         this.init();
       }
       update({ vel, pressure }) {
-        this.uniforms.velocity.value = vel.texture;
-        this.uniforms.pressure.value = pressure.texture;
+        this.uniforms.src_v.value = vel.texture;
+        this.uniforms.src_p.value = pressure.texture;
         super.update();
       }
     }
@@ -1014,28 +1073,12 @@ export default function LiquidEther({
     });
     webglRef.current = webgl;
 
-    const applyOptionsFromProps = () => {
-      if (!webglRef.current) return;
-      const sim = webglRef.current.output?.simulation;
-      if (!sim) return;
-      const prevRes = sim.options.resolution;
-      Object.assign(sim.options, {
-        mouse_force: mouseForce,
-        cursor_size: cursorSize,
-        isViscous,
-        viscous,
-        iterations_viscous: iterationsViscous,
-        iterations_poisson: iterationsPoisson,
-        dt,
-        BFECC,
-        resolution,
-        isBounce
-      });
-      if (resolution !== prevRes) {
-        sim.resize();
-      }
-    };
-    applyOptionsFromProps();
+    // Apply initial options from props
+    updateSimulationOptions(webgl, {
+      mouseForce, cursorSize, isViscous, viscous, iterationsViscous,
+      iterationsPoisson, dt, BFECC, resolution, isBounce,
+      autoDemo, autoSpeed, autoIntensity, takeoverDuration, autoResumeDelay, autoRampDuration
+    });
 
     webgl.start();
 
@@ -1093,8 +1136,9 @@ export default function LiquidEther({
       }
       paletteTextureRef.current = null;
     };
-  }, []);
+  }, []); // Empty dependency array for initial setup and cleanup
 
+  // Effect for palette changes
   useEffect(() => {
     if (!webglRef.current) return;
     if (paletteKeyRef.current === paletteKey) return;
@@ -1121,54 +1165,19 @@ export default function LiquidEther({
     }
   }, [paletteKey, paletteStops]);
 
+  // Effect for other prop changes (optimized)
   useEffect(() => {
-    const webgl = webglRef.current;
-    if (!webgl) return;
-    const sim = webgl.output?.simulation;
-    if (!sim) return;
-    const prevRes = sim.options.resolution;
-    Object.assign(sim.options, {
-      mouse_force: mouseForce,
-      cursor_size: cursorSize,
-      isViscous,
-      viscous,
-      iterations_viscous: iterationsViscous,
-      iterations_poisson: iterationsPoisson,
-      dt,
-      BFECC,
-      resolution,
-      isBounce
-    });
-    if (webgl.autoDriver) {
-      webgl.autoDriver.enabled = autoDemo;
-      webgl.autoDriver.speed = autoSpeed;
-      webgl.autoDriver.resumeDelay = autoResumeDelay;
-      webgl.autoDriver.rampDurationMs = autoRampDuration * 1000;
-      if (webgl.autoDriver.mouse) {
-        webgl.autoDriver.mouse.autoIntensity = autoIntensity;
-        webgl.autoDriver.mouse.takeoverDuration = takeoverDuration;
-      }
-    }
-    if (resolution !== prevRes) {
-      sim.resize();
+    if (webglRef.current) {
+      updateSimulationOptions(webglRef.current, {
+        mouseForce, cursorSize, isViscous, viscous, iterationsViscous,
+        iterationsPoisson, dt, BFECC, resolution, isBounce,
+        autoDemo, autoSpeed, autoIntensity, takeoverDuration, autoResumeDelay, autoRampDuration
+      });
     }
   }, [
-    mouseForce,
-    cursorSize,
-    isViscous,
-    viscous,
-    iterationsViscous,
-    iterationsPoisson,
-    dt,
-    BFECC,
-    resolution,
-    isBounce,
-    autoDemo,
-    autoSpeed,
-    autoIntensity,
-    takeoverDuration,
-    autoResumeDelay,
-    autoRampDuration
+    mouseForce, cursorSize, isViscous, viscous, iterationsViscous,
+    iterationsPoisson, dt, BFECC, resolution, isBounce,
+    autoDemo, autoSpeed, autoIntensity, takeoverDuration, autoResumeDelay, autoRampDuration
   ]);
 
   return <div ref={mountRef} className={`liquid-ether-container ${className || ''}`} style={style} />;
