@@ -35,11 +35,11 @@
     "loading": "Carregando...",
     "errorLoadingContent": "Erro ao Carregar Conteúdo",
     "pageNotFound": "Página Não Encontrada",
-    "artworkNotFound": "Obra de Arte Não Encontrada",
+    "projectNotFound": "Projeto Não Encontrado",
     "repositoryNotFound": "Repositório Não Encontrado",
     "thoughtNotFound": "Publicação Não Encontrada",
     "legalPageNotFound": "Página Legal Não Encontrada",
-    "noArtworksFound": "Nenhuma obra de arte ou projeto encontrado com seus critérios.",
+    "noProjectsFound": "Nenhum projeto encontrado com seus critérios.",
     "noRepositoriesFound": "Nenhum repositório encontrado.",
     "noThoughtsYet": "Nenhum pensamento para compartilhar ainda. Volte em breve!",
     "noMessagesYet": "Nenhuma mensagem ainda",
@@ -100,7 +100,7 @@
     "title": "Portfólio",
     "subtitle": "Uma coleção de explorações em arte digital, movimento e desenvolvimento de software",
     "searchPlaceholder": "Buscar obras criativas, projetos e tags...",
-    "artworkCategories": "Categorias de Obras"
+    "projectCategories": "Categorias de Projetos"
   },
   "aboutPage": {
     "title": "Nossa História",
@@ -150,8 +150,8 @@
   "thoughtDetailPage": {
     "postNotExists": "A publicação que você procura não existe."
   },
-  "artworkDetailPage": {
-    "artworkNotExists": "A obra de arte que você procura não existe.",
+  "projectDetailPage": {
+    "projectNotExists": "O projeto que você procura não existe.",
     "year": "Ano",
     "category": "Categoria",
     "technique": "Técnica",
@@ -163,8 +163,6 @@
   "adminDashboard": {
     "title": "Painel de Administração",
     "subtitle": "Gerencie o conteúdo e as configurações do seu portfólio",
-    "artworks": "Obras de Arte",
-    "artworksDescription": "Gerencie suas peças de portfólio",
     "projects": "Projetos",
     "projectsDescription": "Exiba seus projetos de software",
     "exhibitions": "Exposições",
@@ -185,37 +183,6 @@
     "backendAccessDescription": "Precisa de operações avançadas de banco de dados ou edição direta de tabelas?",
     "backendAccessNote": "Acesse seu painel de backend para operações avançadas, gerenciamento de banco de dados, configurações de autenticação e funções de borda (ex: painel Supabase).",
     "goToSupabaseDashboard": "Ir para o Painel Supabase"
-  },
-  "adminArtworks": {
-    "manageArtworks": "Gerenciar Obras de Arte",
-    "addArtwork": "Adicionar Obra de Arte",
-    "selectArtwork": "Selecionar Obra de Arte",
-    "featured": "Destaque",
-    "status": "Status",
-    "displayOrder": "Ordem de Exibição",
-    "tags": "Tags (separadas por vírgula)",
-    "coverImageUrl": "URL da Imagem de Capa",
-    "liveDemoUrl": "URL da Demonstração Ao Vivo (Opcional)",
-    "title": "Título",
-    "slug": "Slug",
-    "description": "Descrição",
-    "category": "Categoria",
-    "year": "Ano",
-    "technique": "Técnica",
-    "artworkUpdatedSuccess": "Obra de arte atualizada com sucesso",
-    "artworkCreatedSuccess": "Obra de arte criada com sucesso",
-    "artworkDeletedSuccess": "Obra de arte excluída com sucesso",
-    "failedToUpdateArtwork": "Falha ao atualizar obra de arte",
-    "failedToCreateArtwork": "Falha ao criar obra de arte",
-    "failedToDeleteArtwork": "Falha ao excluir obra de arte",
-    "deleteArtworkConfirm": "Excluir esta obra de arte?",
-    "uploadImage": "Clique para enviar imagem",
-    "maxImageSize": "Máx. 5MB • JPG, PNG, WEBP",
-    "uploading": "Enviando...",
-    "imageUploadedSuccess": "Imagem enviada com sucesso",
-    "failedToUploadImage": "Falha ao enviar imagem",
-    "invalidImageFile": "Por favor, selecione um arquivo de imagem",
-    "imageTooLarge": "A imagem deve ter menos de 5MB"
   },
   "adminProjects": {
     "manageProjects": "Gerenciar Projetos",

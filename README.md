@@ -13,6 +13,7 @@ Monynha Softwares' corporate website is a Vite + React application designed to s
 - ♿ Accessibility-first approach with motion-reduced fallbacks
 - 📝 Integrated blog for insights and thoughts
 - 🐙 Showcase of open-source repositories
+- 💻 **Portfolio:** Displays software projects and creative works.
 
 ## Branding Assets
 
@@ -102,7 +103,7 @@ Linting ensures TypeScript, React, and accessibility conventions stay consistent
 │   │   ├── ui/            # shadcn/ui components
 │   │   ├── brand/         # Branding components (BrandLogo, BrandMark)
 │   │   └── ...            # Other reusable components
-│   ├── hooks/             # Shared hooks (toast, useArtworks, useSettings, etc.)
+│   ├── hooks/             # Shared hooks (toast, useProjects, useSettings, etc.)
 │   ├── integrations/      # Supabase and API adapters (client.ts, supabase.types.ts)
 │   ├── pages/             # Route components (Home, Portfolio, About, Contact, Repositories, Thoughts, ...)
 │   ├── lib/               # Utility helpers (utils.ts, blogPosts.ts)

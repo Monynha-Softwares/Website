@@ -9,31 +9,32 @@ Application-specific types are centralized in `src/integrations/supabase/supabas
 
 ## Tables
 
-### `artworks`
+### `projects`
 
-Creative works (e.g., digital art, motion design) displayed in the gallery.
+Software projects and creative works displayed in the portfolio.
 
 | Column | Type | Nullable | Default | Description |
 |--------|------|----------|---------|-------------|
 | id | uuid | No | gen_random_uuid() | Primary key |
-| title | text | No | - | Artwork title |
 | slug | text | No | - | URL-friendly identifier |
-| description | text | Yes | - | Detailed description |
-| category | text | No | - | Category (e.g., "3D", "Motion") |
-| year | integer | Yes | - | Year created |
-| technique | text | Yes | - | Artistic technique used |
-| cover_url | text | No | - | Main image URL |
-| images | jsonb | Yes | `[]` | Array of additional image URLs |
-| tags | text[] | Yes | `[]` | Searchable tags |
+| name | text | No | - | Project name |
+| summary | text | Yes | - | Short summary/excerpt |
+| full_description | text | Yes | - | Detailed description |
+| stack | text[] | Yes | `[]` | Technologies used (e.g., `["React", "Supabase"]`) |
+| url | text | Yes | - | Live demo URL |
+| domain | text | Yes | - | Associated domain name |
+| repo_url | text | Yes | - | GitHub repository URL |
+| thumbnail | text | Yes | - | Main image URL |
+| category | text | Yes | - | Category (e.g., "Web App", "3D Art") |
 | status | content_status | Yes | `published` | Published or draft |
-| featured | boolean | Yes | false | Show on homepage |
-| display_order | integer | Yes | 0 | Sort order |
+| visibility | text | Yes | `Public` | Public or Private |
+| year | integer | Yes | - | Year created |
 | created_at | timestamptz | Yes | now() | Creation timestamp |
 | updated_at | timestamptz | Yes | now() | Last update timestamp |
 
 **RLS Policies**:
 
-- Public can SELECT where `status = 'published'` OR user is admin
+- Public can SELECT where `status = 'published'` AND `visibility = 'Public'` OR user is admin
 
 - Only admins can INSERT, UPDATE, DELETE
 
@@ -295,7 +296,7 @@ profiles (id FK to auth.users)
     ↓ (1:many)
 user_roles (user_id FK to auth.users)
 
-artworks (standalone)
+projects (standalone)
 exhibitions (standalone)
 pages (standalone)
 settings (standalone)
@@ -310,14 +311,14 @@ Current indexes:
 
 - All primary keys (automatic)
 
-- Unique constraints on slugs (artworks, pages)
+- Unique constraints on slugs (projects, pages)
 
 - Unique on settings.key
 
 **Future optimization opportunities**:
 
-- Full-text search on artworks.description
+- Full-text search on projects.description
 
-- GIN index on artworks.tags for array searches
+- GIN index on projects.stack for array searches
 
 - Index on exhibitions.year for timeline sorting

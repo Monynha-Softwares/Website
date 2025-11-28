@@ -35,11 +35,11 @@
     "loading": "Chargement...",
     "errorLoadingContent": "Erreur de Chargement du Contenu",
     "pageNotFound": "Page Non Trouvée",
-    "artworkNotFound": "Œuvre d'Art Non Trouvée",
+    "projectNotFound": "Projet Non Trouvé",
     "repositoryNotFound": "Dépôt Non Trouvé",
     "thoughtNotFound": "Article Non Trouvé",
     "legalPageNotFound": "Page Légale Non Trouvée",
-    "noArtworksFound": "Aucune œuvre d'art ou projet trouvé correspondant à vos critères.",
+    "noProjectsFound": "Aucun projet trouvé correspondant à vos critères.",
     "noRepositoriesFound": "Aucun dépôt trouvé.",
     "noThoughtsYet": "Aucune réflexion à partager pour l'instant. Revenez bientôt !",
     "noMessagesYet": "Aucun message pour l'instant",
@@ -100,7 +100,7 @@
     "title": "Portfolio",
     "subtitle": "Une collection d'explorations en art numérique, mouvement et développement logiciel",
     "searchPlaceholder": "Rechercher des œuvres créatives, des projets et des tags...",
-    "artworkCategories": "Catégories d'Œuvres d'Art"
+    "projectCategories": "Catégories de Projets"
   },
   "aboutPage": {
     "title": "Notre Histoire",
@@ -150,8 +150,8 @@
   "thoughtDetailPage": {
     "postNotExists": "L'article de blog que vous recherchez n'existe pas."
   },
-  "artworkDetailPage": {
-    "artworkNotExists": "L'œuvre d'art que vous recherchez n'existe pas.",
+  "projectDetailPage": {
+    "projectNotExists": "Le projet que vous recherchez n'existe pas.",
     "year": "Année",
     "category": "Catégorie",
     "technique": "Technique",
@@ -163,8 +163,6 @@
   "adminDashboard": {
     "title": "Tableau de Bord Admin",
     "subtitle": "Gérez le contenu et les paramètres de votre portfolio",
-    "artworks": "Œuvres d'Art",
-    "artworksDescription": "Gérez vos pièces de portfolio",
     "projects": "Projets",
     "projectsDescription": "Présentez vos projets logiciels",
     "exhibitions": "Expositions",
@@ -185,37 +183,6 @@
     "backendAccessDescription": "Besoin d'opérations de base de données avancées ou d'édition directe de tables ?",
     "backendAccessNote": "Accédez à votre tableau de bord backend pour les opérations avancées, la gestion de la base de données, les paramètres d'authentification et les fonctions Edge (par exemple, le tableau de bord Supabase).",
     "goToSupabaseDashboard": "Aller au Tableau de Bord Supabase"
-  },
-  "adminArtworks": {
-    "manageArtworks": "Gérer les Œuvres d'Art",
-    "addArtwork": "Ajouter une Œuvre d'Art",
-    "selectArtwork": "Sélectionner une Œuvre d'Art",
-    "featured": "En Vedette",
-    "status": "Statut",
-    "displayOrder": "Ordre d'Affichage",
-    "tags": "Tags (séparés par des virgules)",
-    "coverImageUrl": "URL de l'Image de Couverture",
-    "liveDemoUrl": "URL de Démo en Direct (Facultatif)",
-    "title": "Titre",
-    "slug": "Slug",
-    "description": "Description",
-    "category": "Catégorie",
-    "year": "Année",
-    "technique": "Technique",
-    "artworkUpdatedSuccess": "Œuvre d'art mise à jour avec succès",
-    "artworkCreatedSuccess": "Œuvre d'art créée avec succès",
-    "artworkDeletedSuccess": "Œuvre d'art supprimée avec succès",
-    "failedToUpdateArtwork": "Échec de la mise à jour de l'œuvre d'art",
-    "failedToCreateArtwork": "Échec de la création de l'œuvre d'art",
-    "failedToDeleteArtwork": "Échec de la suppression de l'œuvre d'art",
-    "deleteArtworkConfirm": "Supprimer cette œuvre d'art ?",
-    "uploadImage": "Cliquer pour télécharger l'image",
-    "maxImageSize": "Max 5 Mo • JPG, PNG, WEBP",
-    "uploading": "Téléchargement...",
-    "imageUploadedSuccess": "Image téléchargée avec succès",
-    "failedToUploadImage": "Échec du téléchargement de l'image",
-    "invalidImageFile": "Veuillez sélectionner un fichier image",
-    "imageTooLarge": "L'image doit faire moins de 5 Mo"
   },
   "adminProjects": {
     "manageProjects": "Gérer les Projets",

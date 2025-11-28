@@ -35,16 +35,7 @@ Following React Bits best practices:
 <LiquidEtherBackground />
 ```
 
-#### 2. SilkBackground
-**Location:** `src/components/reactbits/SilkBackground.tsx`
-
-**Status:** Available but currently not active (LiquidEther is preferred)
-
-**Features:**
-- Alternative silk-like fluid animation
-- Can be swapped with LiquidEther for different visual effect
-
-#### 3. RippleGridBackground
+#### 2. RippleGridBackground
 **Location:** `src/components/reactbits/RippleGridBackground.tsx`
 
 **Usage:**
@@ -57,7 +48,7 @@ Following React Bits best practices:
 
 ### Text Animation Components
 
-#### 4. SplitText
+#### 3. SplitText
 **Location:** `src/components/reactbits/SplitText.tsx`
 
 **Usage:**
@@ -77,7 +68,7 @@ Following React Bits best practices:
 />
 ```
 
-#### 5. TextType
+#### 4. TextType
 **Location:** `src/components/reactbits/TextType.tsx`
 
 **Usage:**
@@ -99,12 +90,12 @@ Following React Bits best practices:
 
 ### Card Components
 
-#### 6. SpotlightCard
+#### 5. SpotlightCard
 **Location:** `src/components/reactbits/SpotlightCard.tsx`
 
 **Usage:**
-- **Home Page** - Featured discipline cards (Motion Design, 3D Art, Interactive)
-- **Artwork Detail Page** - Used for displaying artwork description and tags.
+- **Home Page** - Featured discipline cards (Product Strategy, Inclusive Design, etc.)
+- **Project Detail Page** - Used for displaying project summary/description.
 
 **Features:**
 - Spotlight effect following cursor
@@ -118,18 +109,18 @@ Following React Bits best practices:
     <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
       <Palette className="h-7 w-7" />
     </div>
-    <h3>Motion Design</h3>
-    <p>Dynamic visual narratives</p>
+    <h3>Software Development</h3>
+    <p>Building robust, scalable applications</p>
   </div>
 </SpotlightCard>
 ```
 
-#### 7. PixelCard
+#### 6. PixelCard
 **Location:** `src/components/reactbits/PixelCard.tsx`
 
 **Usage:**
-- **Home Page** - Featured artworks grid
-- **Portfolio Page** - All artwork items in grid
+- **Home Page** - Featured projects grid
+- **Portfolio Page** - All project items in grid
 - **About Page** - Company projects section
 - **Repositories Page** - Individual repository cards
 
@@ -142,16 +133,16 @@ Following React Bits best practices:
 **Props Example:**
 ```typescript
 <PixelCard
-  imageUrl={artwork.cover_url}
-  title={artwork.title}
-  subtitle={artwork.category}
-  footer={<span className="text-sm">{artwork.year}</span>}
+  imageUrl={project.thumbnail}
+  title={project.name}
+  subtitle={project.category}
+  footer={<span className="text-sm">{project.year}</span>}
 />
 ```
 
 ### Gallery Components
 
-#### 8. RollingGallery
+#### 7. RollingGallery
 **Location:** `src/components/reactbits/RollingGallery.tsx`
 
 **Usage:**
@@ -168,10 +159,10 @@ Following React Bits best practices:
 <RollingGallery
   items={featured.map((item) => ({
     id: item.id,
-    title: item.title,
+    title: item.name,
     subtitle: item.category,
-    imageUrl: item.cover_url,
-    href: `/art/${item.slug}`,
+    imageUrl: item.thumbnail,
+    href: `/projects/${item.slug}`,
     footer: <span className="text-sm">{item.year}</span>,
   }))}
   speed={24}
@@ -180,7 +171,7 @@ Following React Bits best practices:
 
 ### Navigation Components
 
-#### 9. GooeyNav
+#### 8. GooeyNav
 **Location:** `src/components/reactbits/GooeyNav.tsx`
 
 **Usage:**
@@ -199,7 +190,7 @@ Following React Bits best practices:
 - Mobile: Hamburger menu opening FlowingMenu drawer
 - Accessibility: Full keyboard navigation, ARIA labels, focus management
 
-#### 10. FlowingMenu
+#### 9. FlowingMenu
 **Location:** `src/components/reactbits/FlowingMenu.tsx`
 
 **Usage:**
@@ -214,12 +205,12 @@ Following React Bits best practices:
 
 ### UI Enhancement Components
 
-#### 11. GlassIcon
+#### 10. GlassIcon
 **Location:** `src/components/reactbits/GlassIcon.tsx`
 
 **Usage:**
 - **Contact Page** - Email and Instagram contact cards
-- **Artwork Detail Page** - Year, Category, and Technique metadata display
+- **Project Detail Page** - Metadata display (Year, Category)
 - **Repository Detail Page** - Repository metadata display (stars, forks, language, etc.)
 
 **Features:**
@@ -238,11 +229,11 @@ Following React Bits best practices:
 />
 ```
 
-#### 12. StepperTimeline
+#### 11. StepperTimeline
 **Location:** `src/components/reactbits/StepperTimeline.tsx`
 
 **Usage:**
-- **About Page** - Exhibitions and timeline section
+- **About Page** - Experience and timeline section
 
 **Features:**
 - Vertical timeline with indicators
@@ -253,10 +244,10 @@ Following React Bits best practices:
 **Props Example:**
 ```typescript
 <StepperTimeline
-  steps={exhibitions.map((ex) => ({
-    title: ex.title,
-    subtitle: `${ex.year} · ${ex.location}`,
-    description: ex.description,
+  steps={experiences.map((ex) => ({
+    title: ex.role,
+    subtitle: `${ex.organization} · ${ex.location}`,
+    description: ex.highlights.join(' • '),
     indicator: ex.year.toString(),
   }))}
 />
@@ -268,7 +259,7 @@ Following React Bits best practices:
 **React Bits Components Used: 3**
 1. **LiquidEtherBackground** - Hero background
 2. **SplitText** - Main title animation
-3. **SpotlightCard** OR **PixelCard** - Featured work/discipline cards
+3. **SpotlightCard** OR **PixelCard** - Featured project/discipline cards
 
 **Performance:** Within 2-3 component guideline (background + text + cards count as 3)
 
@@ -294,10 +285,10 @@ Following React Bits best practices:
 
 **Performance:** Within guideline
 
-### Artwork Detail Page (`src/pages/ArtworkDetail.tsx`)
+### Project Detail Page (`src/pages/ProjectDetail.tsx`)
 **React Bits Components Used: 2**
-1. **GlassIcon** - Metadata display (Year, Category, Technique)
-2. **SpotlightCard** - Artwork description and tags
+1. **GlassIcon** - Metadata display (Year, Category)
+2. **SpotlightCard** - Project summary/description
 
 **Performance:** Well within guideline, plenty of room for enhancements
 
@@ -379,7 +370,7 @@ All React Bits components in this project include:
 Potential React Bits components to consider:
 
 - **Aurora Background** - Alternative to LiquidEther/Silk
-- **Particles Background** - For Artwork Detail pages
+- **Particles Background** - For Project Detail pages
 - **Decay Card** - Alternative card style
 - **Gradient Text** - Alternative to SplitText
 - **Scroll Float** - Enhanced scroll indicators

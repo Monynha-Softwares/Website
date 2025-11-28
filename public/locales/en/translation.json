@@ -35,11 +35,11 @@
     "loading": "Loading...",
     "errorLoadingContent": "Error Loading Content",
     "pageNotFound": "Page Not Found",
-    "artworkNotFound": "Artwork Not Found",
+    "projectNotFound": "Project Not Found",
     "repositoryNotFound": "Repository Not Found",
     "thoughtNotFound": "Thought Not Found",
     "legalPageNotFound": "Legal Page Not Found",
-    "noArtworksFound": "No artworks or projects found matching your criteria.",
+    "noProjectsFound": "No projects found matching your criteria.",
     "noRepositoriesFound": "No repositories found.",
     "noThoughtsYet": "No thoughts to share yet. Check back soon!",
     "noMessagesYet": "No messages yet",
@@ -100,7 +100,7 @@
     "title": "Portfolio",
     "subtitle": "A collection of explorations in digital art, motion, and software development",
     "searchPlaceholder": "Search creative works, projects, and tags...",
-    "artworkCategories": "Artwork Categories"
+    "projectCategories": "Project Categories"
   },
   "aboutPage": {
     "title": "Our Story",
@@ -150,8 +150,8 @@
   "thoughtDetailPage": {
     "postNotExists": "The blog post you're looking for doesn't exist."
   },
-  "artworkDetailPage": {
-    "artworkNotExists": "The artwork you're looking for doesn't exist.",
+  "projectDetailPage": {
+    "projectNotExists": "The project you're looking for doesn't exist.",
     "year": "Year",
     "category": "Category",
     "technique": "Technique",
@@ -163,8 +163,6 @@
   "adminDashboard": {
     "title": "Admin Dashboard",
     "subtitle": "Manage your portfolio content and settings",
-    "artworks": "Artworks",
-    "artworksDescription": "Manage your portfolio pieces",
     "projects": "Projects",
     "projectsDescription": "Showcase your software projects",
     "exhibitions": "Exhibitions",
@@ -185,37 +183,6 @@
     "backendAccessDescription": "Need advanced database operations or direct table editing?",
     "backendAccessNote": "Access your backend dashboard for advanced operations, database management, authentication settings, and more.",
     "goToSupabaseDashboard": "Go to Supabase Dashboard"
-  },
-  "adminArtworks": {
-    "manageArtworks": "Manage Artworks",
-    "addArtwork": "Add Artwork",
-    "selectArtwork": "Select Artwork",
-    "featured": "Featured",
-    "status": "Status",
-    "displayOrder": "Display Order",
-    "tags": "Tags (comma-separated)",
-    "coverImageUrl": "Cover Image URL",
-    "liveDemoUrl": "Live Demo URL (Optional)",
-    "title": "Title",
-    "slug": "Slug",
-    "description": "Description",
-    "category": "Category",
-    "year": "Year",
-    "technique": "Technique",
-    "artworkUpdatedSuccess": "Artwork updated successfully",
-    "artworkCreatedSuccess": "Artwork created successfully",
-    "artworkDeletedSuccess": "Artwork deleted successfully",
-    "failedToUpdateArtwork": "Failed to update artwork",
-    "failedToCreateArtwork": "Failed to create artwork",
-    "failedToDeleteArtwork": "Failed to delete artwork",
-    "deleteArtworkConfirm": "Delete this artwork?",
-    "uploadImage": "Click to upload image",
-    "maxImageSize": "Max 5MB • JPG, PNG, WEBP",
-    "uploading": "Uploading...",
-    "imageUploadedSuccess": "Image uploaded successfully",
-    "failedToUploadImage": "Failed to upload image",
-    "invalidImageFile": "Please select an image file",
-    "imageTooLarge": "Image must be less than 5MB"
   },
   "adminProjects": {
     "manageProjects": "Manage Projects",

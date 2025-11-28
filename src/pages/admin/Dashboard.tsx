@@ -3,16 +3,18 @@ import { Navigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Palette, Calendar, Mail, Settings, ArrowRight, BookText, Code, Briefcase, LayoutGrid } from "lucide-react"; // Added new icons
+import { useTranslation } from "react-i18next";
 
 const Dashboard = () => {
   const { isAdmin, isLoading } = useAuth();
+  const { t } = useTranslation();
 
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="mt-4 text-muted-foreground">Loading...</p>
+          <p className="mt-4 text-muted-foreground">{t("common.loading")}</p>
         </div>
       </div>
     );
@@ -24,64 +26,57 @@ const Dashboard = () => {
 
   const adminSections = [
     {
-      title: "Artworks",
-      description: "Manage your portfolio pieces",
-      icon: Palette,
-      href: "/admin/artworks",
-      color: "text-purple-500",
-    },
-    {
-      title: "Projects",
-      description: "Showcase your software projects",
+      title: t("adminDashboard.projects"),
+      description: t("adminDashboard.projectsDescription"),
       icon: Code,
       href: "/admin/projects",
       color: "text-cyan-500",
     },
     {
-      title: "Exhibitions",
-      description: "Update your timeline and events",
+      title: t("adminDashboard.exhibitions"),
+      description: t("adminDashboard.exhibitionsDescription"),
       icon: Calendar,
       href: "/admin/exhibitions",
       color: "text-blue-500",
     },
     {
-      title: "Experiences",
-      description: "Manage professional experience",
+      title: t("adminDashboard.experiences"),
+      description: t("adminDashboard.experiencesDescription"),
       icon: Briefcase,
       href: "/admin/experiences",
       color: "text-green-500",
     },
     {
-      title: "Skills",
-      description: "Define your technical skills",
+      title: t("adminDashboard.skills"),
+      description: t("adminDashboard.skillsDescription"),
       icon: LayoutGrid,
       href: "/admin/skills",
       color: "text-yellow-500",
     },
     {
-      title: "Blog Posts",
-      description: "Create and manage blog content",
+      title: t("adminDashboard.blogPosts"),
+      description: t("adminDashboard.blogPostsDescription"),
       icon: BookText,
       href: "/admin/blog-posts",
       color: "text-red-500",
     },
     {
-      title: "Legal Pages",
-      description: "Manage privacy policy, terms, etc.",
+      title: t("adminDashboard.legalPages"),
+      description: t("adminDashboard.legalPagesDescription"),
       icon: BookText,
       href: "/admin/legal-pages",
       color: "text-orange-500",
     },
     {
-      title: "Contact Messages",
-      description: "View and respond to inquiries",
+      title: t("adminDashboard.contactMessages"),
+      description: t("adminDashboard.contactMessagesDescription"),
       icon: Mail,
       href: "/admin/messages",
       color: "text-pink-500",
     },
     {
-      title: "Settings",
-      description: "Configure site settings",
+      title: t("adminDashboard.settings"),
+      description: t("adminDashboard.settingsDescription"),
       icon: Settings,
       href: "/admin/settings",
       color: "text-gray-500",
@@ -92,9 +87,9 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gradient-to-b from-surface-0 to-surface-1 px-4 pt-24 pb-16 sm:px-6">
       <div className="mx-auto max-w-6xl">
         <div className="mb-8">
-          <h1 className="mb-2 text-4xl font-bold">Admin Dashboard</h1>
+          <h1 className="mb-2 text-4xl font-bold">{t("adminDashboard.title")}</h1>
           <p className="text-muted-foreground">
-            Manage your portfolio content and settings
+            {t("adminDashboard.subtitle")}
           </p>
         </div>
 
@@ -115,7 +110,7 @@ const Dashboard = () => {
               <CardContent>
                 <Link to={section.href}>
                   <Button variant="outline" className="w-full group-hover:border-primary">
-                    Manage
+                    {t("common.manage")}
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </Link>
@@ -126,21 +121,18 @@ const Dashboard = () => {
 
         <Card className="mt-8">
           <CardHeader>
-            <CardTitle>Backend Access</CardTitle>
+            <CardTitle>{t("adminDashboard.backendAccess")}</CardTitle>
             <CardDescription>
-              Need advanced database operations or direct table editing?
+              {t("adminDashboard.backendAccessDescription")}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground mb-4">
-              Access your backend dashboard for advanced operations, database management, authentication settings, and more.
-            </p>
-            <p className="text-xs text-muted-foreground/60 mb-4">
-              This will open the backend dashboard where you can manage your database tables, authentication, storage, and edge functions (e.g. Supabase dashboard).
+              {t("adminDashboard.backendAccessNote")}
             </p>
             <a href="https://supabase.com/dashboard/project/hkkgfebdhevcdurpcdgu" target="_blank" rel="noopener noreferrer">
               <Button variant="outline">
-                Go to Supabase Dashboard
+                {t("adminDashboard.goToSupabaseDashboard")}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </a>

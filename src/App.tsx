@@ -19,7 +19,6 @@ import LegalPageDetail from "./pages/LegalPageDetail";
 import Auth from "./pages/Auth";
 import PasswordReset from "./pages/PasswordReset"; // Import new PasswordReset page
 import Dashboard from "./pages/admin/Dashboard";
-import ArtworksManager from "./pages/admin/ArtworksManager";
 import ExhibitionsManager from "./pages/admin/ExhibitionsManager";
 import MessagesManager from "./pages/admin/MessagesManager";
 import SettingsManager from "./pages/admin/SettingsManager";
@@ -89,14 +88,7 @@ const App = () => (
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/admin/artworks"
-            element={
-              <ProtectedRoute adminOnly>
-                <ArtworksManager />
-              </ProtectedRoute>
-            }
-          />
+          {/* Removed /admin/artworks route */}
           <Route
             path="/admin/exhibitions"
             element={

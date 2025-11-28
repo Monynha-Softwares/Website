@@ -18,33 +18,34 @@ A custom admin panel UI is planned for easier content management. Until that shi
 
 ---
 
-## Managing Creative Works (Artworks)
+## Managing Projects (Portfolio)
 
-### Add New Artwork
+### Add New Project
 
-1. Table Editor → `artworks`
+1. Table Editor → `projects`
 2. Click **Insert row**
 3. Fill in fields:
-   - **title**: Artwork name
-   - **slug**: URL-friendly version (e.g., `cosmic-dreams`)
-   - **description**: Detailed description (optional)
-   - **category**: Type (e.g., `3D`, `Motion`, `Interactive`)
+   - **name**: Project name
+   - **slug**: URL-friendly version (e.g., `inclusive-design-platform`)
+   - **summary**: Short summary/excerpt (optional)
+   - **full_description**: Detailed description (optional)
+   - **category**: Type (e.g., `Web App`, `3D Art`, `Motion Design`)
    - **year**: Year created
-   - **technique**: Medium used (optional)
-   - **cover_url**: Main image URL (upload to Storage first)
-   - **images**: Array of additional images (JSON format: `["url1", "url2"]`)
-   - **tags**: Array of searchable tags (e.g., `["abstract", "animation"]`)
+   - **thumbnail**: Main image URL (upload to Storage first)
+   - **stack**: Array of technologies/tags (e.g., `["React", "Tailwind", "Supabase"]`)
+   - **url**: Live demo URL (optional)
+   - **repo_url**: GitHub repository URL (optional)
    - **status**: `published` (public) or `draft` (admin-only)
-   - **featured**: `true` to show on homepage
+   - **visibility**: `Public` or `Private`
    - **display_order**: Number for manual sorting (higher = earlier)
 
 ### Upload Images
 
-1. Storage → `artwork-images` bucket
+1. Storage → `general-media` bucket (or `artwork-images` for legacy images)
 2. Click **Upload file**
 3. Select image file
 4. Copy the public URL
-5. Use the URL in the artwork's `cover_url` or `images` array
+5. Use the URL in the project's `thumbnail` field.
 
 **Image URL format**:
 
@@ -52,18 +53,18 @@ A custom admin panel UI is planned for easier content management. Until that shi
 https://<project>.supabase.co/storage/v1/object/public/artwork-images/image-name.jpg
 ```
 
-### Edit Existing Artwork
+### Edit Existing Project
 
-1. Find the artwork in `artworks`
+1. Find the project in `projects`
 2. Click the row to edit
 3. Update fields as needed
 4. Save changes (auto-updates `updated_at`)
 
-### Delete Artwork
+### Delete Project
 
-1. Locate the artwork row
+1. Locate the project row
 2. Click **Delete**
-3. **Warning**: This permanently removes the artwork
+3. **Warning**: This permanently removes the project
 
 ---
 
@@ -212,6 +213,3 @@ WHERE user_id = '<user-id>' AND role = 'admin';
 ---
 
 **Project note:** Monynha Softwares is now decoupled from third-party site builders—content changes flow entirely through Supabase tables or future in-house tooling.
-
-
-> Project decoupled from external builders; no proprietary site-builder dependencies.
