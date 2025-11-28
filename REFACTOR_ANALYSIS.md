@@ -108,7 +108,7 @@ This document provides a comprehensive analysis of issues found in the Monynha S
 - **Location**: Various admin pages in `src/pages/admin/`
 - **Impact**: Incomplete administrative capabilities
 - **Recommendation**: Implement complete CRUD operations for all admin entities
-- **Status**: **In Progress**. `ExperiencesManager` and `SkillsManager` now use `useAdminForm`. Next, `LegalPagesManager` and `SettingsManager` will be refactored.
+- **Status**: **In Progress**. `ExperiencesManager`, `SkillsManager`, and `LegalPagesManager` now use `useAdminForm`. Next, `SettingsManager` will be refactored.
 
 ### 5.3. Broken Navigation Patterns
 - **Issue**: Inconsistent navigation patterns between mobile and desktop

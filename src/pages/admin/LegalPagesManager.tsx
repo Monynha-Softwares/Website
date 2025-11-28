@@ -12,6 +12,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import type { LegalPage } from "@/integrations/supabase/supabase.types";
+import { AdminFormDialog } from "@/components/admin/AdminFormDialog";
+import { useAdminForm } from "@/hooks/useAdminForm"; // Import useAdminForm
 
 const LegalPagesManager = () => {
   const { isAdmin, isLoading } = useAuth();
@@ -40,6 +42,7 @@ const LegalPagesManager = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-legal-pages"] });
       queryClient.invalidateQueries({ queryKey: ["legalPages"] }); // Invalidate public cache
+      queryClient.invalidateQueries({ queryKey: ["legalPage"] }); // Invalidate single page cache
       toast.success("Legal page deleted successfully");
     },
     onError: () => {
@@ -66,28 +69,22 @@ const LegalPagesManager = () => {
             </Link>
             <h1 className="text-4xl font-bold">Manage Legal Pages</h1>
           </div>
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={() => setEditingLegalPage(null)}>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Legal Page
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>{editingLegalPage ? "Edit" : "Add"} Legal Page</DialogTitle>
-              </DialogHeader>
-              <LegalPageForm
-                legalPage={editingLegalPage}
-                onSuccess={() => {
-                  setIsDialogOpen(false);
-                  setEditingLegalPage(null);
-                  queryClient.invalidateQueries({ queryKey: ["admin-legal-pages"] });
-                  queryClient.invalidateQueries({ queryKey: ["legalPages"] }); // Invalidate public cache
-                }}
-              />
-            </DialogContent>
-          </Dialog>
+          <AdminFormDialog
+            title="Legal Page"
+            triggerLabel="Add Legal Page"
+            isOpen={isDialogOpen}
+            onOpenChange={setIsDialogOpen}
+            onTriggerClick={() => setEditingLegalPage(null)}
+            isEditing={!!editingLegalPage}
+          >
+            <LegalPageForm
+              legalPage={editingLegalPage}
+              onSuccess={() => {
+                setIsDialogOpen(false);
+                setEditingLegalPage(null);
+              }}
+            />
+          </AdminFormDialog>
         </div>
 
         <div className="grid gap-4">
@@ -137,45 +134,29 @@ interface LegalPageFormProps {
   onSuccess: () => void;
 }
 
+interface LegalPageFormData {
+  title: string;
+  slug: string;
+  content: string;
+}
+
 const LegalPageForm = ({ legalPage, onSuccess }: LegalPageFormProps) => {
-  const [formData, setFormData] = useState({
-    title: legalPage?.title || "",
-    slug: legalPage?.slug || "",
-    content: legalPage?.content || "",
+  const { formData, setFormData, handleSubmit, isPending } = useAdminForm<LegalPageFormData, "legal_pages">({
+    tableName: "legal_pages",
+    id: legalPage?.id,
+    initialData: {
+      title: legalPage?.title || "",
+      slug: legalPage?.slug || "",
+      content: legalPage?.content || "",
+    },
+    transformToPayload: (data) => ({
+      title: data.title,
+      slug: data.slug,
+      content: data.content,
+    }),
+    queryKeysToInvalidate: ["admin-legal-pages", "legalPages", "legalPage"],
+    onSuccessCallback: onSuccess,
   });
-
-  const mutation = useMutation<void, Error, typeof formData>({
-    mutationFn: async (data: typeof formData) => {
-      const payload: Omit<LegalPage, "id" | "created_at" | "updated_at"> = {
-        title: data.title,
-        slug: data.slug,
-        content: data.content,
-      };
-
-      if (legalPage) {
-        const { error } = await supabase
-          .from("legal_pages")
-          .update(payload)
-          .eq("id", legalPage.id);
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.from("legal_pages").insert([payload]);
-        if (error) throw error;
-      }
-    },
-    onSuccess: () => {
-      toast.success(`Legal page ${legalPage ? "updated" : "created"} successfully`);
-      onSuccess();
-    },
-    onError: (err) => {
-      toast.error(`Failed to ${legalPage ? "update" : "create"} legal page: ${err.message}`);
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    mutation.mutate(formData);
-  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -211,8 +192,8 @@ const LegalPageForm = ({ legalPage, onSuccess }: LegalPageFormProps) => {
         />
       </div>
 
-      <Button type="submit" disabled={mutation.isPending}>
-        {mutation.isPending ? "Saving..." : legalPage ? "Update" : "Create"}
+      <Button type="submit" disabled={isPending}>
+        {isPending ? "Saving..." : legalPage ? "Update" : "Create"}
       </Button>
     </form>
   );
