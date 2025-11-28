@@ -84,11 +84,11 @@ Vercel offers frictionless builds for Vite + React projects.
 
 1. Run `npm run build`
 2. Upload the generated `dist/` directory to your preferred static host.
-3. **Crucial for BrowserRouter**: You must configure the server to serve `index.html` for all SPA routes (history fallback).
+3. **Note**: Since `HashRouter` is used, no special server configuration is required for routing stability. The server only needs to serve `index.html` for the root path (`/`).
 
-#### Nginx Configuration for SPA Fallback
+#### Nginx Configuration for Static Hosting (HashRouter)
 
-If you are using Nginx, you must include the `try_files` directive in your server block:
+If you are using Nginx, the configuration is simpler as the hash (`#`) is ignored by the server:
 
 ```nginx
 server {
@@ -100,8 +100,7 @@ server {
     index index.html;
 
     location / {
-        # This directive checks for a file ($uri), then a directory ($uri/), 
-        # and if neither is found, it falls back to serving /index.html.
+        # Ensure index.html is served for the root path
         try_files $uri $uri/ /index.html;
     }
 
@@ -125,4 +124,4 @@ server {
 
 ---
 
-**Project note:** Monynha Softwares website is decoupled from external builders; deployments mirror standard Vite static site workflows across Vercel, Netlify, and other CDNs.
+**Project note:** Monynha Softwares website uses `HashRouter` for routing stability across various hosting environments. Deployments mirror standard Vite static site workflows across Vercel, Netlify, and other CDNs.
