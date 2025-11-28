@@ -8,18 +8,20 @@ import { BlogContent } from "@/components/blog/BlogContent";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const ThoughtDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const { data: post, isLoading, error } = useBlogPost(slug || ""); // Use updated hook for single post
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (post) {
       document.title = `${post.title} • Monynha Softwares Thoughts`;
     } else if (!isLoading) {
-      document.title = "Thought Not Found • Monynha Softwares";
+      document.title = `${t("common.thoughtNotFound")} • Monynha Softwares`;
     }
-  }, [post, isLoading]);
+  }, [post, isLoading, t]);
 
   if (isLoading) {
     return (
@@ -39,14 +41,14 @@ const ThoughtDetail = () => {
     return (
       <div className="min-h-screen overflow-x-hidden pt-24 flex items-center justify-center px-4">
         <div className="text-center">
-          <h1 className="mb-4 text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">Thought Not Found</h1>
+          <h1 className="mb-4 text-[clamp(1.75rem,6vw,2.75rem)] font-bold leading-tight">{t("common.thoughtNotFound")}</h1>
           <p className="text-muted-foreground mb-8">
-            {error?.message || "The blog post you're looking for doesn't exist."}
+            {error?.message || t("thoughtDetailPage.postNotExists")}
           </p>
           <Link to="/thoughts">
             <Button variant="outline">
               <ArrowLeft className="w-5 h-5 mr-2" />
-              Back to Thoughts
+              {t("common.backToThoughts")}
             </Button>
           </Link>
         </div>
@@ -62,7 +64,7 @@ const ThoughtDetail = () => {
           <Link to="/thoughts">
             <Button variant="ghost" className="mb-8 group">
               <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
-              Back to Thoughts
+              {t("common.backToThoughts")}
             </Button>
           </Link>
         </SectionReveal>

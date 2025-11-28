@@ -3,13 +3,15 @@ import { useBlogPosts } from "@/hooks/useBlogPosts"; // Updated hook
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const Thoughts = () => {
   const { data: blogPosts = [], isLoading, error } = useBlogPosts(); // Use updated hook
+  const { t } = useTranslation();
 
   useEffect(() => {
-    document.title = "Thoughts • Monynha Softwares";
-  }, []);
+    document.title = `${t("thoughtsPage.title")} • Monynha Softwares`;
+  }, [t]);
 
   if (isLoading) {
     return (
@@ -43,7 +45,7 @@ const Thoughts = () => {
     return (
       <div className="min-h-screen flex items-center justify-center pt-24 pb-16 px-4">
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-2">Error Loading Thoughts</h2>
+          <h2 className="text-2xl font-bold mb-2">{t("common.errorLoadingContent")}</h2>
           <p className="text-muted-foreground">{error.message}</p>
         </div>
       </div>
@@ -57,10 +59,10 @@ const Thoughts = () => {
         <SectionReveal>
           <div className="mb-10 text-center">
             <h1 className="mb-4 text-[clamp(2rem,7vw,3.5rem)] font-bold leading-tight text-balance">
-              Our <span className="bg-gradient-primary bg-clip-text text-transparent">Thoughts</span>
+              {t("thoughtsPage.title").split(' ')[0]} <span className="bg-gradient-primary bg-clip-text text-transparent">{t("thoughtsPage.title").split(' ').slice(1).join(' ')}</span>
             </h1>
             <p className="mx-auto max-w-2xl text-[clamp(1rem,3.4vw,1.15rem)] text-muted-foreground leading-relaxed text-balance">
-              Insights, reflections, and explorations from the Monynha Softwares team.
+              {t("thoughtsPage.subtitle")}
             </p>
           </div>
         </SectionReveal>
@@ -76,7 +78,7 @@ const Thoughts = () => {
           <SectionReveal>
             <div className="text-center py-16">
               <p className="text-fluid-lg text-muted-foreground">
-                No thoughts to share yet. Check back soon!
+                {t("common.noThoughtsYet")}
               </p>
             </div>
           </SectionReveal>
