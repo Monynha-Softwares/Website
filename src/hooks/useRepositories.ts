@@ -91,8 +91,8 @@ export const useRepositories = (options: UseRepositoriesOptions = {}) => {
       // Filter out any repos that might not have essential fields (though GitHub API usually provides them)
       allRepos = allRepos.filter(repo => repo.name && repo.html_url);
 
-      // Sort by created_at ascending (oldest first)
-      allRepos.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+      // Sort by updated_at descending (latest modified first)
+      allRepos.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
 
       return allRepos;
     },
