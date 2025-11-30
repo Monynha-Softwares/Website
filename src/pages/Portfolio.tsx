@@ -3,37 +3,25 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { SectionReveal } from "@/components/SectionReveal";
 import { Input } from "@/components/ui/input";
-import { Search, Globe, Code } from "lucide-react"; // Added Code icon
+import { Search, Globe, Code } from "lucide-react";
 import { RollingGallery } from "@/components/reactbits/RollingGallery";
 import { PixelCard } from "@/components/reactbits/PixelCard";
-import { ProjectSkeleton } from "@/components/ProjectSkeleton"; // Updated import
+import { ProjectSkeleton } from "@/components/ProjectSkeleton";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { FlowingMenu } from "@/components/reactbits/FlowingMenu";
-import { useProjects } from "@/hooks/useProjects"; // Changed from useArtworks
-import { useTranslation } from "react-i18next"; // Import useTranslation
-import { Badge } from "@/components/ui/badge"; // Import Badge
+import { useProjects } from "@/hooks/useProjects";
+import { useTranslation } from "react-i18next";
+import { Badge } from "@/components/ui/badge";
 
 const Portfolio = () => {
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all"); // State for category filter (optional)
   const isMobile = useIsMobile();
 
   // Fetch projects
   const { data: projects = [], isLoading: projectsLoading, error } = useProjects({
     search: searchQuery,
-    category: selectedCategory === "all" ? undefined : selectedCategory,
   });
-
-  // Extract unique categories for filtering (client-side for simplicity)
-  const categories = useMemo(() => {
-    const uniqueCategories = new Set<string>();
-    projects.forEach(p => {
-      if (p.category) uniqueCategories.add(p.category);
-    });
-    return Array.from(uniqueCategories).sort();
-  }, [projects]);
 
   const featured = useMemo(() => projects.filter(p => p.visibility === 'Public').slice(0, 4), [projects]);
 
@@ -51,20 +39,6 @@ const Portfolio = () => {
       </div>
     );
   }
-
-  const categoryMenuItems = useMemo(() => {
-    const allCategories = [{ href: "#all", label: t("common.all"), accent: "hsl(var(--primary))" }];
-    const dynamicCategories = categories.map(cat => ({
-      href: `#${cat.toLowerCase().replace(/\s/g, '-')}`,
-      label: cat,
-      accent: "hsl(var(--secondary))"
-    }));
-    return [...allCategories, ...dynamicCategories];
-  }, [categories, t]);
-
-  const handleCategoryClick = (item: { label: string }) => {
-    setSelectedCategory(item.label === t("common.all") ? "all" : item.label);
-  };
 
   return (
     <div className="min-h-screen overflow-x-hidden pt-24 pb-16">
@@ -89,7 +63,7 @@ const Portfolio = () => {
                 title: item.name,
                 subtitle: item.category,
                 imageUrl: item.thumbnail || "/brand/placeholder.svg",
-                href: `/projects/${item.slug}`, // Internal link
+                href: `/projects/${item.slug}`,
                 footer: <span className="text-sm">{item.year}</span>,
               }))}
               speed={24}
@@ -112,22 +86,6 @@ const Portfolio = () => {
             </div>
           </div>
         </SectionReveal>
-
-        {/* Category Filter (FlowingMenu) */}
-        {!projectsLoading && categories.length > 0 && (
-          <SectionReveal delay={0.15}>
-            <div className="mb-10">
-              <FlowingMenu
-                items={categoryMenuItems}
-                activeHref={`#${selectedCategory.toLowerCase().replace(/\s/g, '-')}`}
-                onItemClick={handleCategoryClick}
-                className="max-w-full overflow-x-auto"
-                menuLabel={t("portfolioPage.projectCategories")}
-                itemRole="button"
-              />
-            </div>
-          </SectionReveal>
-        )}
 
         {/* Gallery Grid */}
         {projectsLoading ? (
